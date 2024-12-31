@@ -27,7 +27,7 @@ function Login() {
     }
 
     try {
-      const url = "https://new-test-mauve.vercel.app/loginauth/login";
+      const url = "https:///localhost:8080/auth/login";
 
       const response = await fetch(url, {
         method: "POST",
