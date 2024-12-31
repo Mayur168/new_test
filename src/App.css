@@ -388,7 +388,7 @@ body {
 /* Hero Section Styling */
 .hero-section {
   position: relative;
-   background-image: url('assets/img/hero-bg (1).jpg'); 
+   background-image: url('/assets/img/hero-bg (1).jpg'); 
   /* Path to your background image  */
   /* background-image: url('/assets/img/Hero.jpg'); Path to your background image */
 
@@ -766,7 +766,7 @@ footer p {
   justify-content: center;
   align-items: center;
   height: 100vh; /* Full height of the viewport */
-  background-image: url("assets/img/doctor-3.avif");
+  background-image: url("/assets/img/doctor-3.avif");
   background-size: cover; /* Ensure the image fully covers the container */
   background-position: center; /* Center the image within the container */
   background-repeat: no-repeat; /* Prevent image repetition */
