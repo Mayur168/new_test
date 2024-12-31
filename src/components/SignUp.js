@@ -28,7 +28,7 @@ function SignUp() {
     }
 
     try {
-      const url = "https://new-test-mauve.vercel.app/auth/signup";
+      const url = "https://localhost:8080/auth/signup";
       const response = await fetch(url, {
         method: "POST",
         headers: {
