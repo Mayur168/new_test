@@ -1,0 +1,1126 @@
+General Styles
+:root {
+  --default-font: "Roboto",  system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --heading-font: "Poppins",  sans-serif;
+  --nav-font: "Raleway",  sans-serif;
+}
+
+/* Global Colors - The following color variables are used throughout the website. Updating them here will change the color scheme of the entire website */
+:root { 
+  --background-color: #ffffff; /* Background color for the entire website, including individual sections */
+  --default-color: #444444; /* Default color used for the majority of the text content across the entire website */
+  --heading-color: #2c4964; /* Color for headings, subheadings and title throughout the website */
+  --accent-color: #1977cc; /* Accent color that represents your brand on the website. It's used for buttons, links, and other elements that need to stand out */
+  --surface-color: #ffffff; /* The surface color is used as a background of boxed elements within sections, such as cards, icon boxes, or other elements that require a visual separation from the global background. */
+  --contrast-color: #ffffff; /* Contrast color for text, ensuring readability against backgrounds of accent, heading, or default colors. */
+}
+
+/* Nav Menu Colors - The following color variables are used specifically for the navigation menu. They are separate from the global colors to allow for more customization options */
+:root {
+  --nav-color: #2c4964;  /* The default color of the main navmenu links */
+  --nav-hover-color: #1977cc; /* Applied to main navmenu links when they are hovered over or active */
+  --nav-mobile-background-color: #ffffff; /* Used as the background color for mobile navigation menu */
+  --nav-dropdown-background-color: #ffffff; /* Used as the background color for dropdown items that appear when hovering over primary navigation items */
+  --nav-dropdown-color: #2c4964; /* Used for navigation links of the dropdown items in the navigation menu. */
+  --nav-dropdown-hover-color: #1977cc; /* Similar to --nav-hover-color, this color is applied to dropdown navigation links when they are hovered over. */
+}
+
+/* Color Presets - These classes override global colors when applied to any section or element, providing reuse of the sam color scheme. */
+
+/* .light-background {
+  --background-color: #f1f7fc;
+  --surface-color: #ffffff;
+}
+
+.dark-background {
+  --background-color: #060606;
+  --default-color: #ffffff;
+  --heading-color: #ffffff;
+  --surface-color: #252525;
+  --contrast-color: #ffffff;
+} */
+
+/* Smooth scroll */
+:root {
+  scroll-behavior: smooth;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/*--------------------------------------------------------------
+# General Styling & Shared Classes
+--------------------------------------------------------------*/
+body {
+  color: var(--default-color);
+  background-color: var(--background-color);
+  font-family: var(--default-font);
+}
+
+a {
+  color: var(--accent-color);
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+a:hover {
+  color: color-mix(in srgb, var(--accent-color), transparent 25%);
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--heading-color);
+  font-family: var(--heading-font);
+}
+
+/* Pulsating Play Button
+------------------------------*/
+/* .pulsating-play-btn {
+  width: 94px;
+  height: 94px;
+  background: radial-gradient(var(--accent-color) 50%, color-mix(in srgb, var(--accent-color), transparent 75%) 52%);
+  border-radius: 50%;
+  display: block;
+  position: relative;
+  overflow: hidden;
+} */
+
+/* .pulsating-play-btn:before {
+  content: "";
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  animation-delay: 0s;
+  animation: pulsate-play-btn 2s;
+  animation-direction: forwards;
+  animation-iteration-count: infinite;
+  animation-timing-function: steps;
+  opacity: 1;
+  border-radius: 50%;
+  border: 5px solid color-mix(in srgb, var(--accent-color), transparent 30%);
+  top: -15%;
+  left: -15%;
+  background: rgba(198, 16, 0, 0);
+} */
+
+/* .pulsating-play-btn:after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-40%) translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 15px solid #fff;
+  z-index: 100;
+  transition: all 400ms cubic-bezier(0.55, 0.055, 0.675, 0.19);
+} */
+/* 
+.pulsating-play-btn:hover:before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-40%) translateY(-50%);
+  width: 0;
+  height: 0;
+  border: none;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 15px solid #fff;
+  z-index: 200;
+  animation: none;
+  border-radius: 0;
+} */
+/* 
+.pulsating-play-btn:hover:after {
+  border-left: 15px solid var(--accent-color);
+  transform: scale(20);
+} */
+
+/* 
+
+/*--------------------------------------------------------------
+# Global Header
+/* --------------------------------------------------------------*/
+/* .header {
+  color: var(--default-color);
+  transition: all 0.5s;
+  z-index: 997;
+  background-color: var(--background-color);
+}
+
+.header .topbar {
+  background-color: var(--accent-color);
+  height: 40px;
+  padding: 0;
+  font-size: 14px;
+  transition: all 0.5s;
+}  */
+/* 
+.header .topbar .contact-info i {
+  font-style: normal;
+  color: var(--contrast-color);
+}
+
+.header .topbar .contact-info i a,
+.header .topbar .contact-info i span {
+  padding-left: 5px;
+  color: var(--contrast-color);
+}
+
+@media (max-width: 575px) {
+
+  .header .topbar .contact-info i a,
+  .header .topbar .contact-info i span {
+    font-size: 13px;
+  }
+}
+
+.header .topbar .contact-info i a {
+  line-height: 0;
+  transition: 0.3s;
+} */
+/* 
+.header .topbar .contact-info i a:hover {
+  color: var(--contrast-color);
+  text-decoration: underline;
+}
+
+.header .topbar .social-links a {
+  color: color-mix(in srgb, var(--contrast-color), transparent 40%);
+  line-height: 0;
+  transition: 0.3s;
+  margin-left: 20px;
+} */
+/* 
+.header .topbar .social-links a:hover {
+  color: var(--contrast-color);
+}
+
+.header .branding {
+  min-height: 60px;
+  padding: 10px 0;
+} */
+/* 
+.header .logo {
+  line-height: 1;
+}
+
+.header .logo img {
+  max-height: 36px;
+  margin-right: 8px;
+}
+
+.header .logo h1 {
+  font-size: 30px;
+  margin: 0;
+  font-weight: 700;
+  color: var(--heading-color);
+} */
+/* 
+.header .cta-btn,
+.header .cta-btn:focus {
+  color: var(--contrast-color);
+  background: var(--accent-color);
+  font-size: 14px;
+  padding: 8px 25px;
+  margin: 0 0 0 30px;
+  border-radius: 50px;
+  transition: 0.3s;
+}
+
+.header .cta-btn:hover,
+.header .cta-btn:focus:hover {
+  color: var(--contrast-color);
+  background: color-mix(in srgb, var(--accent-color), transparent 15%);
+}
+
+@media (max-width: 1200px) {
+  .header .logo {
+    order: 1;
+  }
+
+  .header .cta-btn {
+    order: 2;
+    margin: 0 15px 0 0;
+    padding: 6px 15px;
+  }
+
+  .header .navmenu {
+    order: 3;
+  }
+} */
+/* 
+.scrolled .header {
+  box-shadow: 0px 0 18px rgba(0, 0, 0, 0.1);
+}
+
+.scrolled .header .topbar {
+  height: 0;
+  visibility: hidden;
+  overflow: hidden;
+} */
+
+
+body {
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.6;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+}
+
+/* Top Bar Styles */
+.topbar {
+  background-color: #2b4dd2; /* Light Blue */
+  color: white;
+  padding: 10px 0;
+}
+/* Hide the topbar when scrolling */
+.topbar-hidden {
+  display: none;
+}
+.topbar .container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.contact-info {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+}
+
+.contact-info i {
+  margin-right: 10px;
+}
+
+/* .contact-info a,
+.contact-info span {
+  color: #f5f0f0;  /* Updated color for email and phone */
+  /* text-decoration: none; */
+  
+/* } */ 
+.contact-info a,
+.contact-info span {
+  color: #f5f0f0; /* Updated color for email and phone */
+  text-decoration: none;
+  font-size: 14px; /* Set font size to 14px */
+  font-family: 'Roboto', 'System UI', 'Apple System', sans-serif; /* Set font family */
+}
+
+.contact-info a:hover,
+.contact-info span:hover {
+  color: #989790; /* Highlight color */
+}
+
+
+/* Navbar Styles */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1030;
+  background-color: white;
+  padding: 2px 0px;
+  box-shadow: 0 2px 5px rgba(217, 193, 193, 0.1);
+  
+}
+
+.navbar .navbar-brand {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #412c64; /* Updated font color */
+}
+
+.navbar .nav-link {
+  color: #2c4964; /* Updated font color */
+  font-size: 1.1rem;
+  margin-right: 15px;
+  text-decoration: none; /* Remove default underline */
+  transition: color 0.3s ease, text-decoration 0.3s ease; 
+}
+
+.navbar .nav-link:hover {
+  color: #687eaf; /* Light blue hover effect */
+  text-decoration: underline; /* Add underline on hover */
+}
+
+
+/* Navbar Toggler for mobile */
+.navbar-toggler-icon {
+  background-color: rgb(245, 245, 245);
+}
+.navbar-logo {
+  height: 35px;
+  margin-right: 10px; /* Add some spacing between logo and text */
+}
+
+
+/* Add Navbar Animation */
+.navbar-animate {
+  animation: slideDown 1s ease-in-out;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Hero Section Styling */
+.hero-section {
+  position: relative;
+   background-image: url('/assets/img/hero-bg (1).jpg'); 
+  /* Path to your background image  */
+  /* background-image: url('/assets/img/Hero.jpg'); Path to your background image */
+
+  background-size: cover;
+  background-position: center;
+  /* background-color: #2c4964; */
+  padding: 6rem 4rem; /* Creates a gap after the header */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #fff;
+}
+
+.hero-section {
+  padding: 70px 20px;
+  display: flex;
+  align-items: flex-start; /* Align items at the start (top) */
+  justify-content: center;
+}
+
+.hero-content {
+  width: 100%;
+    padding: 0 20px; /* Add padding to the left and right */
+}
+.hero-text {
+  text-align: left;
+  margin-top: 0px; /* remove the margin from the top */
+}
+
+.hero-text h1 {
+  font-size: 48px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  color: #16548d;
+  margin-bottom: 1rem;
+  margin-left: 40px;
+  font-weight: bold;
+}
+
+.hero-text p {
+  font-size: 20px;
+  font-family: "Roboto", "System UI", "Apple System", sans-serif;
+  /* color: #444444; */
+  color: #16548d;
+  margin-bottom: 2rem;
+  margin-left: 100px;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+
+/* Cards Section */
+.cards-section {
+  display: flex;
+  flex-direction: column; /* Stack cards vertically */
+  align-items: flex-start; /* Align the card section to the left */
+  width: 60%; /* Limit width of the cards section */
+  margin-top: 2rem; 
+}
+
+.card {
+  background-color: #1c75c4; /* Card background color */
+  padding: 1rem;
+  border-radius: 5px;
+  color: #fff; /* White text color */
+  width: 70%; /* Ensure the card takes up the full width of its container */
+  box-sizing: border-box;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for depth */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Vertically center the content */
+  align-items: center; /* Horizontally center the content */
+  text-align: center; /* Center text inside the card */
+  font-family: 'Poppins', sans-serif; /* Font family */
+  font-size: 34px; /* Font size */
+}
+
+.cards-section h2 {
+  color:#e9ecef; /* Font color */
+  font-size: 34px; /* Font size */
+  font-family: 'Poppins', sans-serif; /* Font family */
+  /* font-family: Verdana, Geneva, Tahoma, sans-serif; */
+  font-weight: 700; /* Bold font */
+  text-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1); /* Text shadow */
+  margin-bottom: 1.5rem; /* Bottom margin */
+}
+.card p{
+  color: white;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 24px;
+}
+/* .card h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+} */
+
+.card p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+ 
+.learn-more-btn {
+  background-color: rgba(11, 98, 197, 0.8); /* Mix of sRGB and 80% transparency */
+  color: white;
+  border: none;
+  padding: 6px 30px 8px 30px; /* Updated padding */
+  margin-top: 1rem;
+  border-radius: 50px; /* Round button edges */
+  cursor: pointer;
+  transition: all 0.4s ease-in-out; /* Smooth transition for all properties */
+  font-size: 0.9rem; /* Reduced font size */
+  display: inline-block; /* Ensure the button behaves like an inline element */
+}
+
+.learn-more-btn:hover {
+  background-color: rgba(4, 10, 17, 1); /* Solid color on hover */
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 4rem 2rem;
+  }
+
+  .hero-text {
+    text-align: center;
+  }
+
+  .cards {
+    justify-content: center;
+  }
+}
+
+/* Footer Styles */
+footer {
+  background-color: #007bff;
+  color: white;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+footer p {
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* contact info */
+
+.contact .info-item+.info-item {
+  margin-top: 40px;
+}
+
+.contact .info-item i {
+  color: var(--contrast-color);
+  background: var(--accent-color);
+  font-size: 20px;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+  transition: all 0.3s ease-in-out;
+  margin-right: 15px;
+}
+
+.contact .info-item h3 {
+  padding: 0;
+  font-size: 18px;
+  font-weight: 700; /* This makes the text bold */
+  margin-bottom: 5px;
+  color: #2c4964; /* Font color */
+  font-family: 'Poppins', sans-serif; /* Font family */
+  text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1); /* Text shadow */
+}
+
+/* .contact .info-item h3 {
+  padding: 0;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 5px;
+} */
+
+#contact .section-title h2 {
+  color: #2c4964; /* Font color */
+  font-size: 32px; /* Font size */
+  font-family: 'Poppins', sans-serif; /* Font family */
+  font-weight: 700; /* Bold font weight */
+  text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1); /* Text shadow */
+}
+#contact .section-title p {
+  color: #2c4964; /* Font color */
+  font-size: 16px; /* You can adjust the font size for the paragraph */
+  font-family: 'Poppins', sans-serif; /* Font family */
+  text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1); /* Text shadow */
+}
+
+.contact .info-item p {
+  padding: 0;
+  margin-bottom: 0;
+  font-size: 14px;
+}
+
+/* .contact .php-email-form {
+  height: 100%;
+} */
+
+/* .contact .php-email-form input[type=text],
+.contact .php-email-form input[type=email],
+.contact .php-email-form textarea {
+  font-size: 14px;
+  padding: 10px 15px;
+  box-shadow: none;
+  border-radius: 0;
+  color: var(--default-color);
+  background-color: color-mix(in srgb, var(--background-color), transparent 50%);
+  border-color: color-mix(in srgb, var(--default-color), transparent 80%);
+}
+
+.contact .php-email-form input[type=text]:focus,
+.contact .php-email-form input[type=email]:focus,
+.contact .php-email-form textarea:focus {
+  border-color: var(--accent-color);
+} */
+
+/* .contact .php-email-form input[type=text]::placeholder,
+.contact .php-email-form input[type=email]::placeholder,
+.contact .php-email-form textarea::placeholder {
+  color: color-mix(in srgb, var(--default-color), transparent 70%);
+}
+
+.contact .php-email-form button[type=submit] {
+  color: var(--contrast-color);
+  background: var(--accent-color);
+  border: 0;
+  padding: 10px 36px;
+  transition: 0.4s;
+  border-radius: 50px;
+
+} */
+
+.send-message-btn {
+  background-color: #1977cc; /* Button background color */
+  color: #ffffff; /* Text color */
+  font-size: 16px; /* Font size */
+  font-family: 'Roboto', system-ui, -apple-system, sans-serif; /* Font family */
+  padding: 10px 36px; /* Padding */
+  border: none; /* Remove border */
+  border-radius: 15px;
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s ease; /* Smooth hover effect */
+}
+
+.send-message-btn:hover {
+  background-color: #125fa3; /* Slightly darker background on hover */
+}
+
+/* .contact .php-email-form button[type=submit]:hover {
+  background: color-mix(in srgb, var(--accent-color), transparent 20%);
+} */
+
+
+/* about */
+
+.about .content h3 {
+  font-size: 32px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  color: #2c4964;
+  margin: 0px 0px 8px;
+  font-weight: bold;
+}
+
+.about .content ul {
+  list-style: none;
+  padding: 0;
+}
+
+.about .content ul li {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 40px;
+}
+
+.about .content ul i {
+  flex-shrink: 0;
+  font-size: 48px;
+  color: var(--accent-color);
+  margin-right: 20px;
+}
+
+
+.about .content ul h5 {
+  font-size: 18px;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  color: #2c4964;
+  margin: 0px 0px 8px;
+}
+
+.about .content ul p {
+  font-size: 16px;
+  font-family: 'Roboto', 'System UI', 'Apple System', sans-serif;
+  color: #444444;
+  margin: 0px 0px 16px;
+}
+
+.about .content p:last-child {
+  margin-bottom: 0;
+}
+
+.about .pulsating-play-btn {
+  position: absolute;
+  left: calc(50% - 47px);
+  top: calc(50% - 47px);
+}
+
+
+
+/* TopNavbar styles */
+.top-navbar {
+  background-color: #007bff; /* Blue color */
+  color: white;
+  font-size: 14px;
+}
+
+.top-navbar i {
+  margin-right: 8px;
+}
+
+.top-navbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.top-navbar div {
+  display: flex;
+  align-items: center;
+}
+
+/* Main Navbar styles */
+.main-navbar {
+  background-color: #bdc0c3; /* Blue color */
+}
+
+.main-navbar .navbar-brand {
+  color: white;
+}
+
+.main-navbar .nav-link {
+  color: white;
+}
+
+.main-navbar .nav-link:hover {
+  color: #f1f1f1;
+}
+
+.main-navbar .btn-outline-primary {
+  color: white;
+  border-color: white;
+}
+
+.main-navbar .btn-primary {
+  background-color: #0056b3; /* Slightly darker blue */
+  border-color: #0056b3;
+}
+
+/* First login-container: with background image and full-page height */
+.login-container {
+  display: flex;
+  padding: 32px 48px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full height of the viewport */
+  background-image: url("C:/Users/mayur/OneDrive/Desktop/doctor-homepage - Copy (2)/doc-homepage/assets/img/doctor-3.avif");
+  background-size: cover; /* Ensure the image fully covers the container */
+  background-position: center; /* Center the image within the container */
+  background-repeat: no-repeat; /* Prevent image repetition */
+  position: relative; /* For centering the form inside */
+}
+
+/* Second login-container: smaller container for the form */
+.login-form-container {
+  display: flex;
+  padding: 50px 55px;
+  flex-direction: column;
+  justify-content: flex-start; /* Align the content to the top */
+  align-items: center; /* Keep items centered horizontally */
+  height: 600px;
+  background-color: #f3f4f6; /* Light background */
+  position: absolute; /* Position relative to the parent */
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Offset for exact centering */
+} 
+
+/* Style the form inside the login container */
+.login-form {
+  background-color: #ffffff; /* White background */
+  padding: 2rem; 
+  border-radius: 8px; 
+  box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
+  width: 100%; 
+  max-width: 400px; 
+}
+
+/* Form heading */
+.login-form h1 {
+  font-size: 2rem;
+  color: #333333;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* Style input fields */
+.login-form input {
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  border: 1px solid #cccccc; /* Light border */
+  border-radius: 4px; /* Rounded corners */
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+/* Change input border on focus */
+.login-form input:focus {
+  border-color: #007bff; /* Primary color */
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.2); /* Subtle glow */
+}
+
+/* Style the login button */
+.login-form button {
+  width: 100%;
+  padding: 0.8rem;
+  background-color: #007bff; /* Primary color */
+  color: #ffffff; /* White text */
+  border: none;
+  border-radius: 4px; /* Rounded corners */
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Change button color on hover */
+.login-form button:hover {
+  background-color: #0056b3; /* Darker primary color */
+}
+
+/* Add some spacing around the login form */
+.login-form p {
+  margin-top: 1rem;
+  color: #666666; /* Subtle text color */
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+
+/* Global button styles */
+.btn {
+  display: inline-block;
+  font-family: var(--nav-font);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--contrast-color);
+  background-color: var(--nav-hover-color);
+  border: 2px solid var(--nav-hover-color);
+  border-radius: 4px;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn:hover {
+  background-color: transparent;
+  color: var(--nav-hover-color);
+  border-color: var(--nav-hover-color);
+}
+
+/* Optional: Adjust for buttons on the navbar */
+.navbar .btn {
+  margin-right: 15px;
+} 
+
+
+.send-message-btn:focus, .learn-more-btn:focus {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 4px;
+}
+
+@media (max-width: 575px) {
+  .navbar {
+    box-shadow: none;
+  }
+}
+
+
+a:hover {
+  color: var(--accent-color);
+  transition: color 0.2s ease-in-out;
+}
+
+.learn-more-btn:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+/* singup */
+.container-Signup {
+  background-color: #fff;
+  padding: 32px 48px;
+  /* border-radius: 10px; */
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.container-Signup > form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%; /* Ensure form takes the full width */
+}
+
+.container-Signup div {
+  display: flex;
+  flex-direction: column;
+}
+
+.container-Signup input {
+  width: 100%;
+  font-size: 20px;
+  padding: 10px;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid black;
+}
+
+.container-Signup input::placeholder {
+  font-size: 12px;
+  font-style: italic;
+}
+
+.submit-button{
+  background-color: #007bff;
+  border: none;
+  font-size: 20px;
+  color: white;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  margin: 10px 0; /* Adds space above and below the button */
+  width: 100%; /* Makes the button span the full width */
+}
+
+.container-Signup form span {
+  text-align: center;
+  margin-top: 15px; /* Adds space between the button and the text */
+}
+
+.container-Signup form span a {
+  color: #007bff; /* Add some styling to the link */
+  text-decoration: none;
+}
+button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  transform: scale(1.05); /* Slightly enlarge the button */
+}
+
+/* login */
+
+.container-login{
+  background-color: #fff;
+  padding: 32px 48px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
+   /* Center the container */
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+}
+
+
+.container-login>form{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.container-login div{
+  display: flex;
+  flex-direction: column;
+}
+
+.container-login input{
+  width: 100%;
+  font-size: 20px;
+  padding: 10px;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid black;
+}
+
+.container-login input::placeholder{
+  font-size: 12px;
+  font-style: italic;
+}
+
+.container-login span {
+  margin-top: 10px; /* Add margin above the span */
+  text-align: center; /* Center the text */
+  font-size: 14px;
+}
+
+
+button{
+  background-color: #007bff;
+  border: none;
+  font-size: 20px;
+  color: white;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  margin: 10px 0;
+}
+
+/* logout */
+/* .button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 20px;
+} */
+
+
+.logout-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.logout-button:hover {
+  background-color: #c82333;
+}
+
+
+/* camera */
+
+.camera-button-container {
+  position: fixed;
+  top: 30%;
+  right: 20px;
+  transform: translateY(-50%);
+  z-index: 1000;
+}
+
+.camera-toggle {
+  padding: 12px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center; /* Align icon vertically in the button */
+  justify-content: center; /* Align icon horizontally in the button */
+  width: 45px; /* Set fixed width for the circular button */
+  height: 45px; /* Set fixed height for the circular button */
+}
+.camera-toggle:hover {
+  background-color: #0056b3;
+}
+
+
+/* camera-capture */
+
+.capture-button-container {
+  position: relative; /* Allow absolute positioning of the button */
+  text-align: center; /* To align button initially */
+}
+
+.capture-button {
+  padding: 12px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  display: inline-block; /* Allows for margin adjustment */
+  text-align: center;
+  margin: 10px 0;
+  position: relative; /* Required to apply transform */
+  left: 50%; /* Move to right by 50% */
+  transform: translateX(-50%); /* Shift back by half of button's width */
+}
+
+.capture-button:hover {
+  background-color: #0056b3;
+  transform: translateX(-50%) scale(1.05);
+}
+
+.capture-button:active {
+    transform: translateX(-50%) scale(0.95); /* Scale slightly on click */
+}
+
+.capture-button:focus {
+    outline: none; /* Remove outline on focus */
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.4); /* Add a focus outline */
+}
