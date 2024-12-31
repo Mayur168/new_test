@@ -27,7 +27,7 @@ function Login() {
     }
 
     try {
-      const url = "http://test-bharti-clinic.verce/auth/login";
+      const url = "https://new-test-mauve.vercel.app/loginauth/login";
 
       const response = await fetch(url, {
         method: "POST",
