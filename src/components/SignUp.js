@@ -12,7 +12,7 @@ function SignUp() {
     email: "",
     password: "",
     confirm_password:"1234",
-    phone: "7447849429",      
+    phone: "7447849010",      
     is_customer: true,          
     is_receptionist: false,     
     is_hotelowner: false,       
@@ -45,14 +45,22 @@ function SignUp() {
           "Content-Type": "application/json",
         },
       });
+      console.log(response.data); // Log the API response
 
-      const { success, message } = response.data;
 
-      if (success) {
-        handleSuccess(message);
+      // const { success, message } = response.data;
+
+      if (response.data.access) {
+
+        handleSuccess("Registered successfull");
+        console.log("Navigating to login...");
         setTimeout(() => {
+          console.log("Navigating to Home page...");
           navigate("/login");
-        },100);
+          console.log("after Navigating to Home page...");
+        }, 500);
+        // navigate("/login");
+        console.log("Navigation called.");
       }
 
     } catch (err) {

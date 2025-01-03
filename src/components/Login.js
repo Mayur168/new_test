@@ -141,6 +141,7 @@ function Login() {
         setTimeout(() => {
           console.log("Navigating to Home page...");
           navigate("/Home");
+          console.log("after Navigating to Home page...");
         }, 500);
       } else {
         handleError("Login failed. Please try again.");

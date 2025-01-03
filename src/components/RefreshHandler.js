@@ -6,7 +6,7 @@ function RefreshHandler({ setIsAuthenticated }) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (localStorage.getItem('token')) {
+        if (localStorage.getItem('accessToken')) {
             setIsAuthenticated(true);
             if (
                 location.pathname === '/' ||
