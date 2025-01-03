@@ -813,11 +813,9 @@ button{
 .logout-button:hover {
   background-color: #c82333;
 }
-/* camera */
+
 
 /* camera */
-/* CameraCapture Component */
-/* Camera Toggle button */
 .camera-button-container {
   position: fixed;
   bottom: 20px; /* Position at the bottom of the viewport */
@@ -856,6 +854,8 @@ button{
 .image-preview {
   margin: 10px 0;
 }
+
+/* camera switch */
 .camera-switch-overlay {
   position: absolute;
   top: 10px;
@@ -873,9 +873,13 @@ button{
 .camera-switch-overlay:hover {
   background-color: rgba(255, 255, 255, 0.8);
 }
+
+/* capture */
 .capture-button-container {
   position: relative; /* Allow absolute positioning of the button */
   text-align: center; /* To align button initially */
+  margin-top: 30px; /* Add a margin to move it down*/
+
 }
 
 .capture-button {
@@ -888,12 +892,12 @@ button{
   font-size: 0.75rem;
   transition: background-color 0.3s ease, transform 0.2s ease;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  display: inline-block; /* Allows for margin adjustment */
+  display: inline-block;
   text-align: center;
-  margin: 10px 0;
-  position: relative; /* Required to apply transform */
-  left: 50%; /* Move to right by 50% */
-  transform: translateX(-50%); /* Shift back by half of button's width */
+    /* Remove margin-top to reset default */
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -905,14 +909,14 @@ button{
 }
 
 .capture-button:active {
-  transform: translateX(-50%) scale(0.95); /* Scale slightly on click */
+  transform: translateX(-50%) scale(0.95);
 }
 
 .capture-button:focus {
-  outline: none; /* Remove outline on focus */
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.4); /* Add a focus outline */
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.4);
 }
-/* spinnere */
+
 /* Spinner */
 .spinner-container {
   display: flex;
