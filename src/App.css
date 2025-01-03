@@ -175,6 +175,7 @@ body {
 }
 
 /* Hero Section Styling */
+/* Hero Section Styling */
 .hero-section {
   position: relative;
    background-image: url('/assets/img/hero-bg (1).jpg'); 
@@ -184,7 +185,7 @@ body {
   background-size: cover;
   background-position: center;
   /* background-color: #2c4964; */
-  padding: 6rem 4rem; /* Creates a gap after the header */
+  padding: 6rem 4rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -194,17 +195,18 @@ body {
 .hero-section {
   padding: 70px 20px;
   display: flex;
-  align-items: flex-start; /* Align items at the start (top) */
+  align-items: flex-start;
   justify-content: center;
 }
 
 .hero-content {
   width: 100%;
-    padding: 0 20px; /* Add padding to the left and right */
+  padding: 0 20px; /* Add padding to the left and right */
 }
+
 .hero-text {
   text-align: left;
-  margin-top: 0px; /* remove the margin from the top */
+  margin-top: 0px;
 }
 
 .hero-text h1 {
@@ -220,7 +222,6 @@ body {
 .hero-text p {
   font-size: 20px;
   font-family: "Roboto", "System UI", "Apple System", sans-serif;
-  /* color: #444444; */
   color: #16548d;
   margin-bottom: 2rem;
   margin-left: 100px;
@@ -228,85 +229,98 @@ body {
   font-size: 20px;
 }
 
-
 /* Cards Section */
 .cards-section {
   display: flex;
-  flex-direction: column; /* Stack cards vertically */
+  flex-direction: column;
   align-items: flex-start; /* Align the card section to the left */
-  width: 60%; /* Limit width of the cards section */
-  margin-top: 2rem; 
+  width: 60%;
+  margin-top: 2rem;
 }
 
 .card {
-  background-color: #1c75c4; /* Card background color */
+  background-color: #1c75c4;
   padding: 1rem;
   border-radius: 5px;
-  color: #fff; /* White text color */
-  width: 70%; /* Ensure the card takes up the full width of its container */
+  color: #fff;
+  width: 70%;
   box-sizing: border-box;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for depth */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Vertically center the content */
-  align-items: center; /* Horizontally center the content */
-  text-align: center; /* Center text inside the card */
-  font-family: 'Poppins', sans-serif; /* Font family */
-  font-size: 34px; /* Font size */
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  font-size: 34px;
 }
 
 .cards-section h2 {
-  color:#e9ecef; /* Font color */
-  font-size: 34px; /* Font size */
-  font-family: 'Poppins', sans-serif; /* Font family */
-  /* font-family: Verdana, Geneva, Tahoma, sans-serif; */
-  font-weight: 700; /* Bold font */
-  text-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1); /* Text shadow */
-  margin-bottom: 1.5rem; /* Bottom margin */
+  color: #e9ecef;
+  font-size: 34px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  text-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.5rem;
 }
-.card p{
+
+.card p {
   color: white;
-  font-family: 'Times New Roman', Times, serif;
+  font-family: "Times New Roman", Times, serif;
   font-size: 24px;
 }
 
-
-.card p {
-  font-size: 1.2rem;
-  margin-bottom: 2rem;
-}
- 
 .learn-more-btn {
-  background-color: rgba(11, 98, 197, 0.8); /* Mix of sRGB and 80% transparency */
+  background-color: rgba(11, 98, 197, 0.8);
   color: white;
   border: none;
-  padding: 6px 30px 8px 30px; /* Updated padding */
+  padding: 6px 30px 8px 30px;
   margin-top: 1rem;
-  border-radius: 50px; /* Round button edges */
+  border-radius: 50px;
   cursor: pointer;
-  transition: all 0.4s ease-in-out; /* Smooth transition for all properties */
-  font-size: 0.9rem; /* Reduced font size */
-  display: inline-block; /* Ensure the button behaves like an inline element */
+  transition: all 0.4s ease-in-out;
+  font-size: 0.9rem;
+  display: inline-block;
 }
 
 .learn-more-btn:hover {
-  background-color: rgba(4, 10, 17, 1); /* Solid color on hover */
+  background-color: rgba(4, 10, 17, 1);
 }
-
 
 /* Responsive Design */
 @media (max-width: 768px) {
   .hero-section {
-    padding: 4rem 2rem;
-  }
-
-  .hero-text {
+    padding: 3rem 1rem; /* Reduced padding for mobile */
     text-align: center;
   }
 
-  .cards {
-    justify-content: center;
+  .hero-text h1 {
+     font-size: 30px; /* Smaller heading font for mobile */
+        margin-left: 20px; 
   }
+   .hero-text p {
+    font-size: 16px; /* Smaller paragraph font for mobile */
+      margin-left: 20px; 
+  }
+  .cards-section {
+      width: 90%;
+    align-items: center; /* Center align cards in mobile view */
+      margin-left: auto;
+      margin-right: auto;
+  }
+
+  .card {
+    width: 90%;
+      font-size: 24px;
+        margin-bottom: 1rem;
+  }
+   .card p {
+       font-size: 18px; /* Smaller paragraph font for mobile */
+   }
+  .cards-section h2 {
+      font-size: 28px;
+  }
+   
 }
 
 /* Footer Styles */
@@ -648,7 +662,7 @@ a:hover {
 .container-Signup {
   background-color: #fff;
   padding: 32px 48px;
-  /* border-radius: 10px; */
+  border-radius: 10px;
   width: 100%;
   max-width: 400px;
   box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
@@ -669,23 +683,34 @@ a:hover {
   width: 100%; /* Ensure form takes the full width */
 }
 
+.container-Signup .signup > h1 {
+  margin-bottom: 20px; /* Add space below the "Signup" heading */
+  text-align: center; /* Center the heading */
+  width: 100%; /* Make sure the heading takes full width */
+}
+
 .container-Signup div {
   display: flex;
   flex-direction: column;
+
 }
 
 .container-Signup input {
   width: 100%;
-  font-size: 20px;
+  font-size: 16px;
   padding: 10px;
   border: none;
   outline: none;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid rgb(54, 97, 255);
 }
 
 .container-Signup input::placeholder {
   font-size: 12px;
   font-style: italic;
+}
+
+.container-Signup label {
+  margin-bottom: 5px; /* Add space below the labels */
 }
 
 .submit-button{
@@ -748,7 +773,7 @@ button:hover {
 
 .container-login input{
   width: 100%;
-  font-size: 20px;
+  font-size: 16px;
   padding: 10px;
   border: none;
   outline: none;
@@ -788,7 +813,7 @@ button{
 .logout-button:hover {
   background-color: #c82333;
 }
-
+/* camera */
 
 /* camera */
 /* CameraCapture Component */
@@ -900,7 +925,7 @@ button{
   bottom: 0;
   background-color: rgba(255, 255, 255, 0.8);
   z-index: 1000;
-  transform: translateX(40px); /* Add transform to move right */
+  transform: translateX(-px); /* Add transform to move right */
 }
 
 .spinner-wrapper {
@@ -920,4 +945,23 @@ button{
   font-size: 1rem;
   color: #555;
   /* text-align: left; Removed this */
+}
+
+.captured-image-display {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.api-data-display {
+  text-align: center;
+  margin-top: 20px;
+  overflow-x: auto; /* Allows horizontal scrolling for long text */
+  white-space: pre-wrap; /* Keeps line breaks in pre tag */
+}
+.api-data-display pre {
+background-color: #f0f0f0;
+padding: 10px;
+border-radius: 5px;
+display: inline-block; /* So it only wraps the content */
+ text-align: left;
 }
