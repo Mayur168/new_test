@@ -8,19 +8,24 @@ import Home from './components/Home';
 import { useState, useEffect } from 'react';
 import RefreshHandler from './components/RefreshHandler';
 import CameraCapture from "./components/CameraCapture";
-import About from './components/About'; // Import the About component
-import Contact from './components/Contact'; // Import the Contact component
+import About from './components/About'; 
+import Contact from './components/Contact'; 
+
+// Helper function to update authentication state
+const updateAuthState = (setIsAuthenticated) => {
+  const token = localStorage.getItem('accessToken');
+  setIsAuthenticated(!!token); // Update authentication based on token existence
+};
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    setIsAuthenticated(!!token); // Check if a token exists to set the authentication state
+    updateAuthState(setIsAuthenticated); // Check authentication state on app load
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem('accessToken');
     localStorage.removeItem('loggedInUser');
     setIsAuthenticated(false); // Update the authentication state
   };
@@ -37,13 +42,22 @@ function App() {
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/home" element={<PrivateRoute element={<Home />} />} />
+        <Route 
+          path="/home" 
+          element={<PrivateRoute element={<Home />} />} 
+        />
         <Route 
           path="/camera" 
           element={<PrivateRoute element={<CameraCapture />} />} 
         />
-       <Route path="/about" element={<PrivateRoute element={<About />} />} /> 
-        <Route path="/contact" element={<PrivateRoute element={<Contact />} />} /> 
+        <Route 
+          path="/about" 
+          element={<PrivateRoute element={<About />} />} 
+        />
+        <Route 
+          path="/contact" 
+          element={<PrivateRoute element={<Contact />} />} 
+        />
       </Routes>
       <Footer />
     </div>
