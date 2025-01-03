@@ -1124,3 +1124,30 @@ button{
     outline: none; /* Remove outline on focus */
     box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.4); /* Add a focus outline */
 }
+
+
+.spinner-container {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  height: 100vh; /* Make it cover the full viewport height */
+  width: 100vw; /* Optional: Make it cover the full viewport width */
+  position: fixed; /* position it on the page */
+  top: 0;
+  left: 0;
+  background-color: rgba(255, 255, 255, 0.8); /* Optional background to overlay the page*/
+  z-index: 1000; /* Ensure it is on top */
+}
+
+.spinner-wrapper {
+    text-align: center;
+}
+.loading-gif{
+  width: 50px; /* Adjust the size of your gif as needed */
+  height: auto;
+}
+.loading-text {
+  margin-top: 10px;
+  font-size: 1rem;
+  color: #555;
+}
