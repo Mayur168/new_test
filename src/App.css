@@ -25,20 +25,6 @@ General Styles
   --nav-dropdown-hover-color: #1977cc; /* Similar to --nav-hover-color, this color is applied to dropdown navigation links when they are hovered over. */
 }
 
-/* Color Presets - These classes override global colors when applied to any section or element, providing reuse of the sam color scheme. */
-
-/* .light-background {
-  --background-color: #f1f7fc;
-  --surface-color: #ffffff;
-}
-
-.dark-background {
-  --background-color: #060606;
-  --default-color: #ffffff;
-  --heading-color: #ffffff;
-  --surface-color: #252525;
-  --contrast-color: #ffffff;
-} */
 
 /* Smooth scroll */
 :root {
@@ -79,198 +65,6 @@ h6 {
   font-family: var(--heading-font);
 }
 
-/* Pulsating Play Button
-------------------------------*/
-/* .pulsating-play-btn {
-  width: 94px;
-  height: 94px;
-  background: radial-gradient(var(--accent-color) 50%, color-mix(in srgb, var(--accent-color), transparent 75%) 52%);
-  border-radius: 50%;
-  display: block;
-  position: relative;
-  overflow: hidden;
-} */
-
-/* .pulsating-play-btn:before {
-  content: "";
-  position: absolute;
-  width: 120px;
-  height: 120px;
-  animation-delay: 0s;
-  animation: pulsate-play-btn 2s;
-  animation-direction: forwards;
-  animation-iteration-count: infinite;
-  animation-timing-function: steps;
-  opacity: 1;
-  border-radius: 50%;
-  border: 5px solid color-mix(in srgb, var(--accent-color), transparent 30%);
-  top: -15%;
-  left: -15%;
-  background: rgba(198, 16, 0, 0);
-} */
-
-/* .pulsating-play-btn:after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translateX(-40%) translateY(-50%);
-  width: 0;
-  height: 0;
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  border-left: 15px solid #fff;
-  z-index: 100;
-  transition: all 400ms cubic-bezier(0.55, 0.055, 0.675, 0.19);
-} */
-/* 
-.pulsating-play-btn:hover:before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translateX(-40%) translateY(-50%);
-  width: 0;
-  height: 0;
-  border: none;
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  border-left: 15px solid #fff;
-  z-index: 200;
-  animation: none;
-  border-radius: 0;
-} */
-/* 
-.pulsating-play-btn:hover:after {
-  border-left: 15px solid var(--accent-color);
-  transform: scale(20);
-} */
-
-/* 
-
-/*--------------------------------------------------------------
-# Global Header
-/* --------------------------------------------------------------*/
-/* .header {
-  color: var(--default-color);
-  transition: all 0.5s;
-  z-index: 997;
-  background-color: var(--background-color);
-}
-
-.header .topbar {
-  background-color: var(--accent-color);
-  height: 40px;
-  padding: 0;
-  font-size: 14px;
-  transition: all 0.5s;
-}  */
-/* 
-.header .topbar .contact-info i {
-  font-style: normal;
-  color: var(--contrast-color);
-}
-
-.header .topbar .contact-info i a,
-.header .topbar .contact-info i span {
-  padding-left: 5px;
-  color: var(--contrast-color);
-}
-
-@media (max-width: 575px) {
-
-  .header .topbar .contact-info i a,
-  .header .topbar .contact-info i span {
-    font-size: 13px;
-  }
-}
-
-.header .topbar .contact-info i a {
-  line-height: 0;
-  transition: 0.3s;
-} */
-/* 
-.header .topbar .contact-info i a:hover {
-  color: var(--contrast-color);
-  text-decoration: underline;
-}
-
-.header .topbar .social-links a {
-  color: color-mix(in srgb, var(--contrast-color), transparent 40%);
-  line-height: 0;
-  transition: 0.3s;
-  margin-left: 20px;
-} */
-/* 
-.header .topbar .social-links a:hover {
-  color: var(--contrast-color);
-}
-
-.header .branding {
-  min-height: 60px;
-  padding: 10px 0;
-} */
-/* 
-.header .logo {
-  line-height: 1;
-}
-
-.header .logo img {
-  max-height: 36px;
-  margin-right: 8px;
-}
-
-.header .logo h1 {
-  font-size: 30px;
-  margin: 0;
-  font-weight: 700;
-  color: var(--heading-color);
-} */
-/* 
-.header .cta-btn,
-.header .cta-btn:focus {
-  color: var(--contrast-color);
-  background: var(--accent-color);
-  font-size: 14px;
-  padding: 8px 25px;
-  margin: 0 0 0 30px;
-  border-radius: 50px;
-  transition: 0.3s;
-}
-
-.header .cta-btn:hover,
-.header .cta-btn:focus:hover {
-  color: var(--contrast-color);
-  background: color-mix(in srgb, var(--accent-color), transparent 15%);
-}
-
-@media (max-width: 1200px) {
-  .header .logo {
-    order: 1;
-  }
-
-  .header .cta-btn {
-    order: 2;
-    margin: 0 15px 0 0;
-    padding: 6px 15px;
-  }
-
-  .header .navmenu {
-    order: 3;
-  }
-} */
-/* 
-.scrolled .header {
-  box-shadow: 0px 0 18px rgba(0, 0, 0, 0.1);
-}
-
-.scrolled .header .topbar {
-  height: 0;
-  visibility: hidden;
-  overflow: hidden;
-} */
-
-
 body {
   font-family: 'Poppins', sans-serif;
   line-height: 1.6;
@@ -306,12 +100,7 @@ body {
   margin-right: 10px;
 }
 
-/* .contact-info a,
-.contact-info span {
-  color: #f5f0f0;  /* Updated color for email and phone */
-  /* text-decoration: none; */
-  
-/* } */ 
+
 .contact-info a,
 .contact-info span {
   color: #f5f0f0; /* Updated color for email and phone */
@@ -480,10 +269,7 @@ body {
   font-family: 'Times New Roman', Times, serif;
   font-size: 24px;
 }
-/* .card h2 {
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
-} */
+
 
 .card p {
   font-size: 1.2rem;
@@ -566,12 +352,7 @@ footer p {
   text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1); /* Text shadow */
 }
 
-/* .contact .info-item h3 {
-  padding: 0;
-  font-size: 18px;
-  font-weight: 700;
-  margin-bottom: 5px;
-} */
+
 
 #contact .section-title h2 {
   color: #2c4964; /* Font color */
@@ -593,43 +374,7 @@ footer p {
   font-size: 14px;
 }
 
-/* .contact .php-email-form {
-  height: 100%;
-} */
 
-/* .contact .php-email-form input[type=text],
-.contact .php-email-form input[type=email],
-.contact .php-email-form textarea {
-  font-size: 14px;
-  padding: 10px 15px;
-  box-shadow: none;
-  border-radius: 0;
-  color: var(--default-color);
-  background-color: color-mix(in srgb, var(--background-color), transparent 50%);
-  border-color: color-mix(in srgb, var(--default-color), transparent 80%);
-}
-
-.contact .php-email-form input[type=text]:focus,
-.contact .php-email-form input[type=email]:focus,
-.contact .php-email-form textarea:focus {
-  border-color: var(--accent-color);
-} */
-
-/* .contact .php-email-form input[type=text]::placeholder,
-.contact .php-email-form input[type=email]::placeholder,
-.contact .php-email-form textarea::placeholder {
-  color: color-mix(in srgb, var(--default-color), transparent 70%);
-}
-
-.contact .php-email-form button[type=submit] {
-  color: var(--contrast-color);
-  background: var(--accent-color);
-  border: 0;
-  padding: 10px 36px;
-  transition: 0.4s;
-  border-radius: 50px;
-
-} */
 
 .send-message-btn {
   background-color: #1977cc; /* Button background color */
@@ -647,9 +392,6 @@ footer p {
   background-color: #125fa3; /* Slightly darker background on hover */
 }
 
-/* .contact .php-email-form button[type=submit]:hover {
-  background: color-mix(in srgb, var(--accent-color), transparent 20%);
-} */
 
 
 /* about */
@@ -1037,14 +779,6 @@ button{
 }
 
 /* logout */
-/* .button-container {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
-  margin: 20px;
-} */
-
 
 .logout-button {
   background-color: #dc3545;
@@ -1057,12 +791,13 @@ button{
 
 
 /* camera */
-
+/* CameraCapture Component */
+/* Camera Toggle button */
 .camera-button-container {
   position: fixed;
-  top: 30%;
-  right: 20px;
-  transform: translateY(-50%);
+  bottom: 20px; /* Position at the bottom of the viewport */
+  left: 50%; /* Position in the middle horizontally */
+  transform: translateX(-50%); /* Center the button horizontally */
   z-index: 1000;
 }
 
@@ -1084,66 +819,81 @@ button{
 .camera-toggle:hover {
   background-color: #0056b3;
 }
+/* CameraCapture Component */
+.camera-container {
+    position: relative;
+  }
+  .webcam-wrapper {
+    position: relative;
+    width: 100%;
+  }
 
+.image-preview {
+    margin: 10px 0;
+  }
 
-/* camera-capture */
 
 .capture-button-container {
-  position: relative; /* Allow absolute positioning of the button */
-  text-align: center; /* To align button initially */
-}
+    position: relative; /* Allow absolute positioning of the button */
+    text-align: center; /* To align button initially */
+  }
 
-.capture-button {
-  padding: 12px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 0.75rem;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  display: inline-block; /* Allows for margin adjustment */
-  text-align: center;
-  margin: 10px 0;
-  position: relative; /* Required to apply transform */
-  left: 50%; /* Move to right by 50% */
-  transform: translateX(-50%); /* Shift back by half of button's width */
-}
-
-.capture-button:hover {
-  background-color: #0056b3;
-  transform: translateX(-50%) scale(1.05);
-}
-
-.capture-button:active {
-    transform: translateX(-50%) scale(0.95); /* Scale slightly on click */
-}
-
-.capture-button:focus {
-    outline: none; /* Remove outline on focus */
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.4); /* Add a focus outline */
-}
+  .capture-button {
+    padding: 12px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.75rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    display: inline-block; /* Allows for margin adjustment */
+    text-align: center;
+    margin: 10px 0;
+    position: relative; /* Required to apply transform */
+    left: 50%; /* Move to right by 50% */
+    transform: translateX(-50%); /* Shift back by half of button's width */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
 
+  .capture-button:hover {
+    background-color: #0056b3;
+    transform: translateX(-50%) scale(1.05);
+  }
+
+  .capture-button:active {
+      transform: translateX(-50%) scale(0.95); /* Scale slightly on click */
+  }
+
+  .capture-button:focus {
+      outline: none; /* Remove outline on focus */
+      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.4); /* Add a focus outline */
+  }
+/* spinnere */
 .spinner-container {
   display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  height: 100vh; /* Make it cover the full viewport height */
-  width: 100vw; /* Optional: Make it cover the full viewport width */
-  position: fixed; /* position it on the page */
+  justify-content: center;
+  align-items: center;
+  position: absolute; /* Change to absolute */
   top: 0;
   left: 0;
-  background-color: rgba(255, 255, 255, 0.8); /* Optional background to overlay the page*/
-  z-index: 1000; /* Ensure it is on top */
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 1000;
+  transform: translateX(40px); /* Add transform to move right */
+
 }
 
 .spinner-wrapper {
     text-align: center;
 }
 .loading-gif{
-  width: 50px; /* Adjust the size of your gif as needed */
+  width: 50px;
   height: auto;
 }
 .loading-text {
