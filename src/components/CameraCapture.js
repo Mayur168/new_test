@@ -4,59 +4,29 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera, faCameraRotate } from "@fortawesome/free-solid-svg-icons"; // Import icons
 
 const CameraCapture = ({ closeCamera }) => {
-    const [image, setImage] = useState(null);
-    const [facingMode, setFacingMode] = useState("user");
-    const webcamRef = useRef(null);
+  const [image, setImage] = useState(null);
+  const [facingMode, setFacingMode] = useState("user");
+  const webcamRef = useRef(null);
 
+  const switchCamera = () => {
+    setFacingMode((prevMode) =>
+      prevMode === "user" ? "environment" : "user"
+    );
+  };
 
-    const handleCameraAction = () => {
-       if (image) {
-           //If an image is already captured we do not want to capture another photo so we will close the camera
-            closeCamera();
-            return;
-        }
-
-        if (webcamRef.current) {
-            // Capture image from the webcam
-            const imageSrc = webcamRef.current.getScreenshot();
-
-            if (imageSrc) {
-                 // Update state with the captured image
-                setImage(imageSrc);
-
-                // Save the captured image to local storage
-                 localStorage.setItem("capturedPhoto", imageSrc);
-            } else {
-                 // No image captured, so switch the camera
-                setFacingMode((prevMode) =>
-                     prevMode === "user" ? "environment" : "user"
-                );
-
-            }
-
-
-        }
-     };
-
-
-  const getButtonIcon = () => {
-        if (image) {
-            return faCamera;
-        }
-        return  faCameraRotate;
+  const captureImage = () => {
+    if (webcamRef.current) {
+      const imageSrc = webcamRef.current.getScreenshot();
+      setImage(imageSrc);
+      localStorage.setItem("capturedPhoto", imageSrc);
+      closeCamera();
     }
-
-    const getButtonText = () => {
-          if (image) {
-              return 'Close Camera';
-          }
-          return  'Switch Camera';
-      }
-
+  };
 
   return (
     <div className="camera-container">
       <h1>Capture Prescription Photo</h1>
+
       {!image && (
         <div className="webcam-wrapper">
           <Webcam
@@ -66,20 +36,29 @@ const CameraCapture = ({ closeCamera }) => {
             width="100%"
             facingMode={facingMode}
           />
+
+          {/* Camera switch button */}
+          <div className="camera-switch-overlay" onClick={switchCamera}>
+            <FontAwesomeIcon icon={faCameraRotate} size="2x" />
+          </div>
         </div>
       )}
-        {image && (
-            <div className="image-preview">
-              <h2>Captured Photo:</h2>
-              <img src={image} alt="Captured" style={{ width: "100%" }} />
-            </div>
-          )}
 
-      <div className="capture-button-container">
-        <button className="capture-button" onClick={handleCameraAction}>
-             <FontAwesomeIcon icon={getButtonIcon()}  style={{ marginRight: '5px' }}/> {getButtonText()}
-         </button>
-      </div>
+      {image && (
+        <div className="image-preview">
+          <h2>Captured Photo:</h2>
+          <img src={image} alt="Captured" style={{ width: "100%" }} />
+        </div>
+      )}
+
+      {!image && (
+        <div className="capture-button-container">
+          <button className="capture-button" onClick={captureImage}>
+            <FontAwesomeIcon icon={faCamera} style={{ marginRight: "5px" }} />
+            Capture Photo
+          </button>
+        </div>
+      )}
     </div>
   );
 };

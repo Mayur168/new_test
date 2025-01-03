@@ -821,59 +821,74 @@ button{
 }
 /* CameraCapture Component */
 .camera-container {
-    position: relative;
-  }
-  .webcam-wrapper {
-    position: relative;
-    width: 100%;
-  }
+  position: relative;
+}
+.webcam-wrapper {
+  position: relative;
+  width: 100%;
+}
 
 .image-preview {
-    margin: 10px 0;
-  }
-
-
+  margin: 10px 0;
+}
+.camera-switch-overlay {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  padding: 8px;
+  cursor: pointer;
+  z-index: 10; /* Ensure it is on top of the webcam */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+}
+.camera-switch-overlay:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+}
 .capture-button-container {
-    position: relative; /* Allow absolute positioning of the button */
-    text-align: center; /* To align button initially */
-  }
+  position: relative; /* Allow absolute positioning of the button */
+  text-align: center; /* To align button initially */
+}
 
-  .capture-button {
-    padding: 12px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 0.75rem;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    display: inline-block; /* Allows for margin adjustment */
-    text-align: center;
-    margin: 10px 0;
-    position: relative; /* Required to apply transform */
-    left: 50%; /* Move to right by 50% */
-    transform: translateX(-50%); /* Shift back by half of button's width */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+.capture-button {
+  padding: 12px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  display: inline-block; /* Allows for margin adjustment */
+  text-align: center;
+  margin: 10px 0;
+  position: relative; /* Required to apply transform */
+  left: 50%; /* Move to right by 50% */
+  transform: translateX(-50%); /* Shift back by half of button's width */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
+.capture-button:hover {
+  background-color: #0056b3;
+  transform: translateX(-50%) scale(1.05);
+}
 
-  .capture-button:hover {
-    background-color: #0056b3;
-    transform: translateX(-50%) scale(1.05);
-  }
+.capture-button:active {
+  transform: translateX(-50%) scale(0.95); /* Scale slightly on click */
+}
 
-  .capture-button:active {
-      transform: translateX(-50%) scale(0.95); /* Scale slightly on click */
-  }
-
-  .capture-button:focus {
-      outline: none; /* Remove outline on focus */
-      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.4); /* Add a focus outline */
-  }
+.capture-button:focus {
+  outline: none; /* Remove outline on focus */
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.4); /* Add a focus outline */
+}
 /* spinnere */
+/* Spinner */
 .spinner-container {
   display: flex;
   justify-content: center;
@@ -886,18 +901,23 @@ button{
   background-color: rgba(255, 255, 255, 0.8);
   z-index: 1000;
   transform: translateX(40px); /* Add transform to move right */
-
 }
 
 .spinner-wrapper {
-    text-align: center;
+  display: flex;       /* Enable flexbox */
+  flex-direction: column; /* Stack items vertically */
+  align-items: center;   /* Center items horizontally */
+  text-align: center;    /* Optional: center the text within the p element*/
 }
-.loading-gif{
+
+.loading-gif {
   width: 50px;
   height: auto;
 }
+
 .loading-text {
   margin-top: 10px;
   font-size: 1rem;
   color: #555;
+  /* text-align: left; Removed this */
 }
