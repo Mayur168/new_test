@@ -42,10 +42,12 @@ function App() {
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
-        <Route 
+        <Route path="/home" element={<Home />} />
+
+        {/* <Route 
           path="/home" 
           element={<PrivateRoute element={<Home />} />} 
-        />
+        /> */}
         <Route 
           path="/camera" 
           element={<PrivateRoute element={<CameraCapture />} />} 
