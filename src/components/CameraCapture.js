@@ -53,8 +53,13 @@ const CameraCapture = ({ closeCamera, onDataReceived }) => {
       const context = canvas.getContext("2d");
       context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
       const imageSrc = canvas.toDataURL("image/jpeg");
-      console.log("Captured Image:", imageSrc);
-      // You can now upload or process the captured image
+
+      // Send the captured image to the Home component via onDataReceived callback
+      onDataReceived(imageSrc);
+
+      // Stop the camera and close the camera view
+      stopCamera();
+      closeCamera(); // Ensure the camera view is hidden
     }
   };
 
