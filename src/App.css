@@ -985,9 +985,6 @@ display: inline-block; /* So it only wraps the content */
 }
 
 
-
-
-
 .camera-container {
   display: flex;
   flex-direction: column;

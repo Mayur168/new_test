@@ -76,7 +76,7 @@ const CameraCapture = ({ closeCamera, onDataReceived }) => {
         left: 0,
         width: "100%",
         height: "100%",
-        zIndex: 999,
+        zIndex: 9999, // Ensure it's above the navbar
         backgroundColor: "black",
       }}
     >
@@ -114,7 +114,7 @@ const CameraCapture = ({ closeCamera, onDataReceived }) => {
             right: "10px",
             color: "white",
             cursor: "pointer",
-            zIndex: 1000,
+            zIndex: 1000, // Ensure it's above the video content
           }}
         >
           <FontAwesomeIcon icon={faCameraRotate} size="2x" />
@@ -129,11 +129,14 @@ const CameraCapture = ({ closeCamera, onDataReceived }) => {
           }}
           style={{
             position: "absolute",
-            top: "10px",
+            top: "20px", // Adjust top to avoid navbar overlap (make sure to consider navbar height)
             left: "10px",
             color: "white",
             cursor: "pointer",
-            zIndex: 1000,
+            zIndex: 1001, // Make sure the Back button is on top of other elements
+            backgroundColor: "rgba(0, 0, 0, 0.5)", // Optional: Add a semi-transparent background for better visibility
+            padding: "10px",
+            borderRadius: "50%",
           }}
         >
           <FontAwesomeIcon icon={faArrowLeft} size="2x" />
