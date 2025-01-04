@@ -1,71 +1,4 @@
-// import React, { useState, useRef } from "react";
-// import Webcam from "react-webcam";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faCamera, faCameraRotate } from "@fortawesome/free-solid-svg-icons"; // Import icons
-
-// const CameraCapture = ({ closeCamera }) => {
-//   const [image, setImage] = useState(null);
-//   const [facingmode, setfacingmode] = useState("user");
-//   const webcamRef = useRef(null);
-
-//   const switchCamera = () => {
-//     setfacingmode((prevMode) =>
-//       prevMode === "user" ? "environment" : "user"
-//     );
-//   };
-
-//   const captureImage = () => {
-//     if (webcamRef.current) {
-//       const imageSrc = webcamRef.current.getScreenshot();
-//       setImage(imageSrc);
-//       localStorage.setItem("capturedPhoto", imageSrc);
-//       closeCamera();
-//     }
-//   };
-
-//   return (
-//     <div className="camera-container">
-//       <h1>Capture Prescription Photo</h1>
-
-//       {!image && (
-//         <div className="webcam-wrapper">
-//           <Webcam
-//             audio={false}
-//             ref={webcamRef}
-//             screenshotFormat="image/jpeg"
-//             width="100%"
-//             facingmode={facingmode}
-//           />
-
-//           {/* Camera switch button */}
-//           <div className="camera-switch-overlay" onClick={switchCamera}>
-//             <FontAwesomeIcon icon={faCameraRotate} size="2x" />
-//           </div>
-//         </div>
-//       )}
-
-//       {image && (
-//         <div className="image-preview">
-//           <h2>Captured Photo:</h2>
-//           <img src={image} alt="Captured" style={{ width: "100%" }} />
-//         </div>
-//       )}
-
-//       {!image && (
-//         <div className="capture-button-container">
-//           <button className="capture-button" onClick={captureImage}>
-//             <FontAwesomeIcon icon={faCamera} style={{ marginRight: "5px" }} />
-//             Capture Photo
-//           </button>
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default CameraCapture;import React, { useState, useRef } from "react";
-
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Webcam from "react-webcam";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCameraRetro, faCameraRotate } from "@fortawesome/free-solid-svg-icons";
@@ -75,10 +8,44 @@ import { handleError } from "../utils";
 const CameraCapture = ({ closeCamera, onDataReceived }) => {
     const [image, setImage] = useState(null);
     const [facingmode, setfacingmode] = useState("user");
+    const [error, setError] = useState(null); // State for error message
     const webcamRef = useRef(null);
 
-    const switchCamera = () => {
-        setfacingmode((prevMode) => (prevMode === "user" ? "environment" : "user"));
+
+  useEffect(() => {
+    const checkCameraAvailability = async () => {
+      try {
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const hasCamera = devices.some((device) => device.kind === 'videoinput');
+
+        if (!hasCamera) {
+          setError('No camera available');
+        }
+      } catch (err) {
+        setError('Error checking camera availability: ' + err.message);
+      }
+    };
+    checkCameraAvailability();
+  }, []);
+
+    const switchCamera = async () => {
+        setError(null); // Clear previous errors
+        const newMode = facingmode === "user" ? "environment" : "user";
+        try {
+            const devices = await navigator.mediaDevices.enumerateDevices();
+            const availableCameras = devices.filter((device) => device.kind === "videoinput");
+            const nextCameraExists = availableCameras.some(
+                (device) => device.facingMode === newMode
+            );
+
+            if (nextCameraExists) {
+                 setfacingmode(newMode);
+            } else {
+               setError("Camera not found");
+            }
+        } catch (err) {
+           setError("Failed to access cameras." + err.message);
+        }
     };
 
     const handleApiCall = async (imageUrl) => {
@@ -142,7 +109,7 @@ const CameraCapture = ({ closeCamera, onDataReceived }) => {
     return (
         <div className="camera-container">
             <h1>Capture Prescription Photo</h1>
-
+             {error && <div className="error-message">{error}</div>}
             {!image && (
                 <div className="webcam-wrapper">
                     <Webcam
