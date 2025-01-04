@@ -12,7 +12,7 @@ function SignUp() {
     email: "",
     password: "",
     confirm_password:"1234",
-    phone: "7447849010",      
+    phone: "7447849995",  
     is_customer: true,          
     is_receptionist: false,     
     is_hotelowner: false,       
