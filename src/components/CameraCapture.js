@@ -1,52 +1,65 @@
 import React, { useState, useRef, useEffect } from "react";
 import Webcam from "react-webcam";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCameraRetro, faCameraRotate } from "@fortawesome/free-solid-svg-icons";
+import { faCamera, faCameraRotate } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { handleError } from "../utils";
 
 const CameraCapture = ({ closeCamera, onDataReceived }) => {
     const [image, setImage] = useState(null);
     const [facingmode, setfacingmode] = useState("user");
-    const [error, setError] = useState(null); // State for error message
+    const [showCamera, setShowCamera] = useState(true);
+    const [error, setError] = useState(null);
     const webcamRef = useRef(null);
+    const [availableCameras, setAvailableCameras] = useState([]);
 
 
-  useEffect(() => {
-    const checkCameraAvailability = async () => {
-      try {
-        const devices = await navigator.mediaDevices.enumerateDevices();
-        const hasCamera = devices.some((device) => device.kind === 'videoinput');
+    useEffect(() => {
+        const checkCameraAvailability = async () => {
+            try {
+                const devices = await navigator.mediaDevices.enumerateDevices();
+                const videoDevices = devices.filter((device) => device.kind === "videoinput");
+                setAvailableCameras(videoDevices);
 
-        if (!hasCamera) {
-          setError('No camera available');
-        }
-      } catch (err) {
-        setError('Error checking camera availability: ' + err.message);
-      }
-    };
-    checkCameraAvailability();
-  }, []);
+                if (videoDevices.length === 0) {
+                    setError("No camera available.");
+                }
+            } catch (err) {
+                setError("Error checking camera: " + err.message);
+            }
+        };
 
-    const switchCamera = async () => {
-        setError(null); // Clear previous errors
+        checkCameraAvailability();
+    }, []);
+
+  const switchCamera = async () => {
+       setError(null);
+      setShowCamera(false);
+
         const newMode = facingmode === "user" ? "environment" : "user";
-        try {
-            const devices = await navigator.mediaDevices.enumerateDevices();
-            const availableCameras = devices.filter((device) => device.kind === "videoinput");
-            const nextCameraExists = availableCameras.some(
-                (device) => device.facingMode === newMode
-            );
 
-            if (nextCameraExists) {
-                 setfacingmode(newMode);
-            } else {
-               setError("Camera not found");
+        try {
+            // Get new mode video device
+           const nextCamera = availableCameras.find(device =>
+                device.label.toLowerCase().includes(newMode) || device.label.toLowerCase().includes(newMode === "user" ? "front" : "back"));
+
+            if (nextCamera) {
+               setfacingmode(newMode);
+                setShowCamera(true);
+            } else if (availableCameras.length > 0){ // if we have devices but didnt find the desired device then set the face mode to the first device.
+                  setfacingmode(availableCameras[0].label.toLowerCase().includes("user") || availableCameras[0].label.toLowerCase().includes("front") ? "user" : "environment");
+                    setShowCamera(true);
+           } else {
+              setError("Camera not found.");
+              setShowCamera(true);
             }
         } catch (err) {
-           setError("Failed to access cameras." + err.message);
+            setError("Failed to access cameras." + err.message);
+             setShowCamera(true);
         }
     };
+
+
 
     const handleApiCall = async (imageUrl) => {
         try {
@@ -109,18 +122,19 @@ const CameraCapture = ({ closeCamera, onDataReceived }) => {
     return (
         <div className="camera-container">
             <h1>Capture Prescription Photo</h1>
-             {error && <div className="error-message">{error}</div>}
+              {error && <div className="error-message">{error}</div>}
             {!image && (
                 <div className="webcam-wrapper">
-                    <Webcam
-                        key={facingmode}
-                        audio={false}
-                        ref={webcamRef}
-                        screenshotFormat="image/jpeg"
-                        width="100%"
-                        facingmode={facingmode}
-                    />
-
+                    {showCamera && (
+                        <Webcam
+                            key={facingmode}
+                            audio={false}
+                            ref={webcamRef}
+                            screenshotFormat="image/jpeg"
+                            width="100%"
+                            facingmode={facingmode}
+                        />
+                    )}
                     {/* Camera switch button */}
                     <div className="camera-switch-overlay" onClick={switchCamera}>
                         <FontAwesomeIcon icon={faCameraRotate} size="2x" />
@@ -138,7 +152,7 @@ const CameraCapture = ({ closeCamera, onDataReceived }) => {
             {!image && (
                 <div className="capture-button-container">
                     <button className="capture-button" onClick={captureImage}>
-                        <FontAwesomeIcon icon={faCameraRetro} style={{ marginRight: "5px" }} />
+                        <FontAwesomeIcon icon={faCamera} style={{ marginRight: "5px" }} />
                         Capture Photo
                     </button>
                 </div>
