@@ -4,7 +4,7 @@ import { faCamera, faCameraRotate } from "@fortawesome/free-solid-svg-icons";
 
 const CameraCapture = ({ closeCamera, onDataReceived }) => {
   const [stream, setStream] = useState(null); // Video stream
-  const [facingMode, setFacingMode] = useState("user"); // Camera mode
+  const [facingMode, setFacingMode] = useState("environment"); // Set initial camera to "environment" (back camera)
   const videoRef = useRef(null); // Reference to the video element
 
   // Function to start the camera
