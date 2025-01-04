@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCamera, faCameraRotate } from "@fortawesome/free-solid-svg-icons";
+import { faCamera, faCameraRotate, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 const CameraCapture = ({ closeCamera, onDataReceived }) => {
   const [stream, setStream] = useState(null); // Video stream
@@ -118,6 +118,25 @@ const CameraCapture = ({ closeCamera, onDataReceived }) => {
           }}
         >
           <FontAwesomeIcon icon={faCameraRotate} size="2x" />
+        </div>
+
+        {/* Back button */}
+        <div
+          className="back-button"
+          onClick={() => {
+            stopCamera();
+            closeCamera();
+          }}
+          style={{
+            position: "absolute",
+            top: "10px",
+            left: "10px",
+            color: "white",
+            cursor: "pointer",
+            zIndex: 1000,
+          }}
+        >
+          <FontAwesomeIcon icon={faArrowLeft} size="2x" />
         </div>
       </div>
 
