@@ -7,11 +7,15 @@ const CameraCapture = ({ closeCamera, onDataReceived }) => {
   const [facingMode, setFacingMode] = useState("environment"); // Set initial camera to "environment" (back camera)
   const videoRef = useRef(null); // Reference to the video element
 
-  // Function to start the camera
+  // Function to start the camera with normal zoom-like behavior
   const startCamera = async () => {
     try {
       const mediaStream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: facingMode }, // Set the desired camera
+        video: {
+          facingMode: facingMode, // Set the desired camera
+          width: { ideal: 1280 }, // Ideal width for HD resolution
+          height: { ideal: 720 }, // Ideal height for HD resolution
+        },
         audio: false, // Disable audio
       });
       setStream(mediaStream);
