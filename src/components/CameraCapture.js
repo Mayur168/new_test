@@ -5,11 +5,11 @@
 
 // const CameraCapture = ({ closeCamera }) => {
 //   const [image, setImage] = useState(null);
-//   const [facingMode, setFacingMode] = useState("user");
+//   const [facingmode, setfacingmode] = useState("user");
 //   const webcamRef = useRef(null);
 
 //   const switchCamera = () => {
-//     setFacingMode((prevMode) =>
+//     setfacingmode((prevMode) =>
 //       prevMode === "user" ? "environment" : "user"
 //     );
 //   };
@@ -34,7 +34,7 @@
 //             ref={webcamRef}
 //             screenshotFormat="image/jpeg"
 //             width="100%"
-//             facingMode={facingMode}
+//             facingmode={facingmode}
 //           />
 
 //           {/* Camera switch button */}
@@ -63,23 +63,22 @@
 //   );
 // };
 
-// export default CameraCapture;
-import React, { useState, useRef } from "react";
+// export default CameraCapture;import React, { useState, useRef } from "react";
+
+import React, { useState, useRef } from "react";  // <- Added the React import
 import Webcam from "react-webcam";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera, faCameraRotate } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import { handleError } from "../utils"; // Import handle Error for displaying errors
+import { handleError } from "../utils";
 
 const CameraCapture = ({ closeCamera, onDataReceived }) => {
   const [image, setImage] = useState(null);
-  const [facingMode, setFacingMode] = useState("user");
+  const [facingmode, setfacingmode] = useState("user");
   const webcamRef = useRef(null);
 
   const switchCamera = () => {
-    setFacingMode((prevMode) =>
-      prevMode === "user" ? "environment" : "user"
-    );
+    setfacingmode((prevMode) => (prevMode === "user" ? "environment" : "user"));
   };
 
   const handleApiCall = async (imageUrl) => {
@@ -93,7 +92,7 @@ const CameraCapture = ({ closeCamera, onDataReceived }) => {
 
       if (response.status === 200) {
         // Notify the parent component with the data
-          console.log(response.data)
+        console.log(response.data);
         onDataReceived(response.data);
         closeCamera();
       } else {
@@ -104,39 +103,39 @@ const CameraCapture = ({ closeCamera, onDataReceived }) => {
     }
   };
 
-   const handleImageUpload = async (imageSrc) => {
+  const handleImageUpload = async (imageSrc) => {
     try {
-        // Upload image using the hotel api
-        const apiUrl = 'https://hoteltest-six.vercel.app/uploads/upload_image';
-        const formData = new FormData();
-        const base64Image = imageSrc.split(',')[1];
-        const blob = await fetch(`data:image/jpeg;base64,${base64Image}`).then(res => res.blob());
-        formData.append('file', blob, 'captured-image.jpeg');
-        
-        const response = await axios.post(apiUrl, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        });
+      // Upload image using the hotel api
+      const apiUrl = "https://hoteltest-six.vercel.app/uploads/upload_image";
+      const formData = new FormData();
+      const base64Image = imageSrc.split(",")[1];
+      const blob = await fetch(`data:image/jpeg;base64,${base64Image}`).then(
+        (res) => res.blob()
+      );
+      formData.append("file", blob, "captured-image.jpeg");
 
-        if(response.status === 201) {
-            // Notify the parent component that the image was uploaded
-             handleApiCall(response.data.file_url)
-            
-        } else{
-             handleError("Image upload failed.")
-        }
+      const response = await axios.post(apiUrl, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      if (response.status === 201) {
+        // Notify the parent component that the image was uploaded
+        handleApiCall(response.data.file_url);
+      } else {
+        handleError("Image upload failed.");
+      }
     } catch (error) {
-         handleError("Image upload failed. " + error.message)
+      handleError("Image upload failed. " + error.message);
     }
-}
+  };
 
   const captureImage = () => {
     if (webcamRef.current) {
       const imageSrc = webcamRef.current.getScreenshot();
       setImage(imageSrc);
-         handleImageUpload(imageSrc)
-     
+      handleImageUpload(imageSrc);
     }
   };
 
@@ -151,7 +150,8 @@ const CameraCapture = ({ closeCamera, onDataReceived }) => {
             ref={webcamRef}
             screenshotFormat="image/jpeg"
             width="100%"
-            facingMode={facingMode}
+            facingmode={facingmode}
+            
           />
 
           {/* Camera switch button */}

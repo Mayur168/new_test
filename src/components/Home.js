@@ -86,6 +86,7 @@
 // };
 
 // export default Home;
+
 import React, { useEffect, useState } from "react";
 import About from "./About";
 import Contact from "./Contact";
@@ -104,6 +105,7 @@ const Home = () => {
   }, []);
 
   const toggleCamera = () => {
+    
     setIsCameraVisible((prev) => !prev);
   };
 
