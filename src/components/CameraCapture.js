@@ -5,22 +5,16 @@ import { faCamera, faCameraRotate } from "@fortawesome/free-solid-svg-icons";
 const CameraCapture = ({ closeCamera, onDataReceived }) => {
   const [stream, setStream] = useState(null); // Video stream
   const [facingMode, setFacingMode] = useState("environment"); // Set initial camera to "environment" (back camera)
-  const [showToggleButton, setShowToggleButton] = useState(false); // State to control toggle button visibility
   const videoRef = useRef(null); // Reference to the video element
 
   // Function to start the camera
   const startCamera = async () => {
     try {
       const mediaStream = await navigator.mediaDevices.getUserMedia({
-        video: {
-          facingMode: facingMode, // Set the desired camera
-          width: { ideal: 1280 }, // Ideal width for HD resolution
-          height: { ideal: 720 }, // Ideal height for HD resolution
-        },
+        video: { facingMode: facingMode }, // Set the desired camera
         audio: false, // Disable audio
       });
       setStream(mediaStream);
-      setShowToggleButton(true); // Show toggle button when the camera is active
       if (videoRef.current) {
         videoRef.current.srcObject = mediaStream;
       }
@@ -36,7 +30,6 @@ const CameraCapture = ({ closeCamera, onDataReceived }) => {
       stream.getTracks().forEach((track) => track.stop());
     }
     setStream(null);
-    setShowToggleButton(false); // Hide toggle button when camera is stopped
   };
 
   // Function to handle switching cameras
@@ -71,83 +64,29 @@ const CameraCapture = ({ closeCamera, onDataReceived }) => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        width: "100%",
-        height: "100%",
-        backgroundColor: "#f8f9fa",
-        position: "relative",
-      }}
-    >
-      <h1 style={{ textAlign: "center", marginBottom: "20px" }}>
-        Capture Prescription Photo
-      </h1>
+    <div className="camera-container">
+      <h1>Capture Prescription Photo</h1>
 
-      <div
-        style={{
-          position: "relative",
-          width: "100%",
-          maxWidth: "500px",
-          overflow: "hidden",
-        }}
-      >
+      <div className="webcam-wrapper">
         {/* Video element to display the camera feed */}
         <video
           ref={videoRef}
           autoPlay
           playsInline
           muted
-          style={{
-            width: "100%",
-            height: "auto",
-            borderRadius: "10px",
-            backgroundColor: "black",
-          }}
+          style={{ width: "100%" }}
         ></video>
 
         {/* Button to switch between front and back cameras */}
-        {showToggleButton && (
-          <div
-            style={{
-              position: "absolute",
-              top: "10px",
-              right: "10px",
-              backgroundColor: "rgba(255, 255, 255, 0.8)",
-              padding: "10px",
-              borderRadius: "50%",
-              cursor: "pointer",
-              zIndex: 10,
-              display: showToggleButton ? "block" : "none", // Conditionally hide the button
-            }}
-            onClick={switchCamera}
-          >
-            <FontAwesomeIcon icon={faCameraRotate} size="2x" />
-          </div>
-        )}
+        <div className="camera-switch-overlay" onClick={switchCamera}>
+          <FontAwesomeIcon icon={faCameraRotate} size="2x" />
+        </div>
       </div>
 
       {/* Capture button */}
-      <div style={{ marginTop: "20px" }}>
-        <button
-          onClick={captureImage}
-          style={{
-            backgroundColor: "#007bff",
-            color: "white",
-            padding: "10px 20px",
-            border: "none",
-            borderRadius: "5px",
-            fontSize: "16px",
-            cursor: "pointer",
-          }}
-        >
-          <FontAwesomeIcon
-            icon={faCamera}
-            style={{ marginRight: "5px", verticalAlign: "middle" }}
-          />
+      <div className="capture-button-container">
+        <button className="capture-button" onClick={captureImage}>
+          <FontAwesomeIcon icon={faCamera} style={{ marginRight: "5px" }} />
           Capture Photo
         </button>
       </div>
