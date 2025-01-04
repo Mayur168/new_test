@@ -7,11 +7,15 @@ const CameraCapture = ({ closeCamera, onDataReceived }) => {
   const [facingMode, setFacingMode] = useState("environment"); // Set initial camera to "environment" (back camera)
   const videoRef = useRef(null); // Reference to the video element
 
-  // Function to start the camera
+  // Function to start the camera with normal zoom-like behavior
   const startCamera = async () => {
     try {
       const mediaStream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: facingMode }, // Set the desired camera
+        video: {
+          facingMode: facingMode, // Set the desired camera
+          width: { ideal: 1280 }, // Ideal width for HD resolution
+          height: { ideal: 720 }, // Ideal height for HD resolution
+        },
         audio: false, // Disable audio
       });
       setStream(mediaStream);
@@ -64,28 +68,82 @@ const CameraCapture = ({ closeCamera, onDataReceived }) => {
   };
 
   return (
-    <div className="camera-container">
-      <h1>Capture Prescription Photo</h1>
-
-      <div className="webcam-wrapper">
+    <div
+      className="camera-container"
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        zIndex: 999,
+        backgroundColor: "black",
+      }}
+    >
+      <div
+        className="webcam-wrapper"
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          position: "relative",
+        }}
+      >
         {/* Video element to display the camera feed */}
         <video
           ref={videoRef}
           autoPlay
           playsInline
           muted
-          style={{ width: "100%" }}
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover", // Make the video cover the full screen
+          }}
         ></video>
 
         {/* Button to switch between front and back cameras */}
-        <div className="camera-switch-overlay" onClick={switchCamera}>
+        <div
+          className="camera-switch-overlay"
+          onClick={switchCamera}
+          style={{
+            position: "absolute",
+            top: "10px",
+            right: "10px",
+            color: "white",
+            cursor: "pointer",
+            zIndex: 1000,
+          }}
+        >
           <FontAwesomeIcon icon={faCameraRotate} size="2x" />
         </div>
       </div>
 
       {/* Capture button */}
-      <div className="capture-button-container">
-        <button className="capture-button" onClick={captureImage}>
+      <div
+        className="capture-button-container"
+        style={{
+          position: "absolute",
+          bottom: "20px",
+          left: "50%",
+          transform: "translateX(-50%)",
+        }}
+      >
+        <button
+          className="capture-button"
+          onClick={captureImage}
+          style={{
+            padding: "10px 20px",
+            fontSize: "16px",
+            borderRadius: "50px",
+            border: "none",
+            backgroundColor: "#1c75c4",
+            color: "white",
+            cursor: "pointer",
+          }}
+        >
           <FontAwesomeIcon icon={faCamera} style={{ marginRight: "5px" }} />
           Capture Photo
         </button>
