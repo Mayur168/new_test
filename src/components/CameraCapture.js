@@ -359,6 +359,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera, faCameraRotate, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
+
 
 const CameraCapture = ({ closeCamera, onDataReceived }) => {
   const [stream, setStream] = useState(null);
@@ -405,17 +407,54 @@ const CameraCapture = ({ closeCamera, onDataReceived }) => {
     return () => stopCamera();
   }, [facingMode]);
 
-  const captureImage = () => {
+  // const captureImage = () => {
+  //   if (videoRef.current) {
+  //     const canvas = document.createElement("canvas");
+  //     canvas.width = videoRef.current.videoWidth;
+  //     canvas.height = videoRef.current.videoHeight;
+  //     const context = canvas.getContext("2d");
+  //     context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
+  //     const imageSrc = canvas.toDataURL("image/jpeg");
+
+  //     onDataReceived(imageSrc);
+
+  //     stopCamera();
+  //     closeCamera();
+  //   }
+  // };
+  const captureImage = async () => {
     if (videoRef.current) {
       const canvas = document.createElement("canvas");
       canvas.width = videoRef.current.videoWidth;
       canvas.height = videoRef.current.videoHeight;
       const context = canvas.getContext("2d");
       context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
-      const imageSrc = canvas.toDataURL("image/jpeg");
-
-      onDataReceived(imageSrc);
-
+  
+      // Convert the image to a Blob
+      const imageBlob = await new Promise((resolve) => canvas.toBlob(resolve, "image/jpeg"));
+  
+      const formData = new FormData();
+      formData.append("image", imageBlob); // Append the image Blob to the FormData
+  
+      try {
+        const response = await axios.post("https://django-imageprocessing-api.vercel.app/api/imageprocess/getdata/", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data", // Ensure proper headers for file uploads
+          },
+        });
+  
+        if (response.status === 200) {
+          console.log("Image uploaded successfully:", response.data);
+          alert("Image uploaded successfully!");
+        } else {
+          console.error("Failed to upload image:", response.data);
+          alert("Failed to upload image.");
+        }
+      } catch (error) {
+        console.error("Error uploading image:", error);
+        alert("Error uploading image.");
+      }
+  
       stopCamera();
       closeCamera();
     }
