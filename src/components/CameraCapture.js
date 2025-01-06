@@ -298,6 +298,7 @@
 //           }}
 //         >
 //           <FontAwesomeIcon icon={faCameraRotate} size="2x" />
+
 //         </div>
 
 //         {/* Back button */}
@@ -355,12 +356,10 @@
 // };
 
 // export default CameraCapture;
-
 import React, { useState, useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera, faCameraRotate, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-
 
 const CameraCapture = ({ closeCamera, onDataReceived }) => {
   const [stream, setStream] = useState(null);
@@ -407,21 +406,6 @@ const CameraCapture = ({ closeCamera, onDataReceived }) => {
     return () => stopCamera();
   }, [facingMode]);
 
-  // const captureImage = () => {
-  //   if (videoRef.current) {
-  //     const canvas = document.createElement("canvas");
-  //     canvas.width = videoRef.current.videoWidth;
-  //     canvas.height = videoRef.current.videoHeight;
-  //     const context = canvas.getContext("2d");
-  //     context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
-  //     const imageSrc = canvas.toDataURL("image/jpeg");
-
-  //     onDataReceived(imageSrc);
-
-  //     stopCamera();
-  //     closeCamera();
-  //   }
-  // };
   const captureImage = async () => {
     if (videoRef.current) {
       const canvas = document.createElement("canvas");
@@ -429,32 +413,11 @@ const CameraCapture = ({ closeCamera, onDataReceived }) => {
       canvas.height = videoRef.current.videoHeight;
       const context = canvas.getContext("2d");
       context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
-  
-      // Convert the image to a Blob
-      const imageBlob = await new Promise((resolve) => canvas.toBlob(resolve, "image/jpeg"));
-  
-      const formData = new FormData();
-      formData.append("image", imageBlob); // Append the image Blob to the FormData
-  
-      try {
-        const response = await axios.post("https://django-imageprocessing-api.vercel.app/api/imageprocess/getdata/", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data", // Ensure proper headers for file uploads
-          },
-        });
-  
-        if (response.status === 200) {
-          console.log("Image uploaded successfully:", response.data);
-          alert("Image uploaded successfully!");
-        } else {
-          console.error("Failed to upload image:", response.data);
-          alert("Failed to upload image.");
-        }
-      } catch (error) {
-        console.error("Error uploading image:", error);
-        alert("Error uploading image.");
-      }
-  
+      const imageSrc = canvas.toDataURL("image/jpeg");
+
+      onDataReceived(imageSrc); // Optional callback to pass the image back to the parent component
+      await sendImageToBackend(imageSrc); // Send image to the backend
+
       stopCamera();
       closeCamera();
     }
@@ -499,11 +462,33 @@ const CameraCapture = ({ closeCamera, onDataReceived }) => {
     return false;
   };
 
-  const autoCapture = () => {
+  const autoCapture = async () => {
     if (detectPrescription()) {
       console.log("Prescription detected! Capturing photo...");
-      captureImage();
+      await captureImage();
       clearInterval(autoCaptureInterval.current); // Stop the auto-capture process
+    }
+  };
+
+  const sendImageToBackend = async (imageSrc) => {
+    try {
+      const blob = await fetch(imageSrc).then((res) => res.blob());
+      const formData = new FormData();
+      formData.append("image", blob, "captured_image.jpg");
+
+      const response = await axios.post(
+        "https://django-imageprocessing-api.vercel.app/api/imageprocess/getdata/",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log("Backend Response:", response.data);
+      onDataReceived(response.data); // Pass backend response to parent component if needed
+    } catch (error) {
+      console.error("Error sending image to backend:", error);
     }
   };
 
@@ -619,3 +604,4 @@ const CameraCapture = ({ closeCamera, onDataReceived }) => {
 };
 
 export default CameraCapture;
+
