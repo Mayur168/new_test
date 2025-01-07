@@ -1137,17 +1137,21 @@ display: inline-block; /* So it only wraps the content */
   margin-bottom: 20px;
 }
 
+
 .home-captured-image-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
-  
 }
 
+
 .home-captured-image-title {
-  margin-bottom: 0;
+    margin-bottom: 0;
+    text-align: center;
+    flex: 2; /* Take up remaining space in the header */
 }
+
 
 .home-captured-image-display img {
   max-width: 500px;
@@ -1391,7 +1395,7 @@ display: inline-block; /* So it only wraps the content */
 /* edit1 */
 
 
-.home-edit-button-save {
+.home-edit-button-submit {
   padding: 10px 12px;
   background-color: #189f13;
   color: white;
@@ -1402,7 +1406,7 @@ display: inline-block; /* So it only wraps the content */
   transition: background-color 0.3s ease;
   margin-left: 10px;
 }
-.home-edit-button-save:hover {
+.home-edit-button-submit:hover {
   background-color: #145a91;
 }
 
