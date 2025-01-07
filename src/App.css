@@ -1321,20 +1321,46 @@ display: inline-block; /* So it only wraps the content */
 .home-save-button:hover {
   background-color: #239b56;
 }
+
+/* home cancle button */
 .home-cancel-button {
-  padding: 10px 12px;
-  background-color: #e74c3c;
+  padding: 12px 20px;
+  background-color: #b71a2a;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
+  margin-right: 10px;
   font-size: 16px;
   transition: background-color 0.3s ease;
 }
-
 .home-cancel-button:hover {
-  background-color: #c0392b;
+  background-color: #de3434;
 }
+
+
+
+
+.home-remove-image-button {
+    padding: 6px 10px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 10px;
+    transition: background-color 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-left: auto; /* Push button to the right */
+}
+
+.home-remove-image-button:hover {
+    background-color: #c0392b;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
 
 .home-details-text {
   margin-bottom: 10px;
@@ -1345,21 +1371,38 @@ display: inline-block; /* So it only wraps the content */
   margin-top: 15px;
   position: absolute;
   bottom: 20px;
-  right: 10px;
+  right: 20px;
 }
 
 .home-edit-button {
-  padding: 12px 20px;
+  padding: 10px 12px;
   background-color: #1c75c4;
   color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 10px;
   transition: background-color 0.3s ease;
   margin-left: 10px;
 }
 .home-edit-button:hover {
+  background-color: #145a91;
+}
+/* edit1 */
+
+
+.home-edit-button-save {
+  padding: 10px 12px;
+  background-color: #189f13;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 10px;
+  transition: background-color 0.3s ease;
+  margin-left: 10px;
+}
+.home-edit-button-save:hover {
   background-color: #145a91;
 }
 
@@ -1374,7 +1417,8 @@ display: inline-block; /* So it only wraps the content */
   }
   .home-remove-image-button {
       padding: 10px 15px;
-      font-size: 14px;
+      font-size: 12px;
+      margin-left: 10px;
   }
 
   .home-prescription-title {
@@ -1393,13 +1437,21 @@ display: inline-block; /* So it only wraps the content */
 
   .home-edit-button {
       padding: 10px 15px;
-      font-size: 14px;
+      font-size: 12px;
+      margin-left: 10px;
   }
+  .home-edit-button-save{
+    padding: 10px 15px;
+    font-size: 12px;
+    margin-left: 10px;
+}
 
   .home-save-button,
   .home-cancel-button {
       padding: 10px 15px;
-      font-size: 14px;
+      font-size: 12px;
+      margin-left: 10px;
+
   }
   .home-form-input {
       width: calc(100% - 15px);

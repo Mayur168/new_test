@@ -392,12 +392,12 @@ const Home = () => {
         <div className="home-captured-image-display">
           <div className="home-captured-image-header">
             <h2 className="home-captured-image-title">Captured Image:</h2>
-            <button
+            {/* <button
               className="home-remove-image-button"
               onClick={handleRemoveImage}
             >
               Remove Image
-            </button>
+            </button> */}
           </div>
 
           <img src={capturedImage} alt="Captured" className="home-captured-image" />
@@ -486,6 +486,7 @@ const Home = () => {
                   <button className="home-save-button" onClick={handleSaveEdit}>
                     Save
                   </button>
+                  
                   <button
                     className="home-cancel-button"
                     onClick={handleCancelEdit}
@@ -526,7 +527,17 @@ const Home = () => {
                   <button className="home-edit-button" onClick={handleEdit}>
                     Edit
                   </button>
+                   <button
+              className="home-remove-image-button"
+              onClick={handleRemoveImage}
+            >
+              Remove
+            </button> 
+            <button className="home-edit-button-save" onClick={handleSaveEdit}>
+                    Save
+                  </button>
                 </div>
+                
               </div>
             )}
           </div>
