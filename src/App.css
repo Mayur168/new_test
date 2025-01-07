@@ -1084,3 +1084,327 @@ display: inline-block; /* So it only wraps the content */
 }
 
 
+/* capture image */
+/* .home-camera-button-container {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.home-camera-toggle {
+  background-color: #1c75c4;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+} */
+ 
+.home-camera-button-container {
+  position: fixed;
+  left: 50%;
+  bottom: 15px; /* Adjust this value as needed */
+  transform: translateX(-50%);
+  z-index: 10; /* Ensure the button is above other elements */
+}
+
+.home-camera-toggle {
+  background-color: #1c75c4;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.home-camera-toggle {
+  background-color: #1c75c4;
+  color: white;
+  border: none;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+.home-camera-toggle:hover {
+  background-color: #145a91;
+}
+.home-captured-image-display {
+  margin-bottom: 20px;
+}
+
+.home-captured-image-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  
+}
+
+.home-captured-image-title {
+  margin-bottom: 0;
+}
+
+.home-captured-image-display img {
+  max-width: 500px;
+  max-height: 500px;
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+
+.home-remove-image-button {
+  padding: 0px 2px;  /* Reduced padding to make it smaller */
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 6px;   /* Reduced border radius */
+  cursor: pointer;
+  font-size: 5px;  /* Reduced font size to make it smaller */
+  transition: background-color 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+}
+
+.home-remove-image-button:hover {
+  background-color: #c0392b;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.home-response-display {
+  margin-bottom: 20px;
+}
+
+.home-prescription-title {
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 24px;
+  color: #333;
+}
+
+.home-prescription-container {
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.home-edit-form .home-form-group {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.home-form-label {
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 16px;
+  color: #555;
+  display: flex;
+  align-items: center;
+  margin-right: 10px; /* add some space between icon and label */
+}
+.home-icon{
+  margin-right: 5px;
+  font-size: 1.2em;
+  color: #777
+}
+.home-form-input {
+  margin-bottom: 10px;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  width: calc(100% - 20px);
+  margin-top: 5px;
+  transition: border-color 0.3s ease; /* Add transition for hover effect */
+}
+
+.home-form-input:focus {
+  outline: none;
+  border-color: #1c75c4;
+  box-shadow: 0 0 5px rgba(28, 117, 196, 0.3); /* Add a subtle shadow for focus */
+}
+.home-medication-title {
+  margin-bottom: 10px;
+  margin-top: 15px;
+  text-align: center;
+  font-size: 20px;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.home-medication-title .home-icon {
+  margin-right: 5px;
+}
+.home-medication-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.home-medication-item {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  background-color: white;
+   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease;
+}
+
+.home-medication-item:hover {
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.home-medication-name {
+  margin-bottom: 10px;
+}
+
+.home-medication-timing {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.home-medication-name .home-form-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.home-medication-name .home-form-label input[type='text'] {
+  margin-left: 10px;
+  width: calc(100% - 100px);
+  margin-top: 5px;
+}
+
+.home-medication-timing .home-timing-label {
+  margin-right: 10px;
+  display: inline-block;
+}
+.home-medication-timing .home-timing-checkbox {
+  margin-top: 5px;
+  cursor: pointer;
+  margin-left: 11px;
+  margin-right: 3px;
+
+}
+
+.home-save-cancel-container {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.home-save-button {
+  padding: 12px 20px;
+  background-color: #2ecc71;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-right: 10px;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.home-save-button:hover {
+  background-color: #239b56;
+}
+.home-cancel-button {
+  padding: 10px 12px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.home-cancel-button:hover {
+  background-color: #c0392b;
+}
+
+.home-details-text {
+  margin-bottom: 10px;
+  color: #555;
+}
+
+.home-edit-button-container {
+  margin-top: 15px;
+  position: absolute;
+  bottom: 20px;
+  right: 10px;
+}
+
+.home-edit-button {
+  padding: 12px 20px;
+  background-color: #1c75c4;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  margin-left: 10px;
+}
+.home-edit-button:hover {
+  background-color: #145a91;
+}
+
+/* Media query for mobile screens */
+@media (max-width: 768px) {
+  .home-camera-toggle {
+      padding: 10px 15px;
+      font-size: 14px;
+  }
+  .home-captured-image-title {
+      font-size: 20px;
+  }
+  .home-remove-image-button {
+      padding: 10px 15px;
+      font-size: 14px;
+  }
+
+  .home-prescription-title {
+      font-size: 22px;
+  }
+
+  .home-form-label {
+      font-size: 14px;
+  }
+  .home-medication-title {
+      font-size: 18px;
+  }
+  .home-medication-item .home-form-label {
+      font-size: 14px;
+  }
+
+  .home-edit-button {
+      padding: 10px 15px;
+      font-size: 14px;
+  }
+
+  .home-save-button,
+  .home-cancel-button {
+      padding: 10px 15px;
+      font-size: 14px;
+  }
+  .home-form-input {
+      width: calc(100% - 15px);
+  }
+    .home-medication-name .home-form-label input[type='text']{
+      width: calc(100% - 90px);
+  }
+}
