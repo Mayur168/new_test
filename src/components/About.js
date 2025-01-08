@@ -3,13 +3,13 @@ import React from "react";
 const About = () => {
   return (
     <section id="about" className="about section">
-
       <div className="container">
-
+        <div className="about-title-container">
+           <h3 className="about-title">About Us</h3>
+        </div>
         <div className="row gy-4 gx-5">
-
           <div className="col-lg-6 content" data-aos="fade-up" data-aos-delay="100">
-            <h3>About Us</h3>
+          
             <p>
               Dolor iure expedita id fuga asperiores qui sunt consequatur minima. Quidem voluptas deleniti. Sit quia molestiae quia quas qui magnam itaque veritatis dolores. Corrupti totam ut eius incidunt reiciendis veritatis asperiores placeat.
             </p>
@@ -37,11 +37,8 @@ const About = () => {
               </li>
             </ul>
           </div>
-
         </div>
-
       </div>
-
     </section>
   );
 };

@@ -367,19 +367,40 @@ footer p {
 }
 
 
+#contact .section-title {
+  text-align: center; /* Center the entire title and paragraph block */
+  margin-bottom: 20px; /* Optional spacing */
+}
 
 #contact .section-title h2 {
-  color: #2c4964; /* Font color */
-  font-size: 32px; /* Font size */
-  font-family: 'Poppins', sans-serif; /* Font family */
-  font-weight: 700; /* Bold font weight */
-  text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1); /* Text shadow */
+  color: #2c4964;
+  font-size: 32px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  padding-bottom: 10px; /* Spacing for the underline */
+  display: inline-block; /* Make the title container fit the text */
+  margin: 0 auto;   /* Center title horizontally */
 }
+
+#contact .section-title h2::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 100px; /* Width of the underline */
+  height: 3px; /* Thickness of the underline */
+  background-color: #2c4964; /* Underline color */
+}
+
 #contact .section-title p {
-  color: #2c4964; /* Font color */
-  font-size: 16px; /* You can adjust the font size for the paragraph */
-  font-family: 'Poppins', sans-serif; /* Font family */
-  text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1); /* Text shadow */
+  color: #2c4964;
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+  text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
+  text-align: left; /* keep paragraph text left aligned*/
 }
 
 .contact .info-item p {
@@ -387,7 +408,6 @@ footer p {
   margin-bottom: 0;
   font-size: 14px;
 }
-
 
 
 .send-message-btn {
@@ -410,13 +430,39 @@ footer p {
 
 /* about */
 
-.about .content h3 {
+.about .about-title-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+  position: relative; /* Needed for absolute positioning of the underline */
+}
+
+
+.about .about-title {
   font-size: 32px;
   font-family: 'Poppins', sans-serif;
   font-weight: 700;
   color: #2c4964;
   margin: 0px 0px 8px;
   font-weight: bold;
+  position: relative; /* For absolute positioning of pseudo element*/
+  display: inline-block;
+}
+
+.about .about-title::after {
+  content: "";
+  display: block;
+  width: 100px; /* Adjust the width of the underline as needed */
+  height: 3px; /* Adjust the thickness of the underline */
+  background-color:#2c4964 ; /* Color of the underline */
+  position: absolute; /* Position the underline relative to the title */
+  left: 50%; /* Center the underline horizontally */
+  bottom: -10px; /* Distance of the underline from the title */
+  transform: translateX(-50%); /* To center the underline precisely */
+}
+
+.about .content h3 {
+  /* Remove styling from here as the title has its separate styles */
 }
 
 .about .content ul {
@@ -436,7 +482,6 @@ footer p {
   color: var(--accent-color);
   margin-right: 20px;
 }
-
 
 .about .content ul h5 {
   font-size: 18px;
@@ -462,7 +507,6 @@ footer p {
   left: calc(50% - 47px);
   top: calc(50% - 47px);
 }
-
 
 
 /* TopNavbar styles */
@@ -1464,3 +1508,151 @@ display: inline-block; /* So it only wraps the content */
       width: calc(100% - 90px);
   }
 }
+
+/* Import Poppins font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Now in your css file of a component you can use this font like   font-family: 'Poppins', sans-serif; */
+.get-data-container {
+  font-family: 'Poppins', sans-serif; /* Ensure your font is imported correctly */
+  max-width: 800px; /* Adjust as needed */
+  margin: 20px auto; /* Center the container */
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+ }
+ 
+ .get-data-form {
+  display: grid;
+  gap: 15px; /* Spacing between form groups */
+ }
+ 
+ .form-group {
+  display: flex;
+  flex-direction: column; /* To stack label and input */
+ }
+ 
+ .form-label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+ }
+ 
+ .input-icon {
+  font-size: 18px; /* Adjust icon size */
+  color: #2c4964;
+ }
+ 
+ .form-control {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+ }
+ 
+ .btn-primary, .btn-success {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+ }
+ 
+ .btn-primary {
+    background-color: #2c4964;
+    color: white;
+  }
+  
+  .btn-primary:hover{
+       background-color: #40648c;
+  }
+  
+ .btn-success {
+   background-color: #28a745; /* Green color for success button */
+   color: white;
+ }
+ 
+ .btn-success:hover {
+    background-color: #218838;
+ }
+ 
+ .download-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+   margin-top: 10px;
+ }
+ 
+ .download-icon{
+     font-size: 18px;
+  }
+ 
+ .table-responsive {
+  overflow-x: auto;
+ }
+ 
+ .table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+ }
+ 
+ .table th, .table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+ }
+ 
+ .table th {
+  background-color: #f0f0f0;
+   font-weight: bold;
+ }
+ 
+ /* Responsive design */
+ @media (max-width: 768px) {
+  .get-data-container {
+    padding: 10px;
+    margin: 10px;
+    max-width: 100%;
+  }
+  .get-data-form{
+      grid-template-columns: 1fr;
+  }
+ }
+ 
+ /* Add font */
+  body {
+   font-family: 'Poppins', sans-serif;
+ }
+  
+ .get-data-container h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2c4964;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 25px;
+  padding-bottom: 10px;
+  position: relative;
+ }
+  
+ .get-data-container h1::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background-color: #2c4964;
+ }
+ 
+ .get-data-container .loading-message{
+    text-align: center;
+    font-style: italic;
+    color: #555;
+    margin-top: 15px;
+ }

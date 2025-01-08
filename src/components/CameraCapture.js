@@ -191,14 +191,23 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCamera, faCameraRotate, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCamera,
+  faCameraRotate,
+  faArrowLeft,
+} from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 
-const CameraCapture = ({ closeCamera, onResponseReceived , onApiLoading, isDisabled}) => {
+const CameraCapture = ({
+  closeCamera,
+  onResponseReceived,
+  onApiLoading,
+  isDisabled,
+}) => {
   const [stream, setStream] = useState(null);
   const [facingMode, setFacingMode] = useState("environment");
   const videoRef = useRef(null);
-  const [isCapturing, setIsCapturing] = useState(false)
+  const [isCapturing, setIsCapturing] = useState(false);
 
   const startCamera = async () => {
     try {
@@ -237,45 +246,70 @@ const CameraCapture = ({ closeCamera, onResponseReceived , onApiLoading, isDisab
     return () => stopCamera();
   }, [facingMode]);
 
+  const captureImage = async () => {
+    if (videoRef.current && !isDisabled && !isCapturing) {
+      setIsCapturing(true);
+      const video = videoRef.current;
+      const canvas = document.createElement("canvas");
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const context = canvas.getContext("2d");
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-    const captureImage = async () => {
-        if (videoRef.current && !isDisabled && !isCapturing) {
-            setIsCapturing(true);
-          const canvas = document.createElement("canvas");
-          canvas.width = videoRef.current.videoWidth;
-          canvas.height = videoRef.current.videoHeight;
-          const context = canvas.getContext("2d");
-          context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
-          const imageSrc = canvas.toDataURL("image/jpeg");
+      // Compress the image using canvas
+      const compressedImageSrc = await compressImage(canvas, 100); // Target 100KB
 
-          onApiLoading();
-          await sendImageToBackend(imageSrc);
+      onApiLoading();
+      await sendImageToBackend(compressedImageSrc);
+    }
+  };
 
-        }
-    };
+  const compressImage = (canvas, targetSizeKB) => {
+    return new Promise((resolve) => {
+      let quality = 0.9; // Initial quality
+      let compressedImageSrc = canvas.toDataURL("image/jpeg", quality);
+
+        const checkAndCompress = async () => {
+              const blob = await fetch(compressedImageSrc).then((res) => res.blob());
+              const sizeInKB = blob.size / 1024;
+
+                if (sizeInKB <= targetSizeKB || quality <= 0.1) {
+                 resolve(compressedImageSrc)
+                 return;
+                } else if (sizeInKB > targetSizeKB) {
+                  quality -= 0.1; // Reduce the quality.
+                   compressedImageSrc = canvas.toDataURL('image/jpeg', quality)
+                   return checkAndCompress()
+              }  else {
+                  resolve(compressedImageSrc)
+                  return;
+              }
+        };
+
+        checkAndCompress()
+    });
+  };
 
   const sendImageToBackend = async (imageSrc) => {
-      try {
-          const blob = await fetch(imageSrc).then((res) => res.blob());
-          const formData = new FormData();
-          formData.append("image", blob, "captured_image.jpg");
+    try {
+      const blob = await fetch(imageSrc).then((res) => res.blob());
+      const formData = new FormData();
+      formData.append("image", blob, "captured_image.jpg");
 
-          const response = await axios.post(
-              "https://django-imageprocessing-api.vercel.app/api/imageprocess/getdata/",
-              formData,
-              {
-                  headers: {
-                      "Content-Type": "multipart/form-data",
-                  },
-              }
-          );
-           onResponseReceived({image: imageSrc, response: response.data});
-
-
-      } catch (error) {
-          console.error("Error sending image to backend:", error);
-           setIsCapturing(false); //reset capture after failure
-      }
+      const response = await axios.post(
+        "https://django-imageprocessing-api.vercel.app/api/imageprocess/getdata/",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+        onResponseReceived({ image: imageSrc, response: response.data });
+    } catch (error) {
+      console.error("Error sending image to backend:", error);
+      setIsCapturing(false); // reset capture after failure
+    }
   };
 
   return (
@@ -291,25 +325,25 @@ const CameraCapture = ({ closeCamera, onResponseReceived , onApiLoading, isDisab
         backgroundColor: "black",
       }}
     >
-        {isDisabled && (
-            <div
-                className="camera-overlay"
-                style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    width: "100%",
-                    height: "100%",
-                    backgroundColor: "rgba(0, 0, 0, 0.5)",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    zIndex: 10000, // Ensure it's on top
-                }}
-            >
-                <p style={{ color: "white", fontSize: "20px" }}>Processing...</p>
-            </div>
-        )}
+      {isDisabled && (
+        <div
+          className="camera-overlay"
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 10000, // Ensure it's on top
+          }}
+        >
+          <p style={{ color: "white", fontSize: "20px" }}>Processing...</p>
+        </div>
+      )}
       <div
         className="webcam-wrapper"
         style={{
@@ -390,7 +424,7 @@ const CameraCapture = ({ closeCamera, onResponseReceived , onApiLoading, isDisab
             border: "none",
             backgroundColor: isDisabled ? "#ccc" : "#1c75c4",
             color: "white",
-            cursor: isDisabled ? 'not-allowed' : "pointer",
+            cursor: isDisabled ? "not-allowed" : "pointer",
           }}
         >
           <FontAwesomeIcon icon={faCamera} style={{ marginRight: "5px" }} />

@@ -10,6 +10,7 @@ import RefreshHandler from './components/RefreshHandler';
 import CameraCapture from "./components/CameraCapture";
 import About from './components/About'; 
 import Contact from './components/Contact'; 
+import Getdata from './components/Getdata';
 
 // Helper function to update authentication state
 const updateAuthState = (setIsAuthenticated) => {
@@ -42,6 +43,7 @@ function App() {
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
+
         <Route 
           path="/home" 
           element={<PrivateRoute element={<Home />} />} 
@@ -57,6 +59,10 @@ function App() {
         <Route 
           path="/contact" 
           element={<PrivateRoute element={<Contact />} />} 
+        />
+            <Route 
+          path="/getdata" 
+          element={<PrivateRoute element={<Getdata />} />} 
         />
       </Routes>
       <Footer />

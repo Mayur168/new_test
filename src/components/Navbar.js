@@ -67,6 +67,11 @@ function Navbar({ isAuthenticated, handleLogout }) {
                       Contact
                     </a>
                   </li>
+                  <li className="nav-item">
+                   <Link className="nav-link" to="/getdata">
+                     Getdata
+                   </Link>
+                 </li>
                 </>
               ) : null}
             </ul>

@@ -902,13 +902,18 @@
 
 // export default Home;
 
-
 import React, { useEffect, useState } from "react";
 import About from "./About";
 import Contact from "./Contact";
 import CameraCapture from "./CameraCapture";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCamera, faUser, faCalendarAlt, faPills, faClock } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCamera,
+  faUser,
+  faCalendarAlt,
+  faPills,
+  faClock,
+} from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 
 const Home = () => {
@@ -918,8 +923,9 @@ const Home = () => {
   const [responseData, setResponseData] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editedResponseData, setEditedResponseData] = useState({});
-    const [isApiLoading, setIsApiLoading] = useState(false);
-    const [submitMessage, setSubmitMessage] = useState("");
+  const [isApiLoading, setIsApiLoading] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState("");
+  const [capturedImageSize, setCapturedImageSize] = useState(null);
 
   useEffect(() => {
     const user = localStorage.getItem("loggedInUser");
@@ -930,18 +936,21 @@ const Home = () => {
     setIsCameraVisible(true);
   };
 
-  const handleDataReceived = (data) => {
+  const handleDataReceived = async (data) => {
+    setIsApiLoading(true);
     setCapturedImage(data.image);
     setResponseData(data.response);
     setEditedResponseData(data.response);
     setIsCameraVisible(false);
-      setIsApiLoading(false); // Request complete
+    setIsApiLoading(false); // Request complete
+    calculateImageSize(data.image);
+
     console.log(data);
   };
-    const handleApiLoading = () => {
-        setIsApiLoading(true);
-    }
 
+  const handleApiLoading = () => {
+    setIsApiLoading(true);
+  };
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -949,76 +958,93 @@ const Home = () => {
 
   const handleCancelEdit = () => {
     setIsEditing(false);
-      setIsApiLoading(false);
-      setSubmitMessage(""); // Clear success message
+    setIsApiLoading(false);
+    setSubmitMessage(""); // Clear success message
   };
 
   const handleSaveEdit = async () => {
-        setIsApiLoading(true)
-        try {
-             await sendEditedDataToBackend(editedResponseData);
-             setResponseData(editedResponseData);
-            setIsEditing(false);
-             setIsApiLoading(false)
-            setSubmitMessage("Data saved successfully!"); // Show success message after post.
+    setIsApiLoading(true);
+    try {
+      await sendEditedDataToBackend(editedResponseData);
+      setResponseData(editedResponseData);
+      setIsEditing(false);
+      setIsApiLoading(false);
+      setSubmitMessage("Data saved successfully!"); // Show success message after post.
+    } catch (error) {
+      console.error("Error sending image to backend:", error);
+      setIsApiLoading(false);
+      setSubmitMessage("Failed to save data."); // Show failure message if post fails
+    }
+  };
+  const sendEditedDataToBackend = async (data) => {
+    try {
+      const response = await axios.post(
+        "https://django-imageprocessing-api.vercel.app/api/imageprocess/getdata/",
+        data
+      );
+      return response;
+    } catch (error) {
+      console.error("Error sending updated data to backend:", error);
+      throw error;
+    }
+  };
 
-        } catch (error) {
-            console.error("Error sending image to backend:", error);
-             setIsApiLoading(false);
-             setSubmitMessage("Failed to save data."); // Show failure message if post fails
-        }
-
-    };
-    const sendEditedDataToBackend = async (data) => {
-        try {
-            const response = await axios.post(
-              "https://django-imageprocessing-api.vercel.app/api/imageprocess/getdata/",
-                data
-            );
-             return response
-        } catch (error) {
-            console.error("Error sending updated data to backend:", error);
-            throw error;
-        }
-    };
-
+  const calculateImageSize = async (imageSrc) => {
+    try {
+      const response = await fetch(imageSrc);
+      const blob = await response.blob();
+      const sizeInBytes = blob.size;
+      const sizeInKB = sizeInBytes / 1024;
+      let formattedSize;
+      if (sizeInKB > 1024) {
+        formattedSize = (sizeInKB / 1024).toFixed(2) + " MB";
+      } else {
+        formattedSize = sizeInKB.toFixed(2) + " KB";
+      }
+      setCapturedImageSize(formattedSize);
+    } catch (error) {
+      console.error("Error calculating image size:", error);
+      setCapturedImageSize(null);
+    }
+  };
 
   const handleInputChange = (e, section, key) => {
-      const {value} = e.target;
-    setEditedResponseData(prevData => {
-        if(section === 'medications') {
-            const newMedications = prevData.medications.map((med, index) => {
-                if(index === parseInt(key)){
-                   return { ...med, name: value}
-                }
-                return med
-            });
-            return {...prevData, medications: newMedications}
-        } else {
-            return { ...prevData, [key]: value}
-        }
-
+    const { value } = e.target;
+    setEditedResponseData((prevData) => {
+      if (section === "medications") {
+        const newMedications = prevData.medications.map((med, index) => {
+          if (index === parseInt(key)) {
+            return { ...med, name: value };
+          }
+          return med;
+        });
+        return { ...prevData, medications: newMedications };
+      } else {
+        return { ...prevData, [key]: value };
+      }
     });
-  }
+  };
 
   const handleTimingChange = (e, medicationIndex, timingKey) => {
-      const isChecked = e.target.checked
-      setEditedResponseData(prevData => {
-          const newMedications = prevData.medications.map((med, index) => {
-             if (index === medicationIndex) {
-                 return { ...med, timing: {...med.timing, [timingKey]: isChecked}}
-             }
-              return med
-          })
-          return { ...prevData, medications: newMedications}
-      })
-  }
+    const isChecked = e.target.checked;
+    setEditedResponseData((prevData) => {
+      const newMedications = prevData.medications.map((med, index) => {
+        if (index === medicationIndex) {
+          return { ...med, timing: { ...med.timing, [timingKey]: isChecked } };
+        }
+        return med;
+      });
+      return { ...prevData, medications: newMedications };
+    });
+  };
+
 
   const handleRemoveImage = () => {
     setCapturedImage(null);
     setResponseData(null);
     setEditedResponseData({});
-      setIsApiLoading(false);
+    setIsApiLoading(false);
+    setCapturedImageSize(null); // Clear the size too
   };
 
   return (
@@ -1035,8 +1061,8 @@ const Home = () => {
         <CameraCapture
           closeCamera={() => setIsCameraVisible(false)}
           onResponseReceived={handleDataReceived}
-            onApiLoading = {handleApiLoading}
-            isDisabled = {isApiLoading}
+          onApiLoading={handleApiLoading}
+          isDisabled={isApiLoading}
         />
       )}
       {capturedImage && (
@@ -1044,6 +1070,9 @@ const Home = () => {
           <div className="home-captured-image-header">
             <h2 className="home-captured-image-title">Captured Image:</h2>
           </div>
+          {/* {capturedImageSize && (
+            <p style={{ textAlign: "center" }}>Size: {capturedImageSize}</p>
+          )} */}
 
           <img src={capturedImage} alt="Captured" className="home-captured-image" />
         </div>
@@ -1057,7 +1086,7 @@ const Home = () => {
               <form className="home-edit-form">
                 <div className="home-form-group">
                   <label className="home-form-label">
-                    <FontAwesomeIcon icon={faUser} className="home-icon"/>
+                    <FontAwesomeIcon icon={faUser} className="home-icon" />
                     Patient Name:
                   </label>
                   <input
@@ -1071,7 +1100,7 @@ const Home = () => {
                 </div>
                 <div className="home-form-group">
                   <label className="home-form-label">
-                    <FontAwesomeIcon icon={faCalendarAlt} className="home-icon"/>
+                    <FontAwesomeIcon icon={faCalendarAlt} className="home-icon" />
                     Date:
                   </label>
                   <input
@@ -1082,7 +1111,7 @@ const Home = () => {
                   />
                 </div>
                 <h3 className="home-medication-title">
-                  <FontAwesomeIcon icon={faPills} className="home-icon"/>
+                  <FontAwesomeIcon icon={faPills} className="home-icon" />
                   Medications:
                 </h3>
                 <ul className="home-medication-list">
@@ -1104,9 +1133,9 @@ const Home = () => {
                         </div>
                         <div className="home-medication-timing">
                           <label className="home-form-label">
-                            <FontAwesomeIcon icon={faClock} className="home-icon"/>
+                            <FontAwesomeIcon icon={faClock} className="home-icon" />
                             Timing:
-                             {Object.entries(medication.timing).map(
+                            {Object.entries(medication.timing).map(
                               ([key, value]) => (
                                 <label key={key} className="home-timing-label">
                                   <input
@@ -1131,7 +1160,7 @@ const Home = () => {
                   <button className="home-save-button" onClick={handleSaveEdit}>
                     submit
                   </button>
-                  
+
                   <button
                     className="home-cancel-button"
                     onClick={handleCancelEdit}
@@ -1172,14 +1201,23 @@ const Home = () => {
                   <button className="home-edit-button" onClick={handleEdit}>
                     Edit
                   </button>
-                   <button
-              className="home-remove-image-button"
-              onClick={handleRemoveImage}
-            >
-              Remove
-            </button> 
-            {submitMessage && <p style={{ textAlign: "center", marginTop: '10px', color: submitMessage.includes("Failed") ? "red" : "green" }}>{submitMessage}</p>}
-          
+                  <button
+                    className="home-remove-image-button"
+                    onClick={handleRemoveImage}
+                  >
+                    Remove
+                  </button>
+                  {submitMessage && (
+                    <p
+                      style={{
+                        textAlign: "center",
+                        marginTop: "10px",
+                        color: submitMessage.includes("Failed") ? "red" : "green",
+                      }}
+                    >
+                      {submitMessage}
+                    </p>
+                  )}
                 </div>
               </div>
             )}
@@ -1201,9 +1239,9 @@ const Home = () => {
               <h2>Why Choose Medilab</h2>
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Duis aute irure dolor in reprehenderit asperiores dolores sed
-                et. Tenetur quia eos. Autem tempore quibusdam vel necessitatibus
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis
+                aute irure dolor in reprehenderit asperiores dolores sed et.
+                Tenetur quia eos. Autem tempore quibusdam vel necessitatibus
                 optio ad corporis.
               </p>
               <a href="#about" className="learn-more-btn">
@@ -1215,7 +1253,10 @@ const Home = () => {
       </section>
 
       {/* About Section */}
-      <section id="about" style={{ padding: "50px 20px", backgroundColor: "#f8f9fa" }}>
+      <section
+        id="about"
+        style={{ padding: "50px 20px", backgroundColor: "#f8f9fa" }}
+      >
         <About />
       </section>
 
