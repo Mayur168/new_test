@@ -122,32 +122,32 @@ const Home = () => {
     }
   };
 
-  const sendImageToBackend = async (imageSrc) => {
-    try {
-      const accessToken = localStorage.getItem("accessToken");
-      const blob = await fetch(imageSrc).then((res) => res.blob());
-      const formData = new FormData();
-      formData.append("image", blob, "captured_image.jpg");
-      formData.append("action", "postPrescriptionRecord");
+  // const sendImageToBackend = async (imageSrc) => {
+  //   try {
+  //     const accessToken = localStorage.getItem("accessToken");
+  //     const blob = await fetch(imageSrc).then((res) => res.blob());
+  //     const formData = new FormData();
+  //     formData.append("image", blob, "captured_image.jpg");
+  //     formData.append("action", "postPrescriptionRecord");
 
-      const response = await axios.post(
-        "https://bharati-clinic-test.vercel.app/prescription/",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-      onResponseReceived({ image: imageSrc, response: response.data });
-    } catch (error) {
-      console.error("Error sending image to backend:", error);
-      handleError(
-        error.response?.data?.message || "An unexpected error occurred."
-      );
-    }
-  };
+  //     const response = await axios.post(
+  //       "https://bharati-clinic-test.vercel.app/prescription/",
+  //       formData,
+  //       {
+  //         headers: {
+  //           "Content-Type": "multipart/form-data",
+  //           Authorization: `Bearer ${accessToken}`,
+  //         },
+  //       }
+  //     );
+  //     onResponseReceived({ image: imageSrc, response: response.data });
+  //   } catch (error) {
+  //     console.error("Error sending image to backend:", error);
+  //     handleError(
+  //       error.response?.data?.message || "An unexpected error occurred."
+  //     );
+  //   }
+  // };
 
 
   const calculateImageSize = async (imageSrc) => {
