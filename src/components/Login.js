@@ -31,7 +31,8 @@ function Login() {
         setLoading(true); // Set loading to true before the request
 
         try {
-            const url = "https://hoteltest-six.vercel.app/users/login/";
+
+            const url = "https://bharati-clinic-test.vercel.app/users/login/";
 
             // Sending request using axios
             const response = await axios.post(url, loginInfo);

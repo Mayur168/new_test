@@ -1,193 +1,3 @@
-// import React, { useState, useRef, useEffect } from "react";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faCamera, faCameraRotate, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-// import axios from "axios";
-
-// const CameraCapture = ({ closeCamera, onResponseReceived }) => {
-//   const [stream, setStream] = useState(null);
-//   const [facingMode, setFacingMode] = useState("environment");
-//   const videoRef = useRef(null);
-
-
-//   const startCamera = async () => {
-//     try {
-//       const mediaStream = await navigator.mediaDevices.getUserMedia({
-//         video: {
-//           facingMode: facingMode,
-//           width: { ideal: 1280 },
-//           height: { ideal: 960 },
-//         },
-//         audio: false,
-//       });
-//       setStream(mediaStream);
-//       if (videoRef.current) {
-//         videoRef.current.srcObject = mediaStream;
-//       }
-//     } catch (error) {
-//       console.error("Error accessing the camera:", error);
-//       alert("Camera access failed. Please check permissions.");
-//     }
-//   };
-
-//   const stopCamera = () => {
-//     if (stream) {
-//       stream.getTracks().forEach((track) => track.stop());
-//     }
-//     setStream(null);
-//   };
-
-//   const switchCamera = () => {
-//     stopCamera();
-//     setFacingMode((prevMode) => (prevMode === "user" ? "environment" : "user"));
-//   };
-
-//   useEffect(() => {
-//     startCamera();
-//     return () => stopCamera();
-//   }, [facingMode]);
-
-//   const captureImage = async () => {
-//     if (videoRef.current) {
-//       const canvas = document.createElement("canvas");
-//       canvas.width = videoRef.current.videoWidth;
-//       canvas.height = videoRef.current.videoHeight;
-//       const context = canvas.getContext("2d");
-//       context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
-//       const imageSrc = canvas.toDataURL("image/jpeg");
-
-//         await sendImageToBackend(imageSrc);
-        
-//     }
-      
-//   };
-
-//   const sendImageToBackend = async (imageSrc) => {
-//       try {
-//           const blob = await fetch(imageSrc).then((res) => res.blob());
-//           const formData = new FormData();
-//           formData.append("image", blob, "captured_image.jpg");
-//           const response = await axios.post(
-//               "https://django-imageprocessing-api.vercel.app/api/imageprocess/getdata/",
-//               formData,
-//               {
-//                   headers: {
-//                       "Content-Type": "multipart/form-data",
-//                   },
-//               }
-//           );
-//            onResponseReceived({image: imageSrc, response: response.data});
-
-//           closeCamera();
-
-//       } catch (error) {
-//           console.error("Error sending image to backend:", error);
-//       }
-//   };
-
-//   return (
-//     <div
-//       className="camera-container"
-//       style={{
-//         position: "fixed",
-//         top: 0,
-//         left: 0,
-//         width: "100%",
-//         height: "100%",
-//         zIndex: 9999,
-//         backgroundColor: "black",
-//       }}
-//     >
-//       <div
-//         className="webcam-wrapper"
-//         style={{
-//           width: "100%",
-//           height: "100%",
-//           display: "flex",
-//           justifyContent: "center",
-//           alignItems: "center",
-//           position: "relative",
-//         }}
-//       >
-//         <video
-//           ref={videoRef}
-//           autoPlay
-//           playsInline
-//           muted
-//           style={{
-//             width: "100%",
-//             height: "100%",
-//             objectFit: "cover",
-//           }}
-//         ></video>
-
-//         <div
-//           className="camera-switch-overlay"
-//           onClick={switchCamera}
-//           style={{
-//             position: "absolute",
-//             top: "10px",
-//             right: "10px",
-//             color: "white",
-//             cursor: "pointer",
-//             zIndex: 1000,
-//           }}
-//         >
-//           <FontAwesomeIcon icon={faCameraRotate} size="2x" />
-//         </div>
-
-//         <div
-//           className="back-button"
-//           onClick={() => {
-//             stopCamera();
-//             closeCamera();
-//           }}
-//           style={{
-//             position: "absolute",
-//             top: "20px",
-//             left: "10px",
-//             color: "white",
-//             cursor: "pointer",
-//             zIndex: 1001,
-//             backgroundColor: "rgba(0, 0, 0, 0.5)",
-//             padding: "10px",
-//             borderRadius: "50%",
-//           }}
-//         >
-//           <FontAwesomeIcon icon={faArrowLeft} size="2x" />
-//         </div>
-//       </div>
-
-//       <div
-//         className="capture-button-container"
-//         style={{
-//           position: "absolute",
-//           bottom: "20px",
-//           left: "50%",
-//           transform: "translateX(-50%)",
-//         }}
-//       >
-//         <button
-//           className="capture-button"
-//           onClick={captureImage}
-//           style={{
-//             padding: "10px 20px",
-//             fontSize: "16px",
-//             borderRadius: "50px",
-//             border: "none",
-//             backgroundColor: "#1c75c4",
-//             color: "white",
-//             cursor: "pointer",
-//           }}
-//         >
-//           <FontAwesomeIcon icon={faCamera} style={{ marginRight: "5px" }} />
-//           Capture Photo
-//         </button>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default CameraCapture;
 
 import React, { useState, useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -197,6 +7,8 @@ import {
   faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import { handleError } from "../utils";
+
 
 const CameraCapture = ({
   closeCamera,
@@ -292,16 +104,23 @@ const CameraCapture = ({
 
   const sendImageToBackend = async (imageSrc) => {
     try {
+      const accessToken = localStorage.getItem('accessToken');
+
       const blob = await fetch(imageSrc).then((res) => res.blob());
       const formData = new FormData();
       formData.append("image", blob, "captured_image.jpg");
 
       const response = await axios.post(
-        "https://django-imageprocessing-api.vercel.app/api/imageprocess/getdata/",
+        
+        "https://bharati-clinic-test.vercel.app/prescription/imageprocess/",
+              //  "https://django-imageprocessing-api.vercel.app/api/imageprocess/getdata/",
+
         formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
+                    'Authorization': `Bearer ${accessToken}`,
+
           },
         }
       );

@@ -175,7 +175,6 @@ body {
 }
 
 /* Hero Section Styling */
-/* Hero Section Styling */
 .hero-section {
   position: relative;
    background-image: url('/assets/img/hero-bg (1).jpg'); 
@@ -961,19 +960,6 @@ button{
   justify-content: center;
 }
 
-/* .capture-button:hover {
-  background-color: #0056b3;
-  transform: translateX(-50%) scale(1.05);
-}
-
-.capture-button:active {
-  transform: translateX(-50%) scale(0.95);
-}
-
-.capture-button:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.4);
-} */
 
 /* Spinner */
 .spinner-container {
@@ -1126,24 +1112,6 @@ display: inline-block; /* So it only wraps the content */
   outline: none;
   box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.4);
 }
-
-
-/* capture image */
-/* .home-camera-button-container {
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.home-camera-toggle {
-  background-color: #1c75c4;
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
-} */
  
 .home-camera-button-container {
   position: fixed;
@@ -1386,55 +1354,53 @@ display: inline-block; /* So it only wraps the content */
   background-color: #de3434;
 }
 
-
-
-
-.home-remove-image-button {
-    padding: 6px 10px;
-    background-color: #e74c3c;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 10px;
-    transition: background-color 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    margin-left: auto; /* Push button to the right */
-}
-
-.home-remove-image-button:hover {
-    background-color: #c0392b;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-
 .home-details-text {
   margin-bottom: 10px;
   color: #555;
 }
+/* edit post cancle button */
+
+
 
 .home-edit-button-container {
-  margin-top: 15px;
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+  margin-right: 4px;                  
 }
 
-.home-edit-button {
-  padding: 10px 12px;
-  background-color: #1c75c4;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 10px;
-  transition: background-color 0.3s ease;
-  margin-left: 10px;
+.home-edit-button,
+.home-post-button,
+.home-remove-image-button {
+    background-color: transparent;
+  color: #3498db;
+    border: 1px solid #3498db;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+     transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    font-weight: 500;
+     font-size: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-.home-edit-button:hover {
-  background-color: #145a91;
+.home-edit-button:hover,
+.home-post-button:hover,
+.home-remove-image-button:hover {
+   background-color: #3498db;
+    color: white;
+     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add subtle shadow on hover */
+}
+/* Responsive adjustments */
+@media (max-width: 768px) {
+   .home-edit-button,
+   .home-post-button,
+   .home-remove-image-button {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
 }
 /* edit1 */
 
@@ -1453,6 +1419,8 @@ display: inline-block; /* So it only wraps the content */
 .home-edit-button-submit:hover {
   background-color: #145a91;
 }
+
+
 
 /* Media query for mobile screens */
 @media (max-width: 768px) {
@@ -1513,6 +1481,7 @@ display: inline-block; /* So it only wraps the content */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 /* Now in your css file of a component you can use this font like   font-family: 'Poppins', sans-serif; */
+
 .get-data-container {
   font-family: 'Poppins', sans-serif; /* Ensure your font is imported correctly */
   max-width: 800px; /* Adjust as needed */
@@ -1656,3 +1625,336 @@ display: inline-block; /* So it only wraps the content */
     color: #555;
     margin-top: 15px;
  }
+
+ /* pagging */
+
+ .pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px; /* Adjust as needed */
+}
+.pagination {
+   display: flex;
+   align-items: center;
+    justify-content: center;
+    margin-top: 10px; /* Adjust margin as needed */
+}
+
+.pagination-button {
+   background: none;
+   border: 1px solid #ccc;
+    padding: 8px 12px;
+    margin: 0 5px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    color: #333;
+}
+.pagination-button:disabled {
+    color: #bbb;
+    border-color: #ddd;
+    cursor: not-allowed;
+}
+.pagination-button:not(:disabled):hover {
+     background-color: #f0f0f0;
+}
+
+.page-number{
+    margin: 0 10px;
+   font-size: 1rem;
+    color: #333;
+}
+
+.date-form-container-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+    margin-top: 20px;
+}
+
+.filter-button-container{
+  margin-top: 20px;
+}
+
+.show-date-form-button {
+  background-color: #268b24b8;
+   border: none;
+  padding: 8px 12px;
+    border-radius: 4px;
+   cursor: pointer;
+    font-size: 1rem;
+    color: #e9ecef;
+   transition: all 0.3s ease;
+
+}
+.show-date-form-button:hover {
+  background-color: #e1e1e1;
+}
+
+.home-post-image-button {
+  background-color: #4CAF50; /* Green background */
+ color: white;
+  border: none;
+  padding: 10px 14px;
+  text-align: center;
+text-decoration: none;
+ display: inline-block;
+  font-size: 10px;
+  margin: 4px 2px;
+ cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+.home-post-image-button:hover {
+background-color: #45a049;
+}
+
+.home-post-image-submit {
+  padding: 10px 12px;
+  background-color: #189f13;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 10px;
+  transition: background-color 0.3s ease;
+  margin-left: 10px;
+}
+.home-post-image-button:hover {
+  background-color: #145a91;
+}
+
+/* edit data */
+
+
+.date-form-container-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+ margin-top: 20px;
+}
+
+.view-data-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+ font-size: 1.2rem;
+  color: #1c75c4;
+padding: 0 5px;
+}
+.detail-container {
+position: fixed;
+ top: 0;
+  left: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(0,0,0,0.5);
+display: flex;
+align-items: center;
+justify-content: center;
+  z-index: 1000;
+
+}
+.detail-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 600px;
+  max-width: 590px;
+  overflow-y: auto;
+  height: 657px;
+
+}
+
+.home-form-input {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  width: 100%;
+}
+.home-medication-title {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  color: #333;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Shared styles for both back buttons */
+.back-button,
+.date-back-button {
+    background-color: transparent;
+    color: #3498db;
+    border: 1px solid #3498db;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    font-weight: 500;
+    font-size: 14px;
+}
+.back-button:hover,
+.date-back-button:hover {
+    background-color: #3498db;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+ /* Responsive adjustments */
+@media (max-width: 768px) {
+   .back-button,
+   .date-back-button {
+        padding: 6px 10px;
+        font-size: 18px;
+    }
+}
+
+/* Specific styles for the date form back button container */
+.date-back-button-container {
+    position: absolute;
+    top: 153px;
+    left: 16px;
+    z-index: 100;
+}
+/* Specific styles for date back button */
+.date-back-button{
+ position: relative;
+}
+
+.middle-text {
+margin-left: 45px;}
+
+
+/* .back-to-home-button- */
+
+.back-to-home-button-container {
+  position: absolute;
+  bottom: 554px; /* Position at the bottom */
+  left: 12px;
+    z-index: 100;
+}
+
+.back-to-home-button {
+  background-color: transparent;
+    color: #3498db;
+    border: 1px solid #3498db; /* Add border */
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+     transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+     font-weight: 500;
+      font-size: 14px; /* Adjust font size as needed */
+
+}
+
+.back-to-home-button:hover {
+     background-color: #3498db;
+    color: white; /* Change color on hover */
+     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add subtle shadow on hover */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+   .back-to-home-button {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+}
+/* .success-message */
+
+.success-message-container {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%); /* Center horizontally */
+  background-color: #e8f5e9; /* Light green background */
+  color: #1b5e20; /* Dark green text */
+  padding: 15px 20px;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10000;
+  opacity: 0;
+  transform: translateX(-50%) translateY(-20px); /* Start above and centered horizontally */
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  white-space: nowrap; /* Prevent text from wrapping */
+   position: absolute;
+}
+
+.success-message-container.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.success-message-container::before {
+  content: '\2713'; /* Checkmark symbol */
+  font-size: 20px;
+  margin-right: 10px;
+  color: #388e3c; /* Slightly darker green for icon */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .success-message-container {
+      padding: 10px 15px;
+      font-size: 0.9em;
+       white-space: normal;
+     left:20px;
+       transform: translateX(0);
+  }
+   .success-message-container.show {
+      transform: translateY(0);
+       left:20px;
+  }
+
+  .success-message-container::before {
+      font-size: 18px;
+      margin-right: 8px;
+  }
+}
+
+/* home sucess model */
+.home-success-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+   /* background-color: rgba(0, 0, 0, 0.5); Remove this line */ /* Semi-transparent overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1001; /* Ensure it's above other elements */
+  pointer-events: none; /* Add this line */
+}
+
+.home-success-modal {
+  background-color: #2ecc71; /* set background to green */
+  color: #fff; /* set text color to white */
+  padding: 10px; /* Reduced the padding */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  animation: fadeIn 0.3s ease;
+   pointer-events: auto;
+     max-height: 100px; /* Set a max-height to prevent modal from becoming too large */
+    overflow-y: auto; /* Add scroll if content exceeds max height */
+}
+
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+       transform: translateY(-20px);
+  }
+  to {
+      opacity: 1;
+        transform: translateY(0);
+  }
+}

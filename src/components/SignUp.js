@@ -1,21 +1,20 @@
+
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";  // Import axios
+import axios from "axios";
 import { handleError, handleSuccess } from "../utils";
 
 function SignUp() {
   const [signupInfo, setsignupInfo] = useState({
     first_name: "",
-    last_name: "test",          
+    last_name: "",
+    phone: "",
     email: "",
     password: "",
-    confirm_password:"1234",
-    phone: "7447849995",  
-    is_customer: true,          
-    is_receptionist: false,     
-    is_hotelowner: false,       
+    confirm_password: "",
+     
   });
 
   const navigate = useNavigate();
@@ -27,44 +26,36 @@ function SignUp() {
 
   const handleSignup = async (e) => {
     e.preventDefault();
-    console.log(signupInfo);  // Log the data being sent
+    console.log(signupInfo);
 
-    const { first_name, email, password } = signupInfo;
+    const { first_name, email, password, confirm_password } = signupInfo;
 
-    // Validation
-    if (!first_name || !email || !password) {
-      return handleError("First name, email, and password are required.");
-    }
+      if (!first_name || !email || !password || !confirm_password) {
+          return handleError("All fields are required.");
+      }
+      if(password !== confirm_password) {
+          return handleError("Passwords do not match.");
+      }
 
     try {
-      const url = "https://hoteltest-six.vercel.app/users/register/";
+      const url = "https://bharati-clinic-test.vercel.app/users/register/";
 
-      // Making the POST request using axios
       const response = await axios.post(url, signupInfo, {
         headers: {
           "Content-Type": "application/json",
         },
       });
-      console.log(response.data); // Log the API response
+      console.log(response.data);
 
-
-      // const { success, message } = response.data;
 
       if (response.data.access) {
-
-        handleSuccess("Registered successfull");
-        console.log("Navigating to login...");
-        setTimeout(() => {
-          console.log("Navigating to Home page...");
-          navigate("/login");
-          console.log("after Navigating to Home page...");
-        }, 500);
-        // navigate("/login");
-        console.log("Navigation called.");
+          handleSuccess("Registered successfully!");
+          setTimeout(() => {
+              navigate("/login");
+          }, 500);
       }
-
     } catch (err) {
-      handleError(err.response?.data?.message || "An unexpected error occurred.");
+        handleError(err.response?.data?.message || "An unexpected error occurred.");
     }
   };
 
@@ -81,6 +72,18 @@ function SignUp() {
               name="first_name"
               value={signupInfo.first_name}
               placeholder="Enter your first name..."
+             required
+            />
+          </div>
+
+          <div>
+            <label htmlFor="last_name">Last Name</label>
+            <input
+              onChange={handleChange}
+              type="text"
+              name="last_name"
+              value={signupInfo.last_name}
+              placeholder="Enter your last name..."
             />
           </div>
 
@@ -92,7 +95,18 @@ function SignUp() {
               name="email"
               value={signupInfo.email}
               placeholder="Enter your email..."
+              required
             />
+          </div>
+        <div>
+            <label htmlFor="phone">Phone</label>
+            <input
+                onChange={handleChange}
+                type="text"
+                name="phone"
+                value={signupInfo.phone}
+                placeholder="Enter your phone number..."
+              />
           </div>
 
           <div>
@@ -103,15 +117,21 @@ function SignUp() {
               name="password"
               value={signupInfo.password}
               placeholder="Enter your password..."
+             required
             />
           </div>
 
-          {/* Hidden fields with default values */}
-          <input type="hidden" name="last_name" value={signupInfo.last_name} />
-          <input type="hidden" name="phone" value={signupInfo.phone} />
-          <input type="hidden" name="is_customer" value={signupInfo.is_customer} />
-          <input type="hidden" name="is_receptionist" value={signupInfo.is_receptionist} />
-          <input type="hidden" name="is_hotelowner" value={signupInfo.is_hotelowner} />
+          <div>
+            <label htmlFor="confirm_password">Confirm Password</label>
+            <input
+              onChange={handleChange}
+              type="password"
+              name="confirm_password"
+              value={signupInfo.confirm_password}
+              placeholder="Confirm your password..."
+             required
+            />
+          </div>
 
           <button className="submit-button" type="submit">
             Signup
