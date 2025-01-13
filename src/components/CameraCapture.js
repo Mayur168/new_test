@@ -1,4 +1,5 @@
 
+
 import React, { useState, useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -61,20 +62,49 @@ const CameraCapture = ({
   const captureImage = async () => {
     if (videoRef.current && !isDisabled && !isCapturing) {
       setIsCapturing(true);
+      
       const video = videoRef.current;
       const canvas = document.createElement("canvas");
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
       const context = canvas.getContext("2d");
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
+  
+      // Stop the camera stream after capturing the image
+      stopCamera();
+  
       // Compress the image using canvas
       const compressedImageSrc = await compressImage(canvas, 100); // Target 100KB
-
+  
+      // Notify API loading
       onApiLoading();
+  
+      // Send the captured and compressed image to the backend
       await sendImageToBackend(compressedImageSrc);
+  
+      // Reset capture state
+      setIsCapturing(false);
     }
   };
+  
+
+  // const captureImage = async () => {
+  //   if (videoRef.current && !isDisabled && !isCapturing) {
+  //     setIsCapturing(true);
+  //     const video = videoRef.current;
+  //     const canvas = document.createElement("canvas");
+  //     canvas.width = video.videoWidth;
+  //     canvas.height = video.videoHeight;
+  //     const context = canvas.getContext("2d");
+  //     context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+  //     // Compress the image using canvas
+  //     const compressedImageSrc = await compressImage(canvas, 100); // Target 100KB
+
+  //     onApiLoading();
+  //     await sendImageToBackend(compressedImageSrc);
+  //   }
+  // };
 
   const compressImage = (canvas, targetSizeKB) => {
     return new Promise((resolve) => {
@@ -125,9 +155,13 @@ const CameraCapture = ({
         }
       );
         onResponseReceived({ image: imageSrc, response: response.data });
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth", // Smooth scrolling animation
+        });
     } catch (error) {
       console.error("Error sending image to backend:", error);
-      setIsCapturing(false); // reset capture after failure
+        setIsCapturing(false); // reset capture after failure
     }
   };
 
@@ -191,14 +225,14 @@ const CameraCapture = ({
           onClick={switchCamera}
           style={{
             position: "absolute",
-            top: "10px",
+            top: "20px",
             right: "10px",
             color: "white",
             cursor: "pointer",
             zIndex: 1000,
           }}
         >
-          <FontAwesomeIcon icon={faCameraRotate} size="2x" />
+          <FontAwesomeIcon icon={faCameraRotate} size="1x" />
         </div>
 
         <div
@@ -219,7 +253,7 @@ const CameraCapture = ({
             borderRadius: "50%",
           }}
         >
-          <FontAwesomeIcon icon={faArrowLeft} size="2x" />
+          <FontAwesomeIcon icon={faArrowLeft} size="1x" />
         </div>
       </div>
 

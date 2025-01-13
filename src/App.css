@@ -1833,7 +1833,7 @@ margin-left: 45px;}
 
 .back-to-home-button-container {
   position: absolute;
-  bottom: 554px; /* Position at the bottom */
+  bottom: 586px; /* Position at the bottom */
   left: 12px;
     z-index: 100;
 }
@@ -1848,8 +1848,8 @@ margin-left: 45px;}
      transition: all 0.3s ease;
     display: inline-flex;
     align-items: center;
-     font-weight: 500;
-      font-size: 14px; /* Adjust font size as needed */
+     font-weight: 600;
+      font-size: 10px; /* Adjust font size as needed */
 
 }
 
@@ -1862,8 +1862,8 @@ margin-left: 45px;}
 /* Responsive adjustments */
 @media (max-width: 768px) {
    .back-to-home-button {
-        padding: 6px 10px;
-        font-size: 12px;
+        padding: 4px 8px;
+        font-size: 10px;
     }
 }
 /* .success-message */
