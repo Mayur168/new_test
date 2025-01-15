@@ -1234,7 +1234,7 @@ function Getdata() {
         </div>
       )}
 
-      <h1 className="mb-4 text-center">Get Data</h1>
+      <h1 className="mb-4 text-center">Patient Details</h1>
       {/* slide one */}
       {!showFilterSlide && (
         <div className="mt-4 text-center">
@@ -1256,14 +1256,14 @@ function Getdata() {
             </div>
           
           <div className="table-header">
-            <h2 className="mb-3">Prescription Data</h2>
+            <h2 className="mb-3"style={{ fontWeight: 400 }}>Prescription Data</h2>
             <div className="back-to-home-button-container">
               <button
                 className="back-to-home-button"
                 onClick={handleBackToHome}
               >
-                Back to Home
-              </button>
+                  <FaArrowLeft />
+                  </button>
             </div>
           </div>
           <div className="table-responsive">
