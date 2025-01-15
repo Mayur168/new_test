@@ -1841,7 +1841,7 @@ margin-left: 81px;} */
   font-size: 26px; /* Larger font size for prominence */
   text-align: center;
   color: #0b3669; /* Rich blue color */
-  margin: -55px; /* No margin for proper alignment */
+  margin: 1px; /* No margin for proper alignment */
   padding: 10px 0; /* Spacing for clarity */
   letter-spacing: 1.2px; /* Slightly increase spacing for elegance */
   font-weight: 400; /* Make the font weight slightly bold */
@@ -1996,3 +1996,4 @@ margin-left: 81px;} */
 .download-all-button:hover {
   background-color: #218838;
 }
+
