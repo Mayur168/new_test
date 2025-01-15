@@ -149,7 +149,7 @@ function Navbar({ isAuthenticated, handleLogout }) {
                 fontWeight: "bold",
               }}
             >
-              Bharti Neuropsychiatry Hospital
+              Bharti Hospital
             </Link>
 
             {/* Navbar Toggler for mobile */}

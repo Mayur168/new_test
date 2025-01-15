@@ -1813,7 +1813,7 @@ justify-content: center;
 /* Specific styles for the date form back button container */
 .date-back-button-container {
     position: absolute;
-    top: 153px;
+    top: 135px;
     left: 16px;
     z-index: 100;
 }
@@ -1850,12 +1850,12 @@ margin-left: 81px;} */
 /* .back-to-home-button- */
 
 .back-to-home-button-container {
-  position: absolute;
-  bottom: 569px; /* Position at the bottom */
-  left: 12px;
+  
+    position: absolute;
+    top: 135px;
+    left: 16px;
     z-index: 100;
-    padding: 6px 8px;
-    font-size: 13px;
+
 }
 
 .back-to-home-button {
@@ -1882,7 +1882,7 @@ margin-left: 81px;} */
 /* Responsive adjustments */
 @media (max-width: 768px) {
    .back-to-home-button {
-        padding:  8px;
+        padding:  11px;
         font-size: 10px;
     }
 }
@@ -1985,7 +1985,7 @@ margin-left: 81px;} */
   background-color: #28a745;
   color: white;
   border: none;
-  padding: 10px 12px;
+  padding: 9px 12px;
   border-radius: 5px;
   cursor: pointer;
   font-size: 8px;
@@ -1998,7 +1998,7 @@ margin-left: 81px;} */
 }
 .filter-download-container {
   margin-top: -10px; /* Adjust negative value as needed */
-  font-size: 8px;
+  font-size: 12px;
   margin-bottom: 7px; /* Adjust the gap as needed */
 
 }
