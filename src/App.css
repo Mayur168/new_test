@@ -1825,9 +1825,30 @@ justify-content: center;
  position: relative;
 }
 
-.middle-text {
-margin-left: 45px;}
+/* .middle-text {
+margin-left: 81px;} */
+.header-container {
+  text-align: center;
+  margin: 0; /* Remove any default margin */
+  padding: 10px 0; /* Optional padding for spacing */
+  position: relative; /* Ensures proper positioning for elements within */
+  top: 0; /* Keep the title at the top */
+}
 
+
+.header-container .middle-text {
+  font-family: 'Playfair Display', serif; /* Choose a rich serif font */
+  font-size: 26px; /* Larger font size for prominence */
+  text-align: center;
+  color: #0b3669; /* Rich blue color */
+  margin: -55px; /* No margin for proper alignment */
+  padding: 10px 0; /* Spacing for clarity */
+  letter-spacing: 1.2px; /* Slightly increase spacing for elegance */
+  font-weight: 400; /* Make the font weight slightly bold */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  font-weight: 400; /* Bold text */
+
+}
 
 /* .back-to-home-button- */
 
@@ -1870,7 +1891,7 @@ margin-left: 45px;}
 
 .success-message-container {
   position: fixed;
-  top: 20px;
+  top: 60px;
   left: 50%;
   transform: translateX(-50%); /* Center horizontally */
   background-color: #e8f5e9; /* Light green background */
@@ -1957,4 +1978,21 @@ margin-left: 45px;}
       opacity: 1;
         transform: translateY(0);
   }
+}
+
+/* download all data  */
+
+.download-all-button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-left: 10px;
+}
+
+.download-all-button:hover {
+  background-color: #218838;
 }

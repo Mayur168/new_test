@@ -144,12 +144,12 @@ function Navbar({ isAuthenticated, handleLogout }) {
               to="/"
               style={{
                 color: "#2c4964",
-                fontSize: "40px",
+                fontSize: "20px",
                 fontFamily: "Poppins, sans-serif",
                 fontWeight: "bold",
               }}
             >
-              Doctor
+              Bharti Neuropsychiatry Hospital
             </Link>
 
             {/* Navbar Toggler for mobile */}
