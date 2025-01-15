@@ -1854,7 +1854,7 @@ margin-left: 81px;} */
 
 .back-to-home-button-container {
   position: absolute;
-  bottom: 586px; /* Position at the bottom */
+  bottom: 602px; /* Position at the bottom */
   left: 12px;
     z-index: 100;
 }
@@ -1986,7 +1986,7 @@ margin-left: 81px;} */
   background-color: #28a745;
   color: white;
   border: none;
-  padding: 5px 10px;
+  padding: 5px 8px;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
