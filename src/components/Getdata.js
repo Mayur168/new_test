@@ -2097,6 +2097,14 @@ function Getdata() {
       Date: item.prescription_date,
       Medications: item.medications.map((med) => med.name).join(", "),
       Timing: item.medications.map((med) => getTimingText(med)).join(", "),
+      "Age": item.age || 'N/A',
+      "Gender": item.gender || 'N/A',
+      "Weight": item.weight || 'N/A',
+      "Blood Pressure": item.bp || 'N/A',
+      "Complaint Section": item.complaints ? item.complaints.join("; ") : 'N/A',
+     "Follow Up Date": item.follow_up_date || 'N/A',
+     "Address": item.place || 'N/A',
+
     }));
     const worksheet = XLSX.utils.json_to_sheet(exportData);
     const workbook = XLSX.utils.book_new();
@@ -2134,7 +2142,9 @@ function Getdata() {
         "Gender": item.gender || 'N/A',
         "Weight": item.weight || 'N/A',
         "Blood Pressure": item.bp || 'N/A',
-        "Complaint Section": item.complaints || 'N/A',
+        // "Complaint Section": item.complaints || 'N/A',
+        "Complaint Section": item.complaints ? item.complaints.join(", ") : 'N/A',
+
         "Follow Up Date": item.follow_up_date || 'N/A',
         "Address": item.place || 'N/A',
       }));
@@ -2435,7 +2445,7 @@ function Getdata() {
                     <td>{item.gender || "N/A"}</td>
                     <td>{item.weight || "N/A"}</td>
                     <td>{item.bp || "N/A"}</td>
-                    <td>{item.complaints || "N/A"}</td>
+                    <td>{item.complaints ? item.complaints.join("; ") : "N/A"}</td>
                     <td>{item.follow_up_date || "N/A"}</td>
                     <td>{item.place || "N/A"}</td>
                     <td>
@@ -2571,7 +2581,8 @@ function Getdata() {
                       <td>{item.gender || "N/A"}</td>
                       <td>{item.weight || "N/A"}</td>
                       <td>{item.bp || "N/A"}</td>
-                      <td>{item.complaints || "N/A"}</td>
+                      <td>{item.complaints ? item.complaints.join("; ") : "N/A"}
+                      </td>
                       <td>{item.follow_up_date || "N/A"}</td>
                       <td>{item.place || "N/A"}</td>
                       <td>
@@ -2711,7 +2722,11 @@ function Getdata() {
                        type="text"
                       className="home-form-input"
                         style={{ zIndex: 10000 }}
-                        value={editFormData?.complaints || ""}
+                        value={
+                          editFormData?.complaints
+                            ? editFormData.complaints.join("; ")
+                            : ""
+                        } 
                         onChange={(e) => handleInputChange(e, "complaints")}
                       />
                     </div>
@@ -2826,8 +2841,11 @@ function Getdata() {
                 <strong>Blood Pressure:</strong> {selectedData.bp || 'N/A'}
               </p>
               <p className="prescription">
-                <strong>Complaint Section:</strong> {selectedData.complaints || 'N/A'}
-              </p>
+                  <strong>Complaint Section:</strong>{" "}
+                  {selectedData.complaints
+                    ? selectedData.complaints.join("; ")
+                    : "N/A"}
+                </p>
               <p className="prescription">
                 <strong>Follow Up Date:</strong> {selectedData.follow_up_date || 'N/A'}
               </p>
