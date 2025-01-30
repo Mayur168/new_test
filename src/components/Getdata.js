@@ -1112,7 +1112,7 @@ function Getdata() {
             weight: item.weight || 'N/A',
             place: item.place || 'N/A',
             bp: item.bp || 'N/A',
-            follow_up_date: item.follow_up_date || 'N/A',
+            follow_up_date: item.follow_up_date || '',
             Date: item.prescription_date || 'N/A',
 
          }));
@@ -1159,7 +1159,7 @@ function Getdata() {
             weight: item.weight || 'N/A',
             place: item.place || 'N/A',
             bp: item.bp || 'N/A',
-            follow_up_date: item.follow_up_date || 'N/A',
+            follow_up_date: item.follow_up_date || '',
             Date: item.prescription_date || 'N/A',
 
          }));
@@ -1256,7 +1256,7 @@ function Getdata() {
     }
     const exportData = downloadData.map((item) => ({
       "Patient Name": item.patient_name,
-      Date: item.prescription_date,
+      "prescription-Date": item.prescription_date,
       Medications: item.medications.map((med) => med.name).join(", "),
       Timing: item.medications.map((med) => getTimingText(med)).join(", "),
       "Age": item.age || 'N/A',
@@ -1264,7 +1264,7 @@ function Getdata() {
       "Weight": item.weight || 'N/A',
       "Blood Pressure": item.bp || 'N/A',
       "Complaint Section": item.complaints || 'N/A',
-      "Follow Up Date": item.follow_up_date || 'N/A',
+      "Follow Up Date": item.follow_up_date || '',
       "Address": item.place || 'N/A',
     }));
     const worksheet = XLSX.utils.json_to_sheet(exportData);
@@ -1296,7 +1296,7 @@ function Getdata() {
       
       const exportData = data.map((item) => ({
         "Patient Name": item.patient_name,
-        Date: item.prescription_date,
+        "prescription-Date": item.prescription_date,
         Medications: item.medications.map((med) => med.name).join(", "),
         Timing: item.medications.map((med) => getTimingText(med)).join(", "),
          "Age": item.age || 'N/A',
@@ -1304,7 +1304,7 @@ function Getdata() {
         "Weight": item.weight || 'N/A',
         "Blood Pressure": item.bp || 'N/A',
         "Complaint Section": item.complaints ? (Array.isArray(item.complaints) ? item.complaints.join(", ") : item.complaints) : 'N/A',   
-        "Follow Up Date": item.follow_up_date || 'N/A',
+        "Follow Up Date": item.follow_up_date || '',
         "Address": item.place || 'N/A',
       }));
       const worksheet = XLSX.utils.json_to_sheet(exportData);
@@ -1620,7 +1620,7 @@ function Getdata() {
                     <td>{item.weight || "N/A"}</td>
                     <td>{item.bp || "N/A"}</td>
                     <td>{item.complaints ? (Array.isArray(item.complaints) ? item.complaints.join(", ") : item.complaints) : "N/A"}</td>
-                    <td>{item.follow_up_date || "N/A"}</td>
+                    <td>{item.follow_up_date || ""}</td>
                     <td>{item.place || "N/A"}</td>
                     <td>
                       <button
@@ -2013,7 +2013,7 @@ function Getdata() {
                   {selectedData.complaints ? (Array.isArray(selectedData.complaints) ? selectedData.complaints.join(", ") : selectedData.complaints) : "N/A"}
                 </p>
               <p className="prescription">
-                <strong>Follow Up Date:</strong> {selectedData.follow_up_date || 'N/A'}
+                <strong>Follow Up Date:</strong> {selectedData.follow_up_date || ''}
               </p>
               <p className="prescription">
                 <strong>Address:</strong> {selectedData.place || 'N/A'}

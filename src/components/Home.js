@@ -767,8 +767,8 @@ const Home = () => {
                         <input
                             type="text"
                             className="home-form-input"
-                            value={editedResponseData?.Gender || ""}
-                            onChange={(e) => handleInputChange(e, null, "Gender")}
+                            value={editedResponseData?.gender || ""}
+                            onChange={(e) => handleInputChange(e, null, "gender")}
                         />
                     </div>
                   <div className="home-form-group">
@@ -791,8 +791,8 @@ const Home = () => {
                         <input
                             type="text"
                             className="home-form-input"
-                            value={editedResponseData?.Weight || ""}
-                            onChange={(e) => handleInputChange(e, null, "Weight")}
+                            value={editedResponseData?.weight || ""}
+                            onChange={(e) => handleInputChange(e, null, "weight")}
                         />
                     </div>
                       <div className="home-form-group">
@@ -803,8 +803,8 @@ const Home = () => {
                           <input
                               type="text"
                               className="home-form-input"
-                              value={editedResponseData["B/P"] || ""}
-                              onChange={(e) => handleInputChange(e, null, "B/P")}
+                              value={editedResponseData?.bp || ""}
+                              onChange={(e) => handleInputChange(e, null, "bp")}
                           />
                       </div>
 
@@ -816,8 +816,8 @@ const Home = () => {
                         <input
                             type="text"
                             className="home-form-input"
-                            value={editedResponseData?.Place || ""}
-                            onChange={(e) => handleInputChange(e, null, "Place")}
+                            value={editedResponseData?.place || ""}
+                            onChange={(e) => handleInputChange(e, null, "place")}
                         />
                     </div>
                       <div className="home-form-group">
@@ -831,8 +831,8 @@ const Home = () => {
                           <input
                               type="text"
                               className="home-form-input"
-                              value={editedResponseData?.date || ""}
-                              onChange={(e) => handleInputChange(e, null, "date")}
+                              value={editedResponseData?.prescription_date }
+                              onChange={(e) => handleInputChange(e, null, "prescription_date")}
                           />
                       </div>
                       <div className="home-form-group">
@@ -846,7 +846,7 @@ const Home = () => {
                           <input
                               type="text"
                               className="home-form-input"
-                              value={editedResponseData?.follow_up_date || "0000-00-00"}
+                              value={editedResponseData?.follow_up_date || ""}
                               onChange={(e) => handleInputChange(e, null, "follow_up_date")}
                           />
                       </div>
@@ -966,10 +966,10 @@ const Home = () => {
                         <strong>Place:</strong> {responseData?.place || "N/A"}
                     </p>
                      <p className="home-details-text">
-                        <strong>Prescription Date:</strong> {responseData?.date || "N/A"}
+                        <strong>Prescription Date:</strong> {responseData?.prescription_date }
                     </p>
                      <p className="home-details-text">
-                        <strong>Follow up date:</strong> {responseData?.follow_up_date || "0000-00-00"}
+                        <strong>Follow up date:</strong> {responseData?.follow_up_date }
                     </p>
 
 
