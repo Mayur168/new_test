@@ -187,7 +187,7 @@ function Navbar({ isAuthenticated, handleLogout }) {
                     </li>
                     <li className="nav-item">
                       <Link className="nav-link" to="/getdata" onClick={handleNavLinkClick}>
-                        Getdata
+                        PatientData
                       </Link>
                     </li>
                   </>

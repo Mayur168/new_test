@@ -826,7 +826,7 @@ const Home = () => {
                                   icon={faCalendarAlt}
                                   className="home-icon"
                               />
-                              Date:
+                              Prescription Date:
                           </label>
                           <input
                               type="text"
@@ -846,13 +846,13 @@ const Home = () => {
                           <input
                               type="text"
                               className="home-form-input"
-                              value={editedResponseData?.["Follow up date"] || ""}
-                              onChange={(e) => handleInputChange(e, null, "Follow up date")}
+                              value={editedResponseData?.follow_up_date || "0000-00-00"}
+                              onChange={(e) => handleInputChange(e, null, "follow_up_date")}
                           />
                       </div>
 
 
-                <div className="home-form-group">
+                {/* <div className="home-form-group">
                   <label className="home-form-label">
                     <FontAwesomeIcon
                       icon={faCalendarAlt}
@@ -866,7 +866,7 @@ const Home = () => {
                     value={editedResponseData?.prescription_date || ""}
                     onChange={(e) => handleInputChange(e, null, "prescription_date")}
                   />
-                </div>
+                </div>  */}
                  <div className="home-form-group">
                         <label className="home-form-label">
                             <FontAwesomeIcon icon={faUser} className="home-icon" />
@@ -951,31 +951,31 @@ const Home = () => {
                         <strong>Patient Name:</strong> {responseData?.patient_name || "N/A"}
                     </p>
                     <p className="home-details-text">
-                        <strong>Gender:</strong> {responseData?.Gender || "N/A"}
+                        <strong>Gender:</strong> {responseData?.gender || ""}
                     </p>
                     <p className="home-details-text">
                         <strong>Age:</strong> {responseData?.age || "N/A"}
                     </p>
                     <p className="home-details-text">
-                        <strong>Weight:</strong> {responseData?.Weight || "N/A"}
+                        <strong>Weight:</strong> {responseData?.weight || "N/A"}
                     </p>
                     <p className="home-details-text">
-                        <strong>B/P:</strong> {responseData?.["B/P"] || "N/A"}
+                        <strong>B/P:</strong> {responseData?.bp || "N/A"}
                     </p>
                    <p className="home-details-text">
-                        <strong>Place:</strong> {responseData?.Place || "N/A"}
+                        <strong>Place:</strong> {responseData?.place || "N/A"}
                     </p>
                      <p className="home-details-text">
-                        <strong>Date:</strong> {responseData?.date || "N/A"}
+                        <strong>Prescription Date:</strong> {responseData?.date || "N/A"}
                     </p>
                      <p className="home-details-text">
-                        <strong>Follow up date:</strong> {responseData?.["Follow up date"] || "N/A"}
+                        <strong>Follow up date:</strong> {responseData?.follow_up_date || "0000-00-00"}
                     </p>
 
 
-                  <p className="home-details-text">
+                   {/* <p className="home-details-text">
                     <strong>Prescription Date:</strong> {responseData?.prescription_date || "N/A"}
-                  </p>
+                  </p>  */}
 
                 <p className="home-details-text">
                   <strong>Complaints:</strong> {responseData?.complaints || "N/A"}
