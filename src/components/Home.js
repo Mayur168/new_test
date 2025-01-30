@@ -1,6 +1,3 @@
-
-
-
 // import React, { useEffect, useState } from "react";
 // import About from "./About";
 // import Contact from "./Contact";
@@ -222,7 +219,6 @@
 //       handleError("No data to post. Please capture an image first.");
 //     }
 //   };
-
 
 //   const renderSuccessModal = () => {
 //       if (!showSuccess) return null;
@@ -479,7 +475,7 @@ import {
   faWeight,
   faHeartPulse,
   faLocationDot,
-  faCalendarDay
+  faCalendarDay,
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -496,7 +492,7 @@ const Home = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [capturedImageSize, setCapturedImageSize] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const user = localStorage.getItem("loggedInUser");
@@ -508,50 +504,48 @@ const Home = () => {
   };
 
   const handleDataReceived = async (data) => {
-      setIsApiLoading(true);
-      setCapturedImage(data.image);
-      setResponseData(data.response);
-      setEditedResponseData({ ...data.response, id: data.response.id });
-      setIsCameraVisible(false);
-      setIsApiLoading(false);
-      calculateImageSize(data.image);
+    setIsApiLoading(true);
+    setCapturedImage(data.image);
+    setResponseData(data.response);
+    setEditedResponseData({ ...data.response, id: data.response.id });
+    setIsCameraVisible(false);
+    setIsApiLoading(false);
+    calculateImageSize(data.image);
   };
-
 
   const handleApiLoading = () => {
     setIsApiLoading(true);
   };
 
-    const handleEdit = async () => {
+  const handleEdit = async () => {
     setIsApiLoading(true);
     try {
       setIsEditing(true);
       setIsApiLoading(false);
     } catch (error) {
       console.error("Error getting the data:", error);
-        setIsApiLoading(false);
+      setIsApiLoading(false);
       handleError(
         error.response?.data?.message || "An unexpected error occurred."
       );
     }
   };
 
-
   const handleCancelEdit = () => {
-      setIsEditing(false);
+    setIsEditing(false);
     setIsApiLoading(false);
-      setSuccessMessage("");
+    setSuccessMessage("");
   };
 
-    const handleSaveEdit = async () => {
+  const handleSaveEdit = async () => {
     setIsApiLoading(true);
     try {
       const response = await sendEditedDataToBackend(editedResponseData);
       if (response && response.data) {
         setResponseData(editedResponseData);
         setIsEditing(false);
-          setIsApiLoading(false);
-          setSuccessMessage("Data saved successfully.");
+        setIsApiLoading(false);
+        setSuccessMessage("Data saved successfully.");
         setShowSuccess(true); // Show the success message
         setTimeout(() => {
           setShowSuccess(false);
@@ -559,19 +553,18 @@ const Home = () => {
         }, 2000);
       } else {
         setIsApiLoading(false);
-          setSuccessMessage("Failed to save data.");
-          handleError("An unexpected error occurred during saving.");
+        setSuccessMessage("Failed to save data.");
+        handleError("An unexpected error occurred during saving.");
       }
     } catch (error) {
       console.error("Error sending image to backend:", error);
       setIsApiLoading(false);
-        setSuccessMessage("Failed to save data.");
+      setSuccessMessage("Failed to save data.");
       handleError(
         error.response?.data?.message || "An unexpected error occurred."
       );
     }
   };
-
 
   const sendEditedDataToBackend = async (data) => {
     try {
@@ -612,40 +605,42 @@ const Home = () => {
       setCapturedImageSize(null);
     }
   };
-    const handleInputChange = (e, section, key) => {
-        const { value } = e.target;
-        setEditedResponseData((prevData) => {
-            if (section === "medications") {
-                const newMedications = prevData.medications.map((med, index) => {
-                    if (index === parseInt(key)) {
-                        return { ...med, name: value };
-                    }
-                    return med;
-                });
-                return { ...prevData, medications: newMedications };
-            } else {
-                return { ...prevData, [key]: value };
-            }
+  const handleInputChange = (e, section, key) => {
+    const { value } = e.target;
+    setEditedResponseData((prevData) => {
+      if (section === "medications") {
+        const newMedications = prevData.medications.map((med, index) => {
+          if (index === parseInt(key)) {
+            return { ...med, name: value };
+          }
+          return med;
         });
-    };
+        return { ...prevData, medications: newMedications };
+      } else {
+        return { ...prevData, [key]: value };
+      }
+    });
+  };
 
-
-    const handleTimingChange = (e, medicationIndex, timingKey) => {
-        const isChecked = e.target.checked;
-        setEditedResponseData((prevData) => {
-            if (!prevData || !prevData.medications || !prevData.medications[medicationIndex]) {
-                return prevData;
-            }
-            const newMedications = prevData.medications.map((med, index) => {
-                if (index === medicationIndex) {
-                    return { ...med, timing: { ...med.timing, [timingKey]: isChecked } };
-                }
-                return med;
-            });
-            return { ...prevData, medications: newMedications };
-        });
-    };
-
+  const handleTimingChange = (e, medicationIndex, timingKey) => {
+    const isChecked = e.target.checked;
+    setEditedResponseData((prevData) => {
+      if (
+        !prevData ||
+        !prevData.medications ||
+        !prevData.medications[medicationIndex]
+      ) {
+        return prevData;
+      }
+      const newMedications = prevData.medications.map((med, index) => {
+        if (index === medicationIndex) {
+          return { ...med, timing: { ...med.timing, [timingKey]: isChecked } };
+        }
+        return med;
+      });
+      return { ...prevData, medications: newMedications };
+    });
+  };
 
   const handleRemoveImage = () => {
     setCapturedImage(null);
@@ -654,56 +649,55 @@ const Home = () => {
     setIsApiLoading(false);
     setCapturedImageSize(null);
   };
-    const handlePostImage = async () => {
-        if (responseData) {
-            setIsApiLoading(true);
-            try {
-                const accessToken = localStorage.getItem("accessToken");
-                await axios.post(
-                    "https://bharati-clinic-test.vercel.app/prescription/",
-                    {
-                        action: "postPrescriptionRecord",
-                        ...responseData,
-                    },
-                    {
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`,
-                        },
-                    }
-                );
-                setCapturedImage(null);
-                setResponseData(null);
-                setEditedResponseData({});
-                setIsApiLoading(false);
-                setCapturedImageSize(null);
-                 setSuccessMessage("Data posted successfully!");
-                setShowSuccess(true); // Show success message
-                setTimeout(() => {
-                  setShowSuccess(false);
-                  navigate("/");
-                }, 2000);
-
-            } catch (error) {
-                console.error("Error sending image to backend:", error);
-                setIsApiLoading(false);
-                setSuccessMessage("Failed to post data.");
-                handleError(
-                    error.response?.data?.message || "An unexpected error occurred."
-                );
-            }
-        } else {
-            handleError("No data to post. Please capture an image first.");
-        }
-    };
+  const handlePostImage = async () => {
+    if (responseData) {
+      setIsApiLoading(true);
+      try {
+        const accessToken = localStorage.getItem("accessToken");
+        await axios.post(
+          "https://bharati-clinic-test.vercel.app/prescription/",
+          {
+            action: "postPrescriptionRecord",
+            ...responseData,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+        setCapturedImage(null);
+        setResponseData(null);
+        setEditedResponseData({});
+        setIsApiLoading(false);
+        setCapturedImageSize(null);
+        setSuccessMessage("Data posted successfully!");
+        setShowSuccess(true); // Show success message
+        setTimeout(() => {
+          setShowSuccess(false);
+          navigate("/");
+        }, 2000);
+      } catch (error) {
+        console.error("Error sending image to backend:", error);
+        setIsApiLoading(false);
+        setSuccessMessage("Failed to post data.");
+        handleError(
+          error.response?.data?.message || "An unexpected error occurred."
+        );
+      }
+    } else {
+      handleError("No data to post. Please capture an image first.");
+    }
+  };
   const renderSuccessModal = () => {
-      if (!showSuccess) return null;
-      return (
-          <div className="home-success-modal-overlay">
-              <div className="home-success-modal">
-                  <p>{successMessage}</p>
-              </div>
-          </div>
-      );
+    if (!showSuccess) return null;
+    return (
+      <div className="home-success-modal-overlay">
+        <div className="home-success-modal">
+          <p>{successMessage}</p>
+        </div>
+      </div>
+    );
   };
   return (
     <>
@@ -721,7 +715,7 @@ const Home = () => {
           closeCamera={() => setIsCameraVisible(false)}
           onResponseReceived={handleDataReceived}
           onApiLoading={handleApiLoading}
-            isDisabled={isApiLoading}
+          isDisabled={isApiLoading}
         />
       )}
       {capturedImage && (
@@ -753,104 +747,143 @@ const Home = () => {
                     type="text"
                     className="home-form-input"
                     value={editedResponseData?.patient_name || ""}
-                    onChange={(e) =>
-                      handleInputChange(e, null, "patient_name")
-                    }
+                    onChange={(e) => handleInputChange(e, null, "patient_name")}
                   />
                 </div>
 
-                    <div className="home-form-group">
-                        <label className="home-form-label">
-                            <FontAwesomeIcon icon={faVenusMars} className="home-icon" />
-                            Gender:
-                        </label>
-                        <input
-                            type="text"
-                            className="home-form-input"
-                            value={editedResponseData?.gender || ""}
-                            onChange={(e) => handleInputChange(e, null, "gender")}
-                        />
-                    </div>
-                  <div className="home-form-group">
-                        <label className="home-form-label">
-                          <FontAwesomeIcon icon={faUser} className="home-icon" />
-                            Age:
-                        </label>
-                        <input
-                            type="number"
-                            className="home-form-input"
-                            value={editedResponseData?.age || ""}
-                            onChange={(e) => handleInputChange(e, null, "age")}
-                        />
-                    </div>
-                   <div className="home-form-group">
-                       <label className="home-form-label">
-                           <FontAwesomeIcon icon={faWeight} className="home-icon" />
-                           Weight:
-                        </label>
-                        <input
-                            type="text"
-                            className="home-form-input"
-                            value={editedResponseData?.weight || ""}
-                            onChange={(e) => handleInputChange(e, null, "weight")}
-                        />
-                    </div>
-                      <div className="home-form-group">
-                          <label className="home-form-label">
-                              <FontAwesomeIcon icon={faHeartPulse} className="home-icon" />
-                            B/P:
-                          </label>
-                          <input
-                              type="text"
-                              className="home-form-input"
-                              value={editedResponseData?.bp || ""}
-                              onChange={(e) => handleInputChange(e, null, "bp")}
-                          />
-                      </div>
+                {/* <div className="home-form-group">
+                  <label className="home-form-label">
+                    <FontAwesomeIcon icon={faVenusMars} className="home-icon" />
+                    Gender:
+                  </label>
+                  <input
+                    type="text"
+                    className="home-form-input"
+                    value={editedResponseData?.gender || ""}
+                    onChange={(e) => handleInputChange(e, null, "gender")}
+                  />
+                </div> */}
+                <div className="home-form-group">
+                  <label className="home-form-label">
+                    <FontAwesomeIcon icon={faVenusMars} className="home-icon" />
+                    Gender:
+                  </label>
+                  <select
+                    className="home-form-input"
+                    value={editedResponseData?.gender || ""}
+                    onChange={(e) => handleInputChange(e, null, "gender")}
+                  >
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                <div className="home-form-group">
+                  <label className="home-form-label">
+                    <FontAwesomeIcon icon={faUser} className="home-icon" />
+                    Age:
+                  </label>
+                  <input
+                    type="number"
+                    className="home-form-input"
+                    value={editedResponseData?.age || ""}
+                    onChange={(e) => handleInputChange(e, null, "age")}
+                  />
+                </div>
+                {/* <div className="home-form-group">
+                  <label className="home-form-label">
+                    <FontAwesomeIcon icon={faWeight} className="home-icon" />
+                    Weight:
+                  </label>
+                  <input
+                    type="text"
+                    className="home-form-input"
+                    value={editedResponseData?.weight || ""}
+                    onChange={(e) => handleInputChange(e, null, "weight")}
+                  />
+                </div> */}
+                <div className="home-form-group">
+                  <label className="home-form-label">
+                    <FontAwesomeIcon icon={faWeight} className="home-icon" />
+                    Weight (kg):
+                  </label>
+                  <input
+                    type="number"
+                    className="home-form-input"
+                    value={editedResponseData?.weight || ""}
+                    onChange={(e) => handleInputChange(e, null, "weight")}
+                    min="0"
+                    step="1"
+                  />
+                </div>
+                <div className="home-form-group">
+                  <label className="home-form-label">
+                    <FontAwesomeIcon
+                      icon={faHeartPulse}
+                      className="home-icon"
+                    />
+                    B/P:
+                  </label>
+                  <input
+                    type="text"
+                    className="home-form-input"
+                    value={editedResponseData?.bp || ""}
+                    onChange={(e) => handleInputChange(e, null, "bp")}
+                  />
+                </div>
 
                 <div className="home-form-group">
-                        <label className="home-form-label">
-                            <FontAwesomeIcon icon={faLocationDot} className="home-icon" />
-                            Place:
-                        </label>
-                        <input
-                            type="text"
-                            className="home-form-input"
-                            value={editedResponseData?.place || ""}
-                            onChange={(e) => handleInputChange(e, null, "place")}
-                        />
-                    </div>
-                      <div className="home-form-group">
-                          <label className="home-form-label">
-                              <FontAwesomeIcon
-                                  icon={faCalendarAlt}
-                                  className="home-icon"
-                              />
-                              Prescription Date:
-                          </label>
-                          <input
-                              type="text"
-                              className="home-form-input"
-                              value={editedResponseData?.prescription_date }
-                              onChange={(e) => handleInputChange(e, null, "prescription_date")}
-                          />
-                      </div>
-                      <div className="home-form-group">
-                          <label className="home-form-label">
-                              <FontAwesomeIcon
-                                  icon={faCalendarDay}
-                                  className="home-icon"
-                              />
-                                  Follow up date:
-                          </label>
-                          <input
-                              type="text"
-                              className="home-form-input"
-                              value={editedResponseData?.follow_up_date || ""}
-                              onChange={(e) => handleInputChange(e, null, "follow_up_date")}
-                          />
-                      </div>
-
+                  <label className="home-form-label">
+                    <FontAwesomeIcon
+                      icon={faLocationDot}
+                      className="home-icon"
+                    />
+                    Place:
+                  </label>
+                  <input
+                    type="text"
+                    className="home-form-input"
+                    value={editedResponseData?.place || ""}
+                    onChange={(e) => handleInputChange(e, null, "place")}
+                  />
+                </div>
+                <div className="home-form-group">
+                  <label className="home-form-label">
+                    <FontAwesomeIcon
+                      icon={faCalendarAlt}
+                      className="home-icon"
+                    />
+                    Prescription Date:
+                  </label>
+                  <input
+                    type="text"
+                    className="home-form-input"
+                    value={editedResponseData?.prescription_date}
+                    placeholder="YYYY/MM/DD"
+                    onChange={(e) =>
+                      handleInputChange(e, null, "prescription_date")
+                    }
+                  />
+                </div>
+                <div className="home-form-group">
+                  <label className="home-form-label">
+                    <FontAwesomeIcon
+                      icon={faCalendarDay}
+                      className="home-icon"
+                    />
+                    Follow up date:
+                  </label>
+                  <input
+                    type="date"
+                    className="home-form-input"
+                    value={editedResponseData?.follow_up_date || ""}
+                    placeholder="YYYY/MM/DD"
+                    onChange={(e) =>
+                      handleInputChange(e, null, "follow_up_date")
+                    }
+                  />
+                </div>
 
                 {/* <div className="home-form-group">
                   <label className="home-form-label">
@@ -867,19 +900,18 @@ const Home = () => {
                     onChange={(e) => handleInputChange(e, null, "prescription_date")}
                   />
                 </div>  */}
-                 <div className="home-form-group">
-                        <label className="home-form-label">
-                            <FontAwesomeIcon icon={faUser} className="home-icon" />
-                            Complaints:
-                        </label>
-                        <input
-                            type="text"
-                            className="home-form-input"
-                            value={editedResponseData?.complaints || ""}
-                            onChange={(e) => handleInputChange(e, null, "complaints")}
-                        />
-                    </div>
-
+                <div className="home-form-group">
+                  <label className="home-form-label">
+                    <FontAwesomeIcon icon={faUser} className="home-icon" />
+                    Complaints:
+                  </label>
+                  <input
+                    type="text"
+                    className="home-form-input"
+                    value={editedResponseData?.complaints || ""}
+                    onChange={(e) => handleInputChange(e, null, "complaints")}
+                  />
+                </div>
 
                 <h3 className="home-medication-title">
                   <FontAwesomeIcon icon={faPills} className="home-icon" />
@@ -947,39 +979,42 @@ const Home = () => {
               </form>
             ) : (
               <div>
-                    <p className="home-details-text">
-                        <strong>Patient Name:</strong> {responseData?.patient_name || "N/A"}
-                    </p>
-                    <p className="home-details-text">
-                        <strong>Gender:</strong> {responseData?.gender || ""}
-                    </p>
-                    <p className="home-details-text">
-                        <strong>Age:</strong> {responseData?.age || "N/A"}
-                    </p>
-                    <p className="home-details-text">
-                        <strong>Weight:</strong> {responseData?.weight || "N/A"}
-                    </p>
-                    <p className="home-details-text">
-                        <strong>B/P:</strong> {responseData?.bp || "N/A"}
-                    </p>
-                   <p className="home-details-text">
-                        <strong>Place:</strong> {responseData?.place || "N/A"}
-                    </p>
-                     <p className="home-details-text">
-                        <strong>Prescription Date:</strong> {responseData?.prescription_date }
-                    </p>
-                     <p className="home-details-text">
-                        <strong>Follow up date:</strong> {responseData?.follow_up_date }
-                    </p>
+                <p className="home-details-text">
+                  <strong>Patient Name:</strong>{" "}
+                  {responseData?.patient_name || "N/A"}
+                </p>
+                <p className="home-details-text">
+                  <strong>Gender:</strong> {responseData?.gender || ""}
+                </p>
+                <p className="home-details-text">
+                  <strong>Age:</strong> {responseData?.age || "N/A"}
+                </p>
+                <p className="home-details-text">
+                  <strong>Weight:</strong> {responseData?.weight || "N/A"}
+                </p>
+                <p className="home-details-text">
+                  <strong>B/P:</strong> {responseData?.bp || "N/A"}
+                </p>
+                <p className="home-details-text">
+                  <strong>Place:</strong> {responseData?.place || "N/A"}
+                </p>
+                <p className="home-details-text">
+                  <strong>Prescription Date:</strong>{" "}
+                  {responseData?.prescription_date}
+                </p>
+                <p className="home-details-text">
+                  <strong>Follow up date:</strong>{" "}
+                  {responseData?.follow_up_date}
+                </p>
 
-
-                   {/* <p className="home-details-text">
+                {/* <p className="home-details-text">
                     <strong>Prescription Date:</strong> {responseData?.prescription_date || "N/A"}
                   </p>  */}
 
                 <p className="home-details-text">
-                  <strong>Complaints:</strong> {responseData?.complaints || "N/A"}
-                    </p>
+                  <strong>Complaints:</strong>{" "}
+                  {responseData?.complaints || "N/A"}
+                </p>
 
                 <h3 className="home-medication-title">Medications:</h3>
                 <ul className="home-medication-list">

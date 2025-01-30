@@ -1,5 +1,3 @@
-
-
 // import React, { useState, useEffect } from "react";
 // import axios from "axios";
 // import * as XLSX from "xlsx";
@@ -89,7 +87,7 @@
 //           },
 //         }
 //       );
-     
+
 //       if (response.data.message === "Successfully getting Prescription Record!") {
 //         setAllData(response.data.data);
 //       }
@@ -125,7 +123,7 @@
 //           },
 //         }
 //       );
-    
+
 //       if (response.data.message === "Successfully getting Prescription Record!") {
 //         setRecords(response.data.data);
 //         setTotalPages(Math.ceil(response.data.total_count / recordsPerPage)); // Calculate total pages
@@ -156,7 +154,6 @@
 
 //   const handleSubmit = async (e) => {
 //     e.preventDefault();
-    
 
 //     if (startDate) {
 //       const start = new Date(startDate); // Create the start date object
@@ -258,7 +255,7 @@
 //         alert("No data to download.");
 //         return;
 //       }
-      
+
 //       const exportData = data.map((item) => ({
 //         "Patient Name": item.patient_name,
 //         Date: item.prescription_date,
@@ -423,7 +420,6 @@
 //             }
 //         });
 //     };
-
 
 //   const handleTimingChange = (e, medicationIndex, timingKey) => {
 //     const isChecked = e.target.checked;
@@ -1013,8 +1009,825 @@
 
 // export default Getdata;
 
+// import React, { useState, useEffect } from "react";
+// import axios from "axios";
+// import * as XLSX from "xlsx";
+// import {
+//   FaCalendarAlt,
+//   FaDownload,
+//   FaChevronLeft,
+//   FaChevronRight,
+//   FaFilter,
+//   FaEye,
+//   FaEdit,
+//   FaTrash,
+//   FaArrowLeft,
+// } from "react-icons/fa";
+// import Spinner from "./Spinner";
+// import { handleError } from "../utils";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import {
+//   faUser,
+//   faPills,
+//   faClock,
+//   faCalendarAlt,
+//   faVenusMars,
+//   faWeight,
+//   faHeartPulse,
+//   faLocationDot,
+//     faCalendarDay,
+//   faComment,
+// } from "@fortawesome/free-solid-svg-icons";
+// import { useNavigate } from "react-router-dom";
 
+// function Getdata() {
+//     const [startDate, setStartDate] = useState("");
+//     const [endDate, setEndDate] = useState("");
+//     const [loading, setLoading] = useState(false);
+//     const [error, setError] = useState(null);
+//     const [allData, setAllData] = useState([]);
+//     const [filteredData, setFilteredData] = useState([]);
+//     const [showDownload, setShowDownload] = useState(false);
+//     const [isLoggedIn, setIsLoggedIn] = useState(false);
+//     const [selectedData, setSelectedData] = useState(null);
+//     const [isEditingDetail, setIsEditingDetail] = useState(false);
+//     const [editFormData, setEditFormData] = useState(null);
+//     const [successMessage, setSuccessMessage] = useState(null);
+//     const [showSuccess, setShowSuccess] = useState(false);
+//     const navigate = useNavigate();
+//     const [showFilterSlide, setShowFilterSlide] = useState(false);
+//     const [currentPage, setCurrentPage] = useState(1);
+//     const [totalPages, setTotalPages] = useState(1);
+//     const [records, setRecords] = useState([]);
+//     const recordsPerPage = 10;
 
+//   useEffect(() => {
+//     setShowDownload(false);
+//     checkLoginStatus();
+//       fetchAllData();
+//     fetchData(currentPage);
+//   }, [currentPage]);
+
+//     useEffect(() => {
+//         window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to top
+//     }, [currentPage]);
+
+//   const checkLoginStatus = () => {
+//     const accessToken = localStorage.getItem("accessToken");
+//     setIsLoggedIn(!!accessToken);
+//   };
+
+//   const handleStartDateChange = (e) => {
+//     setStartDate(e.target.value);
+//   };
+
+//   const handleEndDateChange = (e) => {
+//     setEndDate(e.target.value);
+//   };
+
+//     const fetchAllData = async () => {
+//         setLoading(true);
+//         setError(null);
+//         try {
+//             const accessToken = localStorage.getItem("accessToken");
+//             const response = await axios.get(
+//                 `https://bharati-clinic-test.vercel.app/prescription/?action=getPrescriptionRecord`,
+//                 {
+//                     headers: {
+//                         Authorization: `Bearer ${accessToken}`,
+//                     },
+//                 }
+//             );
+
+//             if (response.data.message === "Successfully getting Prescription Record!") {
+//                 const formattedData = response.data.data.map(item => ({
+//                     ...item,
+//                     gender: item.gender || 'N/A',
+//                     weight: item.weight || 'N/A',
+//                     place: item.place || 'N/A',
+//                     bp: item.bp || 'N/A',
+//                     follow_up_date: item.follow_up_date || '',
+//                     Date: item.prescription_date || 'N/A',
+
+//                 }));
+//                 setAllData(response.data.data);
+//             }
+//         } catch (err) {
+//             if (err.response) {
+//                 setError(
+//                     `Error: ${err.response.status} - ${
+//                         err.response.data.message || err.response.statusText
+//                     }`
+//                 );
+//             } else if (err.request) {
+//                 setError(
+//                     "Error: No response received from the server. Please check your network."
+//                 );
+//             } else {
+//                 setError(`Error: ${err.message}`);
+//             }
+//         } finally {
+//             setLoading(false);
+//         }
+//     };
+//   const fetchData = async (page) => {
+//     setLoading(true);
+//     setError(null);
+//     try {
+//       const accessToken = localStorage.getItem("accessToken");
+//       const response = await axios.get(
+//         `https://bharati-clinic-test.vercel.app/prescription/?action=getPrescriptionRecord&page=${page}&records_number=${recordsPerPage}`,
+//         {
+//           headers: {
+//             Authorization: `Bearer ${accessToken}`,
+//           },
+//         }
+//       );
+
+//       if (response.data.message === "Successfully getting Prescription Record!") {
+//         setRecords(response.data.data);
+//           const formattedData = response.data.data.map(item => ({
+//               ...item,
+//               gender: item.gender || 'N/A',
+//               weight: item.weight || 'N/A',
+//               place: item.place || 'N/A',
+//               bp: item.bp || 'N/A',
+//               follow_up_date: item.follow_up_date || '',
+//               Date: item.prescription_date || 'N/A',
+
+//           }));
+//         setTotalPages(Math.ceil(response.data.total_count / recordsPerPage)); // Calculate total pages
+//       }
+//     } catch (err) {
+//       if (err.response) {
+//         setError(
+//           `Error: ${err.response.status} - ${
+//             err.response.data.message || err.response.statusText
+//           }`
+//         );
+//       } else if (err.request) {
+//         setError(
+//           "Error: No response received from the server. Please check your network."
+//         );
+//       } else {
+//         setError(`Error: ${err.message}`);
+//       }
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+//     const handlePageChange = (newPage) => {
+//         if (newPage >= 1 && newPage <= totalPages) {
+//             setCurrentPage(newPage); // Update state only if the page changes
+//         }
+//     };
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     setLoading(true);
+//     setError(null);
+//     setShowDownload(false);
+
+//     try {
+//         const accessToken = localStorage.getItem("accessToken");
+//         let apiUrl = `https://bharati-clinic-test.vercel.app/prescription/?action=getPrescriptionRecord`;
+
+//         if (startDate) {
+//             apiUrl += `&from_date=${startDate}`;
+//         }
+//       if (endDate){
+//           apiUrl+=`&to_date=${endDate}`;
+//       }
+
+//       const response = await axios.get(apiUrl, {
+//             headers: {
+//               Authorization: `Bearer ${accessToken}`,
+//             },
+//           });
+
+//         if (response.data.message === "Successfully getting Prescription Record!") {
+//             const formattedData = response.data.data.map(item => ({
+//                 ...item,
+//                 gender: item.gender || 'N/A',
+//                 weight: item.weight || 'N/A',
+//                 place: item.place || 'N/A',
+//                 bp: item.bp || 'N/A',
+//                 follow_up_date: item.follow_up_date || '',
+//                 Date: item.prescription_date || 'N/A',
+
+//             }));
+
+//             setFilteredData(response.data.data);
+//              setShowDownload(response.data.data.length > 0);
+//         } else {
+//              setFilteredData([]);
+//              setShowDownload(false);
+//              console.log('No data received from API')
+//         }
+//     } catch (err) {
+//       if (err.response) {
+//         setError(
+//           `Error: ${err.response.status} - ${
+//             err.response.data.message || err.response.statusText
+//           }`
+//         );
+//       } else if (err.request) {
+//         setError(
+//           "Error: No response received from the server. Please check your network."
+//         );
+//       } else {
+//         setError(`Error: ${err.message}`);
+//       }
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   const getTimingText = (medication) => {
+//     let timingText = "";
+//     if (medication.timing.morning) timingText += "Morning ";
+//     if (medication.timing.afternoon) timingText += "Afternoon ";
+//     if (medication.timing.night) timingText += "Night ";
+//     return timingText.trim();
+//   };
+
+//    const handleDownload = async () => {
+//     setLoading(true);
+//     setError(null);
+
+//      try {
+//        const accessToken = localStorage.getItem("accessToken");
+//        let apiUrl = `https://bharati-clinic-test.vercel.app/prescription/?action=getPrescriptionRecord`;
+
+//        if(showFilterSlide){
+//            if (startDate) {
+//                apiUrl += `&from_date=${startDate}`;
+//            }
+//            if (endDate) {
+//                apiUrl += `&to_date=${endDate}`;
+//            }
+
+//        }else{
+//            apiUrl += `&all_data=true`;
+//        }
+
+//        const response = await axios.get(apiUrl, {
+//             headers: {
+//               Authorization: `Bearer ${accessToken}`,
+//             },
+//        });
+
+//        const data = response.data.data;
+
+//       if (data.length === 0) {
+//         alert("No data to download.");
+//         return;
+//       }
+//      const exportData = data.map((item) => ({
+//         "Patient Name": item.patient_name,
+//         "prescription-Date": item.prescription_date,
+//         Medications: item.medications.map((med) => med.name).join(", "),
+//         Timing: item.medications.map((med) => getTimingText(med)).join(", "),
+//         "Age": item.age || 'N/A',
+//         "Gender": item.gender || 'N/A',
+//         "Weight": item.weight || 'N/A',
+//         "Blood Pressure": item.bp || 'N/A',
+//         "Complaint Section": item.complaints ? (Array.isArray(item.complaints) ? item.complaints.join(", ") : item.complaints) : 'N/A',
+//         "Follow Up Date": item.follow_up_date || '',
+//         "Address": item.place || 'N/A',
+//       }));
+//       const worksheet = XLSX.utils.json_to_sheet(exportData);
+//       const workbook = XLSX.utils.book_new();
+//       XLSX.utils.book_append_sheet(workbook, worksheet, "Filtered Prescription Data");
+//       XLSX.writeFile(workbook, "filtered_data.xlsx");
+//     }
+//      catch (err) {
+//       if (err.response) {
+//         setError(
+//           `Error: ${err.response.status} - ${
+//             err.response.data.message || err.response.statusText
+//           }`
+//         );
+//       } else if (err.request) {
+//         setError(
+//           "Error: No response received from the server. Please check your network."
+//         );
+//       } else {
+//         setError(`Error: ${err.message}`);
+//       }
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   const handleDownloadAll = async () => {
+//         setLoading(true);
+//         setError(null);
+//         try {
+//             const accessToken = localStorage.getItem("accessToken");
+//             const response = await axios.get(
+//                 `https://bharati-clinic-test.vercel.app/prescription/?action=getPrescriptionRecord&all_data=true`,
+//                 {
+//                     headers: {
+//                         Authorization: `Bearer ${accessToken}`,
+//                     },
+//                 }
+//             );
+//             const data = response.data.data;
+
+//             if (data.length === 0) {
+//                 alert("No data to download.");
+//                 return;
+//             }
+
+//             const exportData = data.map((item) => ({
+//                 "Patient Name": item.patient_name,
+//                 "prescription-Date": item.prescription_date,
+//                 Medications: item.medications.map((med) => med.name).join(", "),
+//                 Timing: item.medications.map((med) => getTimingText(med)).join(", "),
+//                 "Age": item.age || 'N/A',
+//                 "Gender": item.gender || 'N/A',
+//                 "Weight": item.weight || 'N/A',
+//                 "Blood Pressure": item.bp || 'N/A',
+//                 "Complaint Section": item.complaints ? (Array.isArray(item.complaints) ? item.complaints.join(", ") : item.complaints) : 'N/A',
+//                 "Follow Up Date": item.follow_up_date || '',
+//                 "Address": item.place || 'N/A',
+//             }));
+//             const worksheet = XLSX.utils.json_to_sheet(exportData);
+//             const workbook = XLSX.utils.book_new();
+//             XLSX.utils.book_append_sheet(workbook, worksheet, "All Prescription Data");
+//             XLSX.writeFile(workbook, "all_data.xlsx");
+//         } catch (err) {
+//             if (err.response) {
+//                 setError(
+//                     `Error: ${err.response.status} - ${
+//                         err.response.data.message || err.response.statusText
+//                     }`
+//                 );
+//             } else if (err.request) {
+//                 setError(
+//                     "Error: No response received from the server. Please check your network."
+//                 );
+//             } else {
+//                 setError(`Error: ${err.message}`);
+//             }
+//         } finally {
+//             setLoading(false);
+//         }
+//     };
+
+//   const handleView = (item) => {
+//     setSelectedData(item);
+//     setIsEditingDetail(false);
+//     setEditFormData(null);
+//   };
+//   const handleEditDetail = () => {
+//     setIsEditingDetail(true);
+//     setEditFormData({ ...selectedData });
+//   };
+//   const handleCancelEditDetail = () => {
+//     setIsEditingDetail(false);
+//     setEditFormData(null);
+//   };
+//     const handleSaveDetail = async (updatedData) => {
+//         try {
+//             const formattedData = {
+//                 ...updatedData,
+//                 gender: updatedData.gender, // lowercase here
+//                 weight: updatedData.weight,
+//                 place: updatedData.place,
+//                 bp: updatedData.bp,
+//                 follow_up_date: updatedData.follow_up_date,
+//                 Date: updatedData.prescription_date
+
+//             };
+
+//             await sendEditedDataToBackend(formattedData);
+
+//             setRecords((prevRecords) =>
+//                 prevRecords.map((item) =>
+//                     item.id === updatedData.id ? {...item,  ...formattedData} : item
+//                 )
+//             );
+
+//             setAllData((prevAllData) =>
+//                 prevAllData.map((item) =>
+//                     item.id === updatedData.id ? {...item,  ...formattedData}  : item
+//                 )
+//             );
+
+//             setFilteredData((prevFilteredData) =>
+//                 prevFilteredData.map((item) =>
+//                     item.id === updatedData.id ? {...item, ...formattedData} : item
+//                 )
+//             );
+
+//             setSelectedData(null);
+//             setIsEditingDetail(false);
+//             setSuccessMessage("Data updated successfully!");
+//             setShowSuccess(true);
+//             setTimeout(() => {
+//                 setShowSuccess(false);
+//                 navigate("/getdata");
+//             }, 2000);
+//         } catch (error) {
+//             console.error("Error sending updated data to backend:", error);
+//             handleError(
+//                 error.response?.data?.message || "An unexpected error occurred."
+//             );
+//         }
+//     };
+//   const sendEditedDataToBackend = async (data) => {
+//     try {
+//       const accessToken = localStorage.getItem("accessToken");
+//       const response = await axios.patch(
+//         "https://bharati-clinic-test.vercel.app/prescription/",
+//         {
+//           action: "patchPrescriptionRecord",
+//           ...data,
+//         },
+//         {
+//           headers: {
+//             Authorization: `Bearer ${accessToken}`,
+//           },
+//         }
+//       );
+//       setSuccessMessage("Data upload successfully!");
+//       setShowSuccess(true);
+//       setTimeout(() => {
+//         setShowSuccess(false);
+//         navigate("/getdata");
+//       }, 2000);
+//       return response;
+//     } catch (error) {
+//       console.error("Error sending updated data to backend:", error);
+//       throw error;
+//     }
+//   };
+
+//   const handleDeleteData = async (id) => {
+//     console.log("In delete");
+//     try {
+//       const accessToken = localStorage.getItem("accessToken");
+//       console.log(accessToken);
+
+//       await axios.delete(
+//         `https://bharati-clinic-test.vercel.app/prescription/`,
+//         {
+//           headers: {
+//             Authorization: `Bearer ${accessToken}`,
+//           },
+//           data: {
+//             action: "delPrescriptionRecord",
+//             id: id,
+//           },
+//         }
+//       );
+
+//       setRecords((prevRecords) => prevRecords.filter((item) => item.id !== id)); // Update records state
+//       setAllData((prevAllData) => prevAllData.filter((item) => item.id !== id));
+
+//       setFilteredData((prevFilteredData) =>
+//         prevFilteredData.filter((item) => item.id !== id)
+//       );
+
+//       setSelectedData(null);
+//       setSuccessMessage("Data deleted successfully!");
+//       setShowSuccess(true);
+//       setTimeout(() => {
+//         setShowSuccess(false);
+//         navigate("/getdata");
+//       }, 2000);
+//     } catch (error) {
+//       console.error("Error deleting the data:", error);
+//       handleError(
+//         error.response?.data?.message || "An unexpected error occurred."
+//       );
+//     }
+//   };
+
+//    const handleInputChange = (e, key) => {
+//         const { value } = e.target;
+//         setEditFormData((prevData) => {
+//            if (key === "B/P") {
+//                 return { ...prevData, "B/P": value };
+//             } else {
+//                 return { ...prevData, [key]: value };
+//             }
+//         });
+//     };
+
+//   const handleTimingChange = (e, medicationIndex, timingKey) => {
+//     const isChecked = e.target.checked;
+
+//     setEditFormData((prevData) => {
+//       if (
+//         !prevData ||
+//         !prevData.medications ||
+//         !prevData.medications[medicationIndex]
+//       ) {
+//         return prevData;
+//       }
+//       const newMedications = prevData.medications.map((med, index) => {
+//         if (index === medicationIndex) {
+//           return { ...med, timing: { ...med.timing, [timingKey]: isChecked } };
+//         }
+//         return med;
+//       });
+//       return { ...prevData, medications: newMedications };
+//     });
+//   };
+
+//   const handleMedicationNameChange = (e, medicationIndex) => {
+//     const { value } = e.target;
+//     setEditFormData((prevData) => {
+//       if (!prevData || !prevData.medications) {
+//         return prevData;
+//       }
+//       const newMedications = prevData.medications.map((med, index) => {
+//         if (index === medicationIndex) {
+//           return { ...med, name: value };
+//         }
+//         return med;
+//       });
+//       return { ...prevData, medications: newMedications };
+//     });
+//   };
+
+//   const handleBack = () => {
+//     setSelectedData(null);
+//     setEditFormData(null);
+//   };
+
+//   const handleHideDateForm = () => {
+//      setShowFilterSlide(false);
+//     setStartDate("");
+//     setEndDate("");
+//   };
+
+//   const handleBackToHome = () => {
+//     navigate("/");
+//   };
+
+//   if (!isLoggedIn) {
+//     return (
+//       <div className="container mt-4 text-center">
+//         <h1>Please Login</h1>
+//       </div>
+//     );
+//   }
+//   return (
+//     <div className="container get-data-container mt-4">
+//       {showSuccess && (
+//         <div
+//           className={`success-message-container ${showSuccess ? "show" : ""}`}
+//         >
+//           {successMessage}
+//         </div>
+//       )}
+
+//       <h1 className="mb-4 text-center">Patient Details</h1>
+//       {/* slide one */}
+//       {!showFilterSlide && (
+//         <div className="mt-4 text-center">
+//           <div className="filter-download-container">
+//             <button
+//               className="show-date-form-button"
+//               onClick={() => setShowFilterSlide(true)}
+//             >
+//               <FaFilter />
+//             </button>
+//             <button
+//               className="download-all-button"
+//               onClick={handleDownloadAll}
+//               disabled={loading} // Disable while loading
+//             >
+//               <FaDownload />
+//               {loading ? "Downloading..." : "Download All"}
+//             </button>
+//           </div>
+
+//           <div className="table-header">
+//             <h2 className="mb-3" style={{ fontWeight: 400 }}>
+//               Prescription Data
+//             </h2>
+//             <div className="back-to-home-button-container">
+//               <button
+//                 className="back-to-home-button"
+//                 onClick={handleBackToHome}
+//               >
+//                 <FaArrowLeft />
+//               </button>
+//             </div>
+//           </div>
+//           <div className="table-responsive">
+//             <table className="table table-bordered table-striped">
+//               <thead>
+//                 <tr>
+//                     <th>Serial No.</th>
+//                     <th>Patient Name</th>
+//                     <th>prescription Date</th>
+//                     <th>Medications</th>
+//                     <th>Timing</th>
+//                     <th>Age</th>
+//                     <th>Gender</th>
+//                     <th>Weight</th>
+//                     <th>Blood Pressure</th>
+//                      <th>Complaint Section</th>
+//                     <th>Follow Up Date</th>
+//                     <th>Address</th>
+//                     <th>Actions</th>
+//                 </tr>
+//               </thead>
+//               <tbody>
+//                 {records.map((item, index) => (
+//                   <tr key={index}>
+//                     <td>{(currentPage - 1) * recordsPerPage + index + 1}</td>
+//                     <td>{item.patient_name}</td>
+//                     <td>
+//                       {item.prescription_date
+//                         ? new Date(item.prescription_date).toLocaleDateString()
+//                         : "N/A"}
+//                     </td>
+//                     <td>
+//                       {item.medications.map((med) => med.name).join(", ")}
+//                     </td>
+//                     <td>
+//                       {item.medications
+//                         .map((med) => getTimingText(med))
+//                         .join(", ")}
+//                     </td>
+//                     <td>{item.age || "N/A"}</td>
+//                     <td>{item.gender || "N/A"}</td>
+//                     <td>{item.weight || "N/A"}</td>
+//                     <td>{item.bp || "N/A"}</td>
+//                     <td>{item.complaints ? (Array.isArray(item.complaints) ? item.complaints.join(", ") : item.complaints) : "N/A"}</td>
+//                     <td>{item.follow_up_date || ""}</td>
+//                     <td>{item.place || "N/A"}</td>
+//                     <td>
+//                       <button
+//                         className="view-data-button"
+//                         onClick={() => handleView(item)}
+//                       >
+//                         <FaEye />
+//                       </button>
+//                     </td>
+//                   </tr>
+//                 ))}
+//               </tbody>
+//             </table>
+//           </div>
+
+//           <div className="pagination-container">
+//             <div className="pagination">
+//               <button
+//                 onClick={() => handlePageChange(currentPage - 1)}
+//                 disabled={currentPage === 1}
+//                 className="pagination-button"
+//               >
+//                 <FaChevronLeft />
+//               </button>
+//               <span className="page-number">
+//                 {currentPage} of {totalPages}
+//               </span>
+//               <button
+//                 onClick={() => handlePageChange(currentPage + 1)}
+//                 disabled={currentPage === totalPages}
+//                 className="pagination-button"
+//               >
+//                 <FaChevronRight />
+//               </button>
+//             </div>
+//           </div>
+//         </div>
+//       )}
+
+//       {/* slide two */}
+//       {showFilterSlide && (
+//         <div className="mt-4 text-center">
+//           <div className="date-form-container-bottom">
+//             <form onSubmit={handleSubmit} className="get-data-form">
+//               <div className="date-back-button-container">
+//                 <button
+//                   type="button"
+//                   className="date-back-button back-button"
+//                   onClick={handleHideDateForm}
+//                 >
+//                   <FaArrowLeft />
+//                 </button>
+//               </div>
+//               <div className="form-group">
+//                 <label htmlFor="startDate" className="form-label">
+//                   <FaCalendarAlt className="input-icon" /> Start Date
+//                 </label>
+//                 <input
+//                   type="date"
+//                   id="startDate"
+//                   className="form-control"
+//                   value={startDate}
+//                   onChange={handleStartDateChange}
+//                 />
+//               </div>
+//               <div className="form-group">
+//                 <label htmlFor="endDate" className="form-label">
+//                   <FaCalendarAlt className="input-icon" /> End Date
+//                 </label>
+//                 <input
+//                   type="date"
+//                   id="endDate"
+//                   className="form-control"
+//                   value={endDate}
+//                   onChange={handleEndDateChange}
+//                 />
+//               </div>
+//               <button
+//                 type="submit"
+//                 className="btn btn-primary"
+//                 disabled={loading}
+//               >
+//                 {loading ? "Get Data" : "Get Data"}
+//               </button>
+//             </form>
+//           </div>
+//           <div className="table-header">
+//             <div className="back-to-home-button-container"></div>
+//           </div>
+
+//           {filteredData.length > 0 && (
+//             <div className="table-responsive">
+//               <table className="table table-bordered table-striped">
+//                <thead>
+//                     <tr>
+//                         <th>Serial No.</th>
+//                         <th>Patient Name</th>
+//                         <th>prescription Date</th>
+//                         <th>Medications</th>
+//                         <th>Timing</th>
+//                          <th>Age</th>
+//                         <th>Gender</th>
+//                         <th>Weight</th>
+//                         <th>Blood Pressure</th>
+//                         <th>Complaint Section</th>
+//                         <th>Follow Up Date</th>
+//                         <th>Address</th>
+//                         <th>Actions</th>
+//                     </tr>
+//                 </thead>
+//                 <tbody>
+//                    {filteredData.map((item, index) => (
+//                     <tr key={index}>
+//                         <td>{index + 1}</td>
+//                         <td>{item.patient_name}</td>
+//                         <td>
+//                             {item.prescription_date
+//                                 ? new Date(
+//                                     item.prescription_date
+//                                   ).toLocaleDateString()
+//                                 : "N/A"}
+//                         </td>
+//                         <td>
+//                             {item.medications.map((med) => med.name).join(", ")}
+//                         </td>
+//                         <td>
+//                             {item.medications
+//                                 .map((med) => getTimingText(med))
+//                                 .join(", ")}
+//                         </td>
+//                         <td>{item.age || "N/A"}</td>
+//                       <td>{item.gender || "N/A"}</td>
+//                       <td>{item.weight || "N/A"}</td>
+//                       <td>{item.bp || "N/A"}</td>
+//                       <td>{item.complaints ? (Array.isArray(item.complaints) ? item.complaints.join(", ") : item.complaints) : "N/A"}</td>                      <td>{item.follow_up_date || "N/A"}</td>
+//                       <td>{item.place || "N/A"}</td>
+//                       <td>
+//                             <button
+//                                 className="view-data-button"
+//                                 onClick={() => handleView(item)}
+//                             >
+//                                 <FaEye />
+//                             </button>
+//                         </td>
+//                     </tr>
+//                 ))}
+//                 </tbody>
+//               </table>
+//             </div>
+//           )}
+//           {filteredData.length === 0 && (
+//             <div className="alert alert-info mt-3">
+//               No data found for selected date range.
+//             </div>
+//           )}
+//           {showDownload && (
+//             <button
+//               className="btn btn-success download-btn"
+//               onClick={handleDownload}
+//             >
+//               <FaDownload className="download-icon" />
+//               Download Data
+//             </button>
+//           )}
+//         </div>
+//       )}
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import * as XLSX from "xlsx";
@@ -1041,7 +1854,7 @@ import {
   faWeight,
   faHeartPulse,
   faLocationDot,
-    faCalendarDay,
+  faCalendarDay,
   faComment,
 } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
@@ -1104,18 +1917,19 @@ function Getdata() {
           },
         }
       );
-     
-      if (response.data.message === "Successfully getting Prescription Record!") {
-        const formattedData = response.data.data.map(item => ({
-          ...item,
-           gender: item.gender || 'N/A',
-            weight: item.weight || 'N/A',
-            place: item.place || 'N/A',
-            bp: item.bp || 'N/A',
-            follow_up_date: item.follow_up_date || '',
-            Date: item.prescription_date || 'N/A',
 
-         }));
+      if (
+        response.data.message === "Successfully getting Prescription Record!"
+      ) {
+        const formattedData = response.data.data.map((item) => ({
+          ...item,
+          gender: item.gender || "N/A",
+          weight: item.weight || "N/A",
+          place: item.place || "N/A",
+          bp: item.bp || "N/A",
+          follow_up_date: item.follow_up_date || "",
+          Date: item.prescription_date || "N/A",
+        }));
         setAllData(response.data.data);
       }
     } catch (err) {
@@ -1136,7 +1950,6 @@ function Getdata() {
       setLoading(false);
     }
   };
-
   const fetchData = async (page) => {
     setLoading(true);
     setError(null);
@@ -1150,19 +1963,20 @@ function Getdata() {
           },
         }
       );
-    
-      if (response.data.message === "Successfully getting Prescription Record!") {
-        setRecords(response.data.data);
-        const formattedData = response.data.data.map(item => ({
-          ...item,
-            gender: item.gender || 'N/A',
-            weight: item.weight || 'N/A',
-            place: item.place || 'N/A',
-            bp: item.bp || 'N/A',
-            follow_up_date: item.follow_up_date || '',
-            Date: item.prescription_date || 'N/A',
 
-         }));
+      if (
+        response.data.message === "Successfully getting Prescription Record!"
+      ) {
+        setRecords(response.data.data);
+        const formattedData = response.data.data.map((item) => ({
+          ...item,
+          gender: item.gender || "N/A",
+          weight: item.weight || "N/A",
+          place: item.place || "N/A",
+          bp: item.bp || "N/A",
+          follow_up_date: item.follow_up_date || "",
+          Date: item.prescription_date || "N/A",
+        }));
         setTotalPages(Math.ceil(response.data.total_count / recordsPerPage)); // Calculate total pages
       }
     } catch (err) {
@@ -1188,36 +2002,64 @@ function Getdata() {
       setCurrentPage(newPage); // Update state only if the page changes
     }
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+    setLoading(true);
+    setError(null);
+    setShowDownload(false);
 
-    if (startDate) {
-      const start = new Date(startDate); // Create the start date object
-      start.setHours(0, 0, 0, 0); // Set to midnight
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+      let apiUrl = `https://bharati-clinic-test.vercel.app/prescription/?action=getPrescriptionRecord&all_data=true`;
 
-      let filtered = allData.filter((item) => {
-        const itemDate = new Date(item.prescription_date);
-        itemDate.setHours(0, 0, 0, 0); // Normalize date
+      if (startDate) {
+        apiUrl += `&from_date=${startDate}`;
+      }
+      if (endDate) {
+        apiUrl += `&to_date=${endDate}`;
+      }
 
-        if (endDate) {
-          const end = new Date(endDate);
-          end.setHours(0, 0, 0, 0);
-          return itemDate >= start && itemDate <= end; // Correct date comparison
-        }
-        return itemDate >= start;
+      const response = await axios.get(apiUrl, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
       });
 
-      setFilteredData(filtered);
-      if (filtered.length > 0) {
-        setShowDownload(true);
+      if (
+        response.data.message === "Successfully getting Prescription Record!"
+      ) {
+        const formattedData = response.data.data.map((item) => ({
+          ...item,
+          gender: item.gender || "N/A",
+          weight: item.weight || "N/A",
+          place: item.place || "N/A",
+          bp: item.bp || "N/A",
+          follow_up_date: item.follow_up_date || "",
+          Date: item.prescription_date || "N/A",
+        }));
+        setFilteredData(response.data.data);
+        setShowDownload(response.data.data.length > 0);
       } else {
+        setFilteredData([]);
         setShowDownload(false);
+        console.log("No data received from API");
       }
-    } else {
-      setFilteredData([]);
-      setShowDownload(false);
+    } catch (err) {
+      if (err.response) {
+        setError(
+          `Error: ${err.response.status} - ${
+            err.response.data.message || err.response.statusText
+          }`
+        );
+      } else if (err.request) {
+        setError(
+          "Error: No response received from the server. Please check your network."
+        );
+      } else {
+        setError(`Error: ${err.message}`);
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -1229,51 +2071,78 @@ function Getdata() {
     return timingText.trim();
   };
 
-  const handleDownload = () => {
-    let downloadData = [...allData];
+  const handleDownload = async () => {
+    setLoading(true);
+    setError(null);
 
-    if (showFilterSlide) {
-      downloadData = [...filteredData];
-    }
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+      let apiUrl = `https://bharati-clinic-test.vercel.app/prescription/?action=getPrescriptionRecord&all_data=true`;
 
-    if (startDate && endDate) {
-      const start = new Date(startDate);
-      start.setHours(0, 0, 0, 0);
-
-      const end = new Date(endDate);
-      end.setHours(0, 0, 0, 0);
-      downloadData = downloadData.filter((item) => {
-        const itemDate = new Date(item.prescription_date);
-        itemDate.setHours(0, 0, 0, 0);
-
-        return itemDate >= start && itemDate <= end;
+      if (showFilterSlide) {
+        if (startDate) {
+          apiUrl += `&from_date=${startDate}`;
+        }
+        if (endDate) {
+          apiUrl += `&to_date=${endDate}`;
+        }
+      }
+      const response = await axios.get(apiUrl, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
       });
-    }
 
-    if (downloadData.length === 0) {
-      alert("No data to download.");
-      return;
+      const data = response.data.data;
+
+      if (data.length === 0) {
+        alert("No data to download.");
+        return;
+      }
+      const exportData = data.map((item) => ({
+        "Patient Name": item.patient_name,
+        "prescription-Date": item.prescription_date,
+        Medications: item.medications.map((med) => med.name).join(", "),
+        Timing: item.medications.map((med) => getTimingText(med)).join(", "),
+        Age: item.age || "N/A",
+        Gender: item.gender || "N/A",
+        Weight: item.weight || "N/A",
+        "Blood Pressure": item.bp || "N/A",
+        "Complaint Section": item.complaints
+          ? Array.isArray(item.complaints)
+            ? item.complaints.join(", ")
+            : item.complaints
+          : "N/A",
+        "Follow Up Date": item.follow_up_date || "",
+        Address: item.place || "N/A",
+      }));
+      const worksheet = XLSX.utils.json_to_sheet(exportData);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(
+        workbook,
+        worksheet,
+        "Filtered Prescription Data"
+      );
+      XLSX.writeFile(workbook, "filtered_data.xlsx");
+    } catch (err) {
+      if (err.response) {
+        setError(
+          `Error: ${err.response.status} - ${
+            err.response.data.message || err.response.statusText
+          }`
+        );
+      } else if (err.request) {
+        setError(
+          "Error: No response received from the server. Please check your network."
+        );
+      } else {
+        setError(`Error: ${err.message}`);
+      }
+    } finally {
+      setLoading(false);
     }
-    const exportData = downloadData.map((item) => ({
-      "Patient Name": item.patient_name,
-      "prescription-Date": item.prescription_date,
-      Medications: item.medications.map((med) => med.name).join(", "),
-      Timing: item.medications.map((med) => getTimingText(med)).join(", "),
-      "Age": item.age || 'N/A',
-      "Gender": item.gender || 'N/A',
-      "Weight": item.weight || 'N/A',
-      "Blood Pressure": item.bp || 'N/A',
-      "Complaint Section": item.complaints || 'N/A',
-      "Follow Up Date": item.follow_up_date || '',
-      "Address": item.place || 'N/A',
-    }));
-    const worksheet = XLSX.utils.json_to_sheet(exportData);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Prescription Data");
-    XLSX.writeFile(workbook, "data.xlsx");
   };
 
-  // Function to handle downloading all data with API call
   const handleDownloadAll = async () => {
     setLoading(true);
     setError(null);
@@ -1293,23 +2162,31 @@ function Getdata() {
         alert("No data to download.");
         return;
       }
-      
+
       const exportData = data.map((item) => ({
         "Patient Name": item.patient_name,
         "prescription-Date": item.prescription_date,
         Medications: item.medications.map((med) => med.name).join(", "),
         Timing: item.medications.map((med) => getTimingText(med)).join(", "),
-         "Age": item.age || 'N/A',
-        "Gender": item.gender || 'N/A',
-        "Weight": item.weight || 'N/A',
-        "Blood Pressure": item.bp || 'N/A',
-        "Complaint Section": item.complaints ? (Array.isArray(item.complaints) ? item.complaints.join(", ") : item.complaints) : 'N/A',   
-        "Follow Up Date": item.follow_up_date || '',
-        "Address": item.place || 'N/A',
+        Age: item.age || "N/A",
+        Gender: item.gender || "N/A",
+        Weight: item.weight || "N/A",
+        "Blood Pressure": item.bp || "N/A",
+        "Complaint Section": item.complaints
+          ? Array.isArray(item.complaints)
+            ? item.complaints.join(", ")
+            : item.complaints
+          : "N/A",
+        "Follow Up Date": item.follow_up_date || "",
+        Address: item.place || "N/A",
       }));
       const worksheet = XLSX.utils.json_to_sheet(exportData);
       const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, "All Prescription Data");
+      XLSX.utils.book_append_sheet(
+        workbook,
+        worksheet,
+        "All Prescription Data"
+      );
       XLSX.writeFile(workbook, "all_data.xlsx");
     } catch (err) {
       if (err.response) {
@@ -1343,57 +2220,53 @@ function Getdata() {
     setIsEditingDetail(false);
     setEditFormData(null);
   };
-    const handleSaveDetail = async (updatedData) => {
+  const handleSaveDetail = async (updatedData) => {
     try {
-        const formattedData = {
-            ...updatedData,
-            gender: updatedData.gender, // lowercase here
-            weight: updatedData.weight,
-            place: updatedData.place,
-            bp: updatedData.bp,
-            follow_up_date: updatedData.follow_up_date,
-            Date: updatedData.prescription_date
+      const formattedData = {
+        ...updatedData,
+        gender: updatedData.gender, // lowercase here
+        weight: updatedData.weight,
+        place: updatedData.place,
+        bp: updatedData.bp,
+        follow_up_date: updatedData.follow_up_date,
+        Date: updatedData.prescription_date,
+      };
 
-        };
+      await sendEditedDataToBackend(formattedData);
 
-        await sendEditedDataToBackend(formattedData);
+      setRecords((prevRecords) =>
+        prevRecords.map((item) =>
+          item.id === updatedData.id ? { ...item, ...formattedData } : item
+        )
+      );
 
+      setAllData((prevAllData) =>
+        prevAllData.map((item) =>
+          item.id === updatedData.id ? { ...item, ...formattedData } : item
+        )
+      );
 
-        setRecords((prevRecords) =>
-            prevRecords.map((item) =>
-                item.id === updatedData.id ? {...item,  ...formattedData} : item
-            )
-        );
+      setFilteredData((prevFilteredData) =>
+        prevFilteredData.map((item) =>
+          item.id === updatedData.id ? { ...item, ...formattedData } : item
+        )
+      );
 
-
-        setAllData((prevAllData) =>
-            prevAllData.map((item) =>
-                item.id === updatedData.id ? {...item,  ...formattedData}  : item
-            )
-        );
-
-
-        setFilteredData((prevFilteredData) =>
-            prevFilteredData.map((item) =>
-                item.id === updatedData.id ? {...item, ...formattedData} : item
-            )
-        );
-
-        setSelectedData(null);
-        setIsEditingDetail(false);
-        setSuccessMessage("Data updated successfully!");
-        setShowSuccess(true);
-        setTimeout(() => {
-            setShowSuccess(false);
-            navigate("/getdata");
-        }, 2000);
+      setSelectedData(null);
+      setIsEditingDetail(false);
+      setSuccessMessage("Data updated successfully!");
+      setShowSuccess(true);
+      setTimeout(() => {
+        setShowSuccess(false);
+        navigate("/getdata");
+      }, 2000);
     } catch (error) {
-        console.error("Error sending updated data to backend:", error);
-        handleError(
-            error.response?.data?.message || "An unexpected error occurred."
-        );
+      console.error("Error sending updated data to backend:", error);
+      handleError(
+        error.response?.data?.message || "An unexpected error occurred."
+      );
     }
-};
+  };
   const sendEditedDataToBackend = async (data) => {
     try {
       const accessToken = localStorage.getItem("accessToken");
@@ -1463,21 +2336,20 @@ function Getdata() {
     }
   };
 
-   const handleInputChange = (e, key) => {
-        const { value } = e.target;
-        setEditFormData((prevData) => {
-           if (key === "B/P") {
-                return { ...prevData, "B/P": value };
-            } else {
-                return { ...prevData, [key]: value };
-            }
-        });
-    };
-
+  const handleInputChange = (e, key) => {
+    const { value } = e.target;
+    setEditFormData((prevData) => {
+      if (key === "B/P") {
+        return { ...prevData, "B/P": value };
+      } else {
+        return { ...prevData, [key]: value };
+      }
+    });
+  };
 
   const handleTimingChange = (e, medicationIndex, timingKey) => {
     const isChecked = e.target.checked;
-    
+
     setEditFormData((prevData) => {
       if (
         !prevData ||
@@ -1518,7 +2390,7 @@ function Getdata() {
   };
 
   const handleHideDateForm = () => {
-     setShowFilterSlide(false);
+    setShowFilterSlide(false);
     setStartDate("");
     setEndDate("");
   };
@@ -1582,19 +2454,19 @@ function Getdata() {
             <table className="table table-bordered table-striped">
               <thead>
                 <tr>
-                    <th>Serial No.</th>
-                    <th>Patient Name</th>
-                    <th>prescription Date</th>
-                    <th>Medications</th>
-                    <th>Timing</th>
-                    <th>Age</th>
-                    <th>Gender</th>
-                    <th>Weight</th>
-                    <th>Blood Pressure</th>
-                     <th>Complaint Section</th>
-                    <th>Follow Up Date</th>
-                    <th>Address</th>
-                    <th>Actions</th>
+                  <th>Serial No.</th>
+                  <th>Patient Name</th>
+                  <th>prescription Date</th>
+                  <th>Medications</th>
+                  <th>Timing</th>
+                  <th>Age</th>
+                  <th>Gender</th>
+                  <th>Weight</th>
+                  <th>Blood Pressure</th>
+                  <th>Complaint Section</th>
+                  <th>Follow Up Date</th>
+                  <th>Address</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -1619,7 +2491,13 @@ function Getdata() {
                     <td>{item.gender || "N/A"}</td>
                     <td>{item.weight || "N/A"}</td>
                     <td>{item.bp || "N/A"}</td>
-                    <td>{item.complaints ? (Array.isArray(item.complaints) ? item.complaints.join(", ") : item.complaints) : "N/A"}</td>
+                    <td>
+                      {item.complaints
+                        ? Array.isArray(item.complaints)
+                          ? item.complaints.join(", ")
+                          : item.complaints
+                        : "N/A"}
+                    </td>
                     <td>{item.follow_up_date || ""}</td>
                     <td>{item.place || "N/A"}</td>
                     <td>
@@ -1714,59 +2592,66 @@ function Getdata() {
           {filteredData.length > 0 && (
             <div className="table-responsive">
               <table className="table table-bordered table-striped">
-               <thead>
-                    <tr>
-                        <th>Serial No.</th>
-                        <th>Patient Name</th>
-                        <th>prescription Date</th>
-                        <th>Medications</th>
-                        <th>Timing</th>
-                         <th>Age</th>
-                        <th>Gender</th>
-                        <th>Weight</th>
-                        <th>Blood Pressure</th>
-                        <th>Complaint Section</th>
-                        <th>Follow Up Date</th>
-                        <th>Address</th>
-                        <th>Actions</th>
-                    </tr>
+                <thead>
+                  <tr>
+                    <th>Serial No.</th>
+                    <th>Patient Name</th>
+                    <th>prescription Date</th>
+                    <th>Medications</th>
+                    <th>Timing</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                    <th>Weight</th>
+                    <th>Blood Pressure</th>
+                    <th>Complaint Section</th>
+                    <th>Follow Up Date</th>
+                    <th>Address</th>
+                    <th>Actions</th>
+                  </tr>
                 </thead>
                 <tbody>
-                   {filteredData.map((item, index) => (
+                  {filteredData.map((item, index) => (
                     <tr key={index}>
-                        <td>{index + 1}</td>
-                        <td>{item.patient_name}</td>
-                        <td>
-                            {item.prescription_date
-                                ? new Date(
-                                    item.prescription_date
-                                  ).toLocaleDateString()
-                                : "N/A"}
-                        </td>
-                        <td>
-                            {item.medications.map((med) => med.name).join(", ")}
-                        </td>
-                        <td>
-                            {item.medications
-                                .map((med) => getTimingText(med))
-                                .join(", ")}
-                        </td>
-                        <td>{item.age || "N/A"}</td>
+                      <td>{index + 1}</td>
+                      <td>{item.patient_name}</td>
+                      <td>
+                        {item.prescription_date
+                          ? new Date(
+                              item.prescription_date
+                            ).toLocaleDateString()
+                          : "N/A"}
+                      </td>
+                      <td>
+                        {item.medications.map((med) => med.name).join(", ")}
+                      </td>
+                      <td>
+                        {item.medications
+                          .map((med) => getTimingText(med))
+                          .join(", ")}
+                      </td>
+                      <td>{item.age || "N/A"}</td>
                       <td>{item.gender || "N/A"}</td>
                       <td>{item.weight || "N/A"}</td>
                       <td>{item.bp || "N/A"}</td>
-                      <td>{item.complaints ? (Array.isArray(item.complaints) ? item.complaints.join(", ") : item.complaints) : "N/A"}</td>                      <td>{item.follow_up_date || "N/A"}</td>
+                      <td>
+                        {item.complaints
+                          ? Array.isArray(item.complaints)
+                            ? item.complaints.join(", ")
+                            : item.complaints
+                          : "N/A"}
+                      </td>
+                      <td>{item.follow_up_date || "N/A"}</td>
                       <td>{item.place || "N/A"}</td>
                       <td>
-                            <button
-                                className="view-data-button"
-                                onClick={() => handleView(item)}
-                            >
-                                <FaEye />
-                            </button>
-                        </td>
+                        <button
+                          className="view-data-button"
+                          onClick={() => handleView(item)}
+                        >
+                          <FaEye />
+                        </button>
+                      </td>
                     </tr>
-                ))}
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -1826,66 +2711,69 @@ function Getdata() {
                     Prescription Date:
                   </label>
                   <input
-                    type="text"
+                    type="date"
                     className="home-form-input"
                     style={{ zIndex: 10000 }}
                     value={editFormData?.prescription_date || ""}
                     onChange={(e) => handleInputChange(e, "prescription_date")}
                   />
                 </div>
-                  <div className="home-form-group">
-                      <label className="home-form-label">
-                      <FontAwesomeIcon icon={faUser} className="home-icon" />
-                        Age:
-                      </label>
-                    <input
-                      type="text"
-                      className="home-form-input"
-                      style={{ zIndex: 10000 }}
-                        value={editFormData?.age || ""}
-                        onChange={(e) => handleInputChange(e, "age")}
-                      />
-                    </div>
-                   <div className="home-form-group">
-                        <label className="home-form-label">
-                           <FontAwesomeIcon icon={faVenusMars} className="home-icon" />
-                        Gender:
-                        </label>
-                      <input
-                        type="text"
-                        className="home-form-input"
-                        style={{ zIndex: 10000 }}
-                        value={editFormData?.gender || ""}
-                        onChange={(e) => handleInputChange(e, "gender")}
-                      />
-                    </div>
-                   <div className="home-form-group">
-                      <label className="home-form-label">
-                         <FontAwesomeIcon icon={faWeight} className="home-icon" />
-                      Weight:
-                      </label>
-                     <input
-                        type="text"
-                       className="home-form-input"
-                        style={{ zIndex: 10000 }}
-                       value={editFormData?.weight || ""}
-                        onChange={(e) => handleInputChange(e, "weight")}
-                       />
-                    </div>
-                   <div className="home-form-group">
-                       <label className="home-form-label">
-                           <FontAwesomeIcon icon={faHeartPulse} className="home-icon" />
-                        Blood Pressure:
-                        </label>
-                      <input
-                        type="text"
-                         className="home-form-input"
-                        style={{ zIndex: 10000 }}
-                        value={editFormData?.bp || ""}
-                         onChange={(e) => handleInputChange(e, "bp")}
-                        />
-                  </div>
-                  <div className="home-form-group">
+                <div className="home-form-group">
+                  <label className="home-form-label">
+                    <FontAwesomeIcon icon={faUser} className="home-icon" />
+                    Age:
+                  </label>
+                  <input
+                    type="text"
+                    className="home-form-input"
+                    style={{ zIndex: 10000 }}
+                    value={editFormData?.age || ""}
+                    onChange={(e) => handleInputChange(e, "age")}
+                  />
+                </div>
+                <div className="home-form-group">
+                  <label className="home-form-label">
+                    <FontAwesomeIcon icon={faVenusMars} className="home-icon" />
+                    Gender:
+                  </label>
+                  <input
+                    type="text"
+                    className="home-form-input"
+                    style={{ zIndex: 10000 }}
+                    value={editFormData?.gender || ""}
+                    onChange={(e) => handleInputChange(e, "gender")}
+                  />
+                </div>
+                <div className="home-form-group">
+                  <label className="home-form-label">
+                    <FontAwesomeIcon icon={faWeight} className="home-icon" />
+                    Weight:
+                  </label>
+                  <input
+                    type="text"
+                    className="home-form-input"
+                    style={{ zIndex: 10000 }}
+                    value={editFormData?.weight || ""}
+                    onChange={(e) => handleInputChange(e, "weight")}
+                  />
+                </div>
+                <div className="home-form-group">
+                  <label className="home-form-label">
+                    <FontAwesomeIcon
+                      icon={faHeartPulse}
+                      className="home-icon"
+                    />
+                    Blood Pressure:
+                  </label>
+                  <input
+                    type="text"
+                    className="home-form-input"
+                    style={{ zIndex: 10000 }}
+                    value={editFormData?.bp || ""}
+                    onChange={(e) => handleInputChange(e, "bp")}
+                  />
+                </div>
+                <div className="home-form-group">
                   <label className="home-form-label">
                     <FontAwesomeIcon icon={faComment} className="home-icon" />
                     Complaint Section:
@@ -1898,32 +2786,38 @@ function Getdata() {
                     onChange={(e) => handleInputChange(e, "complaints")}
                   />
                 </div>
-                   <div className="home-form-group">
-                       <label className="home-form-label">
-                           <FontAwesomeIcon icon={faCalendarDay} className="home-icon" />
-                      Follow Up Date:
-                      </label>
-                     <input
-                       type="text"
-                       className="home-form-input"
-                       style={{ zIndex: 10000 }}
-                       value={editFormData?.follow_up_date || ""}
-                       onChange={(e) => handleInputChange(e, "follow_up_date")}
-                     />
-                  </div>
-                  <div className="home-form-group">
-                       <label className="home-form-label">
-                           <FontAwesomeIcon icon={faLocationDot} className="home-icon" />
-                      Address:
-                     </label>
-                     <input
-                      type="text"
-                        className="home-form-input"
-                      style={{ zIndex: 10000 }}
-                      value={editFormData?.place || ""}
-                      onChange={(e) => handleInputChange(e, "place")}
-                     />
-                 </div>
+                <div className="home-form-group">
+                  <label className="home-form-label">
+                    <FontAwesomeIcon
+                      icon={faCalendarDay}
+                      className="home-icon"
+                    />
+                    Follow Up Date:
+                  </label>
+                  <input
+                    type="date"
+                    className="home-form-input"
+                    style={{ zIndex: 10000 }}
+                    value={editFormData?.follow_up_date || ""}
+                    onChange={(e) => handleInputChange(e, "follow_up_date")}
+                  />
+                </div>
+                <div className="home-form-group">
+                  <label className="home-form-label">
+                    <FontAwesomeIcon
+                      icon={faLocationDot}
+                      className="home-icon"
+                    />
+                    Address:
+                  </label>
+                  <input
+                    type="text"
+                    className="home-form-input"
+                    style={{ zIndex: 10000 }}
+                    value={editFormData?.place || ""}
+                    onChange={(e) => handleInputChange(e, "place")}
+                  />
+                </div>
                 <h3 className="home-medication-title">
                   <FontAwesomeIcon icon={faPills} className="home-icon" />
                   Medications:
@@ -1990,34 +2884,39 @@ function Getdata() {
               </div>
             ) : (
               <div>
-              <p className="prescription">
-                <strong>Patient Name:</strong> {selectedData.patient_name}
-              </p>
-              <p className="prescription">
-                <strong>prescription Date:</strong> {selectedData.prescription_date}
-              </p>
-              <p className="prescription">
-                <strong>Age:</strong> {selectedData.age || 'N/A'}
-              </p>
-              <p className="prescription">
-                <strong>Gender:</strong> {selectedData.gender || 'N/A'}
-              </p>
-              <p className="prescription">
-                <strong>Weight:</strong> {selectedData.weight || 'N/A'}
-              </p>
-              <p className="prescription">
-                <strong>Blood Pressure:</strong> {selectedData.bp || 'N/A'}
-              </p>
-              <p className="prescription">
-                  <strong>Complaint Section:</strong>
-                  {selectedData.complaints ? (Array.isArray(selectedData.complaints) ? selectedData.complaints.join(", ") : selectedData.complaints) : "N/A"}
+                <p className="prescription">
+                  <strong>Patient Name:</strong> {selectedData.patient_name}
                 </p>
-              <p className="prescription">
-                <strong>Follow Up Date:</strong> {selectedData.follow_up_date || ''}
-              </p>
-              <p className="prescription">
-                <strong>Address:</strong> {selectedData.place || 'N/A'}
-              </p>
+                <p className="prescription">
+                  <strong>prescription Date:</strong>{" "}
+                  {selectedData.prescription_date}
+                </p>
+                <p className="prescription">
+                  <strong>Age:</strong> {selectedData.age || "N/A"}
+                </p>
+                <p className="prescription">
+                  <strong>Gender:</strong> {selectedData.gender || "N/A"}
+                </p>
+                <p className="prescription">
+                  <strong>Weight:</strong> {selectedData.weight || "N/A"}
+                </p>
+                <p className="prescription">
+                  <strong>Blood Pressure:</strong> {selectedData.bp || "N/A"}
+                </p>
+                <p className="prescription">
+                  <strong>Complaint Section:</strong>
+                  {selectedData.complaints
+                    ? Array.isArray(selectedData.complaints)
+                      ? selectedData.complaints.join(", ")
+                      : selectedData.complaints
+                    : "N/A"}
+                </p>
+                <p className="prescription">
+                  <strong>Follow Up Date:</strong> {selectedData.follow_up_date}
+                </p>
+                <p className="prescription">
+                  <strong>Address:</strong> {selectedData.place || "N/A"}
+                </p>
                 <h3 className="home-medication-title">Medications:</h3>
                 <ul className="home-medication-list">
                   {selectedData.medications &&
