@@ -2010,12 +2010,19 @@ margin-left: 81px;} */
 
 .home-error-message {
   color: red; /* Change the error message color to red */
-  font-size: 1rem;
+  font-size: 0.8rem;
   margin-top: -7px;
   display: block;
-  margin-left: 35px;
+  margin-left: 30px;
 }
 
+/* Responsive adjustments */
+@media screen and (max-width: 600px) {
+  .home-error-message {
+    font-size: 0.875rem; /* Slightly smaller font size for smaller screens */
+    margin-left: 15px; /* Reduce margin for smaller screens */
+  }
+}
 
 .home-form-input1{
   margin-bottom: 10px;
@@ -2025,11 +2032,18 @@ margin-left: 81px;} */
   width: calc(100% - 20px);
   margin-top: 5px;
   transition: border-color 0.3s ease; /* Add transition for hover effect */
-  width: 248px;
+  width: 200px;
 }
 
 .home-form-input:focus {
   outline: none;
   border-color: #1c75c4;
   box-shadow: 0 0 5px rgba(28, 117, 196, 0.3); /* Add a subtle shadow for focus */
+}
+/* Mobile responsiveness */
+@media screen and (max-width: 600px) {
+  .home-form-input1 {
+    width: 100%; /* Full width on small screens */
+    max-width: none; /* Remove the max-width restriction */
+  }
 }

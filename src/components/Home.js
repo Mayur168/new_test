@@ -1201,11 +1201,11 @@ const Home = () => {
     
     let hasError = false;
     if (!editedResponseData?.prescription_date) {
-      setDateError((prev) => ({ ...prev, prescription_date: "Fill the Date" }));
+      setDateError((prev) => ({ ...prev, prescription_date: "Fill Date" }));
        hasError = true;
     }
      if (!editedResponseData?.follow_up_date) {
-       setDateError((prev) => ({ ...prev, follow_up_date: "Fill the Date" }));
+       setDateError((prev) => ({ ...prev, follow_up_date: "Fill Date" }));
         hasError = true;
      }
 
