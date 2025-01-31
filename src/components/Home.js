@@ -605,6 +605,7 @@ const Home = () => {
       setCapturedImageSize(null);
     }
   };
+
   const handleInputChange = (e, section, key) => {
     const { value } = e.target;
     setEditedResponseData((prevData) => {
@@ -649,6 +650,7 @@ const Home = () => {
     setIsApiLoading(false);
     setCapturedImageSize(null);
   };
+
   const handlePostImage = async () => {
     if (responseData) {
       setIsApiLoading(true);
@@ -751,7 +753,7 @@ const Home = () => {
                   />
                 </div>
 
-                {/* <div className="home-form-group">
+                <div className="home-form-group">
                   <label className="home-form-label">
                     <FontAwesomeIcon icon={faVenusMars} className="home-icon" />
                     Gender:
@@ -762,8 +764,8 @@ const Home = () => {
                     value={editedResponseData?.gender || ""}
                     onChange={(e) => handleInputChange(e, null, "gender")}
                   />
-                </div> */}
-                <div className="home-form-group">
+                </div>
+                {/* <div className="home-form-group">
                   <label className="home-form-label">
                     <FontAwesomeIcon icon={faVenusMars} className="home-icon" />
                     Gender:
@@ -778,7 +780,7 @@ const Home = () => {
                     <option value="Female">Female</option>
                     <option value="Other">Other</option>
                   </select>
-                </div>
+                </div> */}
                 <div className="home-form-group">
                   <label className="home-form-label">
                     <FontAwesomeIcon icon={faUser} className="home-icon" />
@@ -809,12 +811,11 @@ const Home = () => {
                     Weight (kg):
                   </label>
                   <input
-                    type="number"
+                    type="text"
                     className="home-form-input"
                     value={editedResponseData?.weight || ""}
                     onChange={(e) => handleInputChange(e, null, "weight")}
-                    min="0"
-                    step="1"
+                   
                   />
                 </div>
                 <div className="home-form-group">
@@ -860,7 +861,7 @@ const Home = () => {
                     type="text"
                     className="home-form-input"
                     value={editedResponseData?.prescription_date}
-                    placeholder="YYYY/MM/DD"
+                    placeholder="YYYY-MM-DD"
                     onChange={(e) =>
                       handleInputChange(e, null, "prescription_date")
                     }
@@ -875,10 +876,10 @@ const Home = () => {
                     Follow up date:
                   </label>
                   <input
-                    type="date"
+                    type="text"
                     className="home-form-input"
-                    value={editedResponseData?.follow_up_date || ""}
-                    placeholder="YYYY/MM/DD"
+                    value={editedResponseData?.follow_up_date }
+                    placeholder="YYYY-MM-DD"
                     onChange={(e) =>
                       handleInputChange(e, null, "follow_up_date")
                     }
@@ -999,13 +1000,21 @@ const Home = () => {
                   <strong>Place:</strong> {responseData?.place || "N/A"}
                 </p>
                 <p className="home-details-text">
+                  <strong>Prescription Date:</strong>
+                  {responseData?.prescription_date}
+                </p>
+                <p className="home-details-text">
+                  <strong>Follow up date:</strong>
+                  {responseData?.follow_up_date}
+                </p>
+                {/* <p className="home-details-text">
                   <strong>Prescription Date:</strong>{" "}
                   {responseData?.prescription_date}
                 </p>
                 <p className="home-details-text">
                   <strong>Follow up date:</strong>{" "}
                   {responseData?.follow_up_date}
-                </p>
+                </p> */}
 
                 {/* <p className="home-details-text">
                     <strong>Prescription Date:</strong> {responseData?.prescription_date || "N/A"}
