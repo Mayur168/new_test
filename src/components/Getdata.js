@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import * as XLSX from "xlsx";
@@ -37,6 +36,7 @@ function Getdata() {
   const [error, setError] = useState(null);
   const [allData, setAllData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
+  const [paginatedFilteredData, setPaginatedFilteredData] = useState([]);
   const [showDownload, setShowDownload] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
@@ -47,9 +47,13 @@ function Getdata() {
   const navigate = useNavigate();
   const [showFilterSlide, setShowFilterSlide] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [filteredCurrentPage, setFilteredCurrentPage] = useState(1);
+
   const [totalPages, setTotalPages] = useState(1);
+  const [filteredTotalPages, setFilteredTotalPages] = useState(1);
   const [records, setRecords] = useState([]);
   const recordsPerPage = 10;
+  const filteredRecordsPerPage = 10;
 
   useEffect(() => {
     setShowDownload(false);
@@ -60,7 +64,7 @@ function Getdata() {
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to top
-  }, [currentPage]);
+  }, [currentPage, filteredCurrentPage]);
 
   const checkLoginStatus = () => {
     const accessToken = localStorage.getItem("accessToken");
@@ -121,6 +125,7 @@ function Getdata() {
       setLoading(false);
     }
   };
+
   const fetchData = async (page) => {
     setLoading(true);
     setError(null);
@@ -173,7 +178,20 @@ function Getdata() {
       setCurrentPage(newPage); // Update state only if the page changes
     }
   };
-  
+
+  const handleFilteredPageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= filteredTotalPages) {
+      setFilteredCurrentPage(newPage); // Update state only if the page changes
+      updatePaginatedFilteredData(filteredData, newPage);
+    }
+  };
+
+  const updatePaginatedFilteredData = (data, page) => {
+    const startIndex = (page - 1) * filteredRecordsPerPage;
+    const endIndex = startIndex + filteredRecordsPerPage;
+    setPaginatedFilteredData(data.slice(startIndex, endIndex));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -186,11 +204,24 @@ function Getdata() {
       return;
     }
 
+    if (!startDate && !endDate) {
+      setFilteredData([]); // Clear existing filtered data
+      setPaginatedFilteredData([]);
+      setShowDownload(false); // Hide download button
+      setLoading(false);
+      setFilteredCurrentPage(1);
+      setFilteredTotalPages(1);
+      return;
+    }
+
     try {
       const accessToken = localStorage.getItem("accessToken");
       let apiUrl = `https://bharati-clinic-test.vercel.app/prescription/?action=getPrescriptionRecord&all_data=true`;
 
-      if (startDate) {
+      if (startDate && !endDate) {
+        // Only startDate provided: Get data for that specific date
+        apiUrl += `&from_date=${startDate}&to_date=${startDate}`;
+      } else if (startDate) {
         apiUrl += `&from_date=${startDate}`;
       }
       if (endDate) {
@@ -216,10 +247,18 @@ function Getdata() {
           Date: item.prescription_date || "N/A",
         }));
         setFilteredData(response.data.data);
+        updatePaginatedFilteredData(response.data.data, 1);
+        setFilteredCurrentPage(1);
+        setFilteredTotalPages(
+          Math.ceil(response.data.data.length / filteredRecordsPerPage)
+        );
         setShowDownload(response.data.data.length > 0);
       } else {
         setFilteredData([]);
+        setPaginatedFilteredData([]);
         setShowDownload(false);
+        setFilteredCurrentPage(1);
+        setFilteredTotalPages(1);
         console.log("No data received from API");
       }
     } catch (err) {
@@ -254,30 +293,30 @@ function Getdata() {
     setError(null);
 
     try {
-      const accessToken = localStorage.getItem("accessToken");
-      let apiUrl = `https://bharati-clinic-test.vercel.app/prescription/?action=getPrescriptionRecord&all_data=true`;
-
-      if (showFilterSlide) {
-        if (startDate) {
-          apiUrl += `&from_date=${startDate}`;
-        }
-        if (endDate) {
-          apiUrl += `&to_date=${endDate}`;
-        }
+      let dataToExport;
+      if (showFilterSlide && filteredData.length > 0) {
+        // Download filtered data if filters are applied
+        dataToExport = filteredData;
+      } else {
+        // Download all data if no filters are applied
+        const accessToken = localStorage.getItem("accessToken");
+        const response = await axios.get(
+          `https://bharati-clinic-test.vercel.app/prescription/?action=getPrescriptionRecord&all_data=true`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+        dataToExport = response.data.data;
       }
-      const response = await axios.get(apiUrl, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
 
-      const data = response.data.data;
-
-      if (data.length === 0) {
+      if (!dataToExport || dataToExport.length === 0) {
         alert("No data to download.");
         return;
       }
-      const exportData = data.map((item) => ({
+
+      const exportData = dataToExport.map((item) => ({
         "Patient Name": item.patient_name,
         "prescription-Date": item.prescription_date,
         Medications: item.medications.map((med) => med.name).join(", "),
@@ -299,9 +338,12 @@ function Getdata() {
       XLSX.utils.book_append_sheet(
         workbook,
         worksheet,
-        "Filtered Prescription Data"
+        showFilterSlide ? "Filtered Prescription Data" : "All Prescription Data"
       );
-      XLSX.writeFile(workbook, "filtered_data.xlsx");
+      XLSX.writeFile(
+        workbook,
+        showFilterSlide ? "filtered_data.xlsx" : "all_data.xlsx"
+      );
     } catch (err) {
       if (err.response) {
         setError(
@@ -417,18 +459,23 @@ function Getdata() {
           item.id === updatedData.id ? { ...item, ...formattedData } : item
         )
       );
-
       setAllData((prevAllData) =>
         prevAllData.map((item) =>
           item.id === updatedData.id ? { ...item, ...formattedData } : item
         )
       );
-
       setFilteredData((prevFilteredData) =>
         prevFilteredData.map((item) =>
           item.id === updatedData.id ? { ...item, ...formattedData } : item
         )
       );
+      if (filteredData.length > 0) {
+        setPaginatedFilteredData((prevPaginatedFilteredData) =>
+          prevPaginatedFilteredData.map((item) =>
+            item.id === updatedData.id ? { ...item, ...formattedData } : item
+          )
+        );
+      }
 
       setSelectedData(null);
       setIsEditingDetail(false);
@@ -494,9 +541,11 @@ function Getdata() {
 
       setRecords((prevRecords) => prevRecords.filter((item) => item.id !== id)); // Update records state
       setAllData((prevAllData) => prevAllData.filter((item) => item.id !== id));
-
       setFilteredData((prevFilteredData) =>
         prevFilteredData.filter((item) => item.id !== id)
+      );
+      setPaginatedFilteredData((prevPaginatedFilteredData) =>
+        prevPaginatedFilteredData.filter((item) => item.id !== id)
       );
 
       setSelectedData(null);
@@ -575,6 +624,73 @@ function Getdata() {
 
   const handleBackToHome = () => {
     navigate("/");
+  };
+
+  const handleFilterButtonClick = async (filterType) => {
+    setLoading(true);
+    setError(null);
+    setShowDownload(false);
+    setFilteredData([]);
+    setPaginatedFilteredData([]);
+    setFilteredCurrentPage(1);
+    setFilteredTotalPages(1);
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+      const response = await axios.get(
+        `https://bharati-clinic-test.vercel.app/prescription/?action=getPrescriptionRecord&filter_response=${filterType}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      if (
+        response.data.message === "Successfully getting Prescription Record!"
+      ) {
+        const formattedData = response.data.data.map((item) => ({
+          ...item,
+          gender: item.gender || "N/A",
+          weight: item.weight || "N/A",
+          place: item.place || "N/A",
+          bp: item.bp || "N/A",
+          follow_up_date: item.follow_up_date || "",
+          Date: item.prescription_date || "N/A",
+        }));
+        setFilteredData(response.data.data);
+        updatePaginatedFilteredData(response.data.data, 1);
+        setFilteredTotalPages(
+          Math.ceil(response.data.data.length / filteredRecordsPerPage)
+        );
+
+        setShowDownload(response.data.data.length > 0);
+      } else {
+        setFilteredData([]);
+        setPaginatedFilteredData([]);
+        setShowDownload(false);
+        setFilteredCurrentPage(1);
+        setFilteredTotalPages(1);
+        console.log("No data received from API");
+      }
+
+      console.log(response.data);
+    } catch (err) {
+      if (err.response) {
+        setError(
+          `Error: ${err.response.status} - ${
+            err.response.data.message || err.response.statusText
+          }`
+        );
+      } else if (err.request) {
+        setError(
+          "Error: No response received from the server. Please check your network."
+        );
+      } else {
+        setError(`Error: ${err.message}`);
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (!isLoggedIn) {
@@ -761,6 +877,30 @@ function Getdata() {
               >
                 {loading ? "Get Data" : "Get Data"}
               </button>
+              {/* New Buttons: Today, Week, Month */}
+              <div className="date-filter-buttons mt-3">
+                <button
+                  type="button"
+                  className="btn btn-secondary mx-1"
+                  onClick={() => handleFilterButtonClick("today")}
+                >
+                  Today
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-secondary mx-1"
+                  onClick={() => handleFilterButtonClick("week")}
+                >
+                  Week
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-secondary mx-1"
+                  onClick={() => handleFilterButtonClick("month")}
+                >
+                  Month
+                </button>
+              </div>
             </form>
           </div>
           <div className="table-header">
@@ -788,9 +928,13 @@ function Getdata() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredData.map((item, index) => (
+                  {paginatedFilteredData.map((item, index) => (
                     <tr key={index}>
-                      <td>{index + 1}</td>
+                      <td>
+                        {(filteredCurrentPage - 1) * filteredRecordsPerPage +
+                          index +
+                          1}
+                      </td>
                       <td>{item.patient_name}</td>
                       <td>
                         {item.prescription_date
@@ -832,6 +976,33 @@ function Getdata() {
                   ))}
                 </tbody>
               </table>
+            </div>
+          )}
+          {filteredData.length > 0 && (
+            <div className="pagination-container">
+              <div className="pagination">
+                <button
+                  onClick={() =>
+                    handleFilteredPageChange(filteredCurrentPage - 1)
+                  }
+                  disabled={filteredCurrentPage === 1}
+                  className="pagination-button"
+                >
+                  <FaChevronLeft />
+                </button>
+                <span className="page-number">
+                  {filteredCurrentPage} of {filteredTotalPages}
+                </span>
+                <button
+                  onClick={() =>
+                    handleFilteredPageChange(filteredCurrentPage + 1)
+                  }
+                  disabled={filteredCurrentPage === filteredTotalPages}
+                  className="pagination-button"
+                >
+                  <FaChevronRight />
+                </button>
+              </div>
             </div>
           )}
           {filteredData.length === 0 && (
@@ -924,7 +1095,7 @@ function Getdata() {
                 </div>
                 <div className="home-form-group">
                   <label className="home-form-label">
-                    <FontAwesomeIcon icon={faWeight} className="home-icon" />
+                    <FontAwesomeIcon icon={faWeight} className="home--icon" />
                     Weight:
                   </label>
                   <input

@@ -34,10 +34,10 @@ const Contact = () => {
     <section id="contact" className="contact section">
       <div className="container section-title" data-aos="fade-up">
         <h2>Contact</h2>
-        <p>
-          Necessitatibus eius consequatur ex aliquid fuga eum quidem sint
-          consectetur velit
-        </p>
+          <p>
+            📍 Address: 327, Old LIC Building, Kulkarni Plot, Behind Court No. 2
+            Petrol Pump, Bhusawal.
+          </p>
       </div>
 
       <div className="mb-5" data-aos="fade-up" data-aos-delay="200">
@@ -67,7 +67,8 @@ const Contact = () => {
               <i className="bi bi-geo-alt flex-shrink-0"></i>
               <div>
                 <h3>Location</h3>
-                <p>A108 Adam Street, New York, NY 535022</p>
+                  <p>📍 Address: 327, Old LIC Building, Kulkarni Plot, Behind
+                    Court No. 2 Petrol Pump, Bhusawal.</p> 
               </div>
             </div>
 

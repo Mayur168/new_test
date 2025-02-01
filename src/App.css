@@ -1997,6 +1997,7 @@ margin-left: 81px;} */
 .download-all-button:hover {
   background-color: #218838;
 }
+
 .filter-download-container {
   margin-top: -10px; /* Adjust negative value as needed */
   font-size: 12px;
@@ -2005,22 +2006,25 @@ margin-left: 81px;} */
 }
 
 .home-input-error {
-  border-color: red; /* Change the border color to red */
+  border: 1px solid red !important;
 }
-
 .home-error-message {
   color: red; /* Change the error message color to red */
   font-size: 0.8rem;
   margin-top: -7px;
   display: block;
   margin-left: 30px;
+  
 }
+
 
 /* Responsive adjustments */
 @media screen and (max-width: 600px) {
   .home-error-message {
     font-size: 0.875rem; /* Slightly smaller font size for smaller screens */
     margin-left: 15px; /* Reduce margin for smaller screens */
+    border-color: red; /* Change the border color to red */
+
   }
 }
 
@@ -2046,4 +2050,15 @@ margin-left: 81px;} */
     width: 100%; /* Full width on small screens */
     max-width: none; /* Remove the max-width restriction */
   }
+}
+
+.filter-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.filter-buttons .btn {
+  min-width: 80px;
 }
