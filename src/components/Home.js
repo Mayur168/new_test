@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import About from "./About";
 import Contact from "./Contact";
@@ -32,9 +31,9 @@ const Home = () => {
   const [capturedImageSize, setCapturedImageSize] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
   const [dateError, setDateError] = useState({
-      prescription_date: null,
-      follow_up_date: null,
-    });
+    prescription_date: null,
+    follow_up_date: null,
+  });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -49,8 +48,21 @@ const Home = () => {
   const handleDataReceived = async (data) => {
     setIsApiLoading(true);
     setCapturedImage(data.image);
-    setResponseData(data.response);
-    setEditedResponseData({ ...data.response, id: data.response.id });
+
+    // Add new fields to the response data
+    const updatedResponse = {
+      ...data.response,
+      type: "",           // New field: type
+      pulse: "",          // New field: pulse
+      Lab_test: [         // New field: Lab_test as an array
+        {
+          // Default empty object; you can add properties like { name: "", result: "" } if needed
+        },
+      ],
+    };
+
+    setResponseData(updatedResponse);
+    setEditedResponseData({ ...updatedResponse, id: data.response.id });
     setIsCameraVisible(false);
     setIsApiLoading(false);
     calculateImageSize(data.image);
@@ -80,18 +92,18 @@ const Home = () => {
     setSuccessMessage("");
   };
 
-   const handleSaveEdit = async () => {
-     setDateError({ prescription_date: null, follow_up_date: null });
-    
+  const handleSaveEdit = async () => {
+    setDateError({ prescription_date: null, follow_up_date: null });
+
     let hasError = false;
     if (!editedResponseData?.prescription_date) {
       setDateError((prev) => ({ ...prev, prescription_date: "Fill Date" }));
-       hasError = true;
+      hasError = true;
     }
-     if (!editedResponseData?.follow_up_date) {
-       setDateError((prev) => ({ ...prev, follow_up_date: "Fill Date" }));
-        hasError = true;
-     }
+    if (!editedResponseData?.follow_up_date) {
+      setDateError((prev) => ({ ...prev, follow_up_date: "Fill Date" }));
+      hasError = true;
+    }
 
     if (hasError) return;
     setIsApiLoading(true);
@@ -122,7 +134,6 @@ const Home = () => {
     }
   };
 
-
   const sendEditedDataToBackend = async (data) => {
     try {
       const accessToken = localStorage.getItem("accessToken");
@@ -144,6 +155,7 @@ const Home = () => {
       throw error;
     }
   };
+
   const calculateImageSize = async (imageSrc) => {
     try {
       const response = await fetch(imageSrc);
@@ -178,9 +190,9 @@ const Home = () => {
         return { ...prevData, [key]: value };
       }
     });
-      if (key === "prescription_date" || key === "follow_up_date") {
-        setDateError((prev) => ({ ...prev, [key]: null }));
-      }
+    if (key === "prescription_date" || key === "follow_up_date") {
+      setDateError((prev) => ({ ...prev, [key]: null }));
+    }
   };
 
   const handleTimingChange = (e, medicationIndex, timingKey) => {
@@ -234,7 +246,7 @@ const Home = () => {
         setIsApiLoading(false);
         setCapturedImageSize(null);
         setSuccessMessage("Data posted successfully!");
-        setShowSuccess(true); // Show success message
+        setShowSuccess(true);
         setTimeout(() => {
           setShowSuccess(false);
           navigate("/");
@@ -251,6 +263,7 @@ const Home = () => {
       handleError("No data to post. Please capture an image first.");
     }
   };
+
   const renderSuccessModal = () => {
     if (!showSuccess) return null;
     return (
@@ -261,6 +274,7 @@ const Home = () => {
       </div>
     );
   };
+
   return (
     <>
       {renderSuccessModal()}
@@ -285,7 +299,6 @@ const Home = () => {
           <div className="home-captured-image-header">
             <h2 className="home-captured-image-title">Captured Image:</h2>
           </div>
-
           <img
             src={capturedImage}
             alt="Captured"
@@ -390,15 +403,19 @@ const Home = () => {
                   </label>
                   <input
                     type="text"
-                    className={`home-form-input1 ${dateError.prescription_date ? "home-input-error" : ""}`}
-                    value={editedResponseData?.prescription_date}
+                    className={`home-form-input1 ${
+                      dateError.prescription_date ? "home-input-error" : ""
+                    }`}
+                    value={editedResponseData?.prescription_date || ""}
                     placeholder="YYYY-MM-DD"
                     onChange={(e) =>
                       handleInputChange(e, null, "prescription_date")
                     }
                   />
                   {dateError.prescription_date && (
-                    <span className="home-error-message" >{dateError.prescription_date}</span>
+                    <span className="home-error-message">
+                      {dateError.prescription_date}
+                    </span>
                   )}
                 </div>
                 <div className="home-form-group">
@@ -411,16 +428,20 @@ const Home = () => {
                   </label>
                   <input
                     type="text"
-                    className={`home-form-input1 ${dateError.follow_up_date ? "home-input-error" : ""}`}
-                    value={editedResponseData?.follow_up_date}
+                    className={`home-form-input1 ${
+                      dateError.follow_up_date ? "home-input-error" : ""
+                    }`}
+                    value={editedResponseData?.follow_up_date || ""}
                     placeholder="YYYY-MM-DD"
                     onChange={(e) =>
                       handleInputChange(e, null, "follow_up_date")
                     }
                   />
-                   {dateError.follow_up_date && (
-                      <span className="home-error-message">{dateError.follow_up_date}</span>
-                    )}
+                  {dateError.follow_up_date && (
+                    <span className="home-error-message">
+                      {dateError.follow_up_date}
+                    </span>
+                  )}
                 </div>
 
                 <div className="home-form-group">
@@ -433,6 +454,63 @@ const Home = () => {
                     className="home-form-input"
                     value={editedResponseData?.complaints || ""}
                     onChange={(e) => handleInputChange(e, null, "complaints")}
+                  />
+                </div>
+
+                {/* New Fields */}
+                <div className="home-form-group">
+                  <label className="home-form-label">
+                    <FontAwesomeIcon
+                      icon={faHeartPulse}
+                      className="home-icon"
+                    />
+                    Type:
+                  </label>
+                  <input
+                    type="text"
+                    className="home-form-input"
+                    value={editedResponseData?.type || ""}
+                    onChange={(e) => handleInputChange(e, null, "type")}
+                  />
+                </div>
+                <div className="home-form-group">
+                  <label className="home-form-label">
+                    <FontAwesomeIcon
+                      icon={faHeartPulse}
+                      className="home-icon"
+                    />
+                    Pulse:
+                  </label>
+                  <input
+                    type="text"
+                    className="home-form-input"
+                    value={editedResponseData?.pulse || ""}
+                    onChange={(e) => handleInputChange(e, null, "pulse")}
+                  />
+                </div>
+                <div className="home-form-group">
+                  <label className="home-form-label">
+                    <FontAwesomeIcon icon={faPills} className="home-icon" />
+                    Lab Tests:
+                  </label>
+                  <textarea
+                    className="home-form-input"
+                    value={
+                      editedResponseData?.Lab_test
+                        ? JSON.stringify(editedResponseData.Lab_test, null, 2)
+                        : "[]"
+                    }
+                    onChange={(e) => {
+                      try {
+                        const value = JSON.parse(e.target.value);
+                        setEditedResponseData((prev) => ({
+                          ...prev,
+                          Lab_test: value,
+                        }));
+                      } catch (error) {
+                        console.error("Invalid JSON for Lab_test:", error);
+                      }
+                    }}
                   />
                 </div>
 
@@ -466,7 +544,10 @@ const Home = () => {
                             Timing:
                             {Object.entries(medication?.timing || {}).map(
                               ([key, value]) => (
-                                <label key={key} className="home-timing-label">
+                                <label
+                                  key={key}
+                                  className="home-timing-label"
+                                >
                                   <input
                                     type="checkbox"
                                     className="home-timing-checkbox"
@@ -490,7 +571,7 @@ const Home = () => {
                     type="button"
                     onClick={handleSaveEdit}
                   >
-                    submit
+                    Submit
                   </button>
                   <button
                     className="home-cancel-button"
@@ -521,17 +602,38 @@ const Home = () => {
                 <p className="home-details-text">
                   <strong>Place:</strong> {responseData?.place || "N/A"}
                 </p>
-                 <p className="home-details-text">
+                <p className="home-details-text">
                   <strong>Prescription Date:</strong>
-                  {responseData?.prescription_date || " Please enter the prescription_date " }
+                  {responseData?.prescription_date ||
+                    " Please enter the prescription_date "}
                 </p>
                 <p className="home-details-text">
                   <strong>Follow up date:</strong>
-                  {responseData?.follow_up_date || " Please enter the follow_up_date " }
+                  {responseData?.follow_up_date ||
+                    " Please enter the follow_up_date "}
                 </p>
                 <p className="home-details-text">
                   <strong>Complaints:</strong>{" "}
                   {responseData?.complaints || "N/A"}
+                </p>
+                {/* New Fields */}
+                <p className="home-details-text">
+                  <strong>Type:</strong> {responseData?.type || "N/A"}
+                </p>
+                <p className="home-details-text">
+                  <strong>Pulse:</strong> {responseData?.pulse || "N/A"}
+                </p>
+                <p className="home-details-text">
+                  <strong>Lab Tests:</strong>{" "}
+                  {responseData?.Lab_test?.length > 0
+                    ? responseData.Lab_test.map((test, index) => (
+                        <span key={index}>
+                          {JSON.stringify(test) === "{}"
+                            ? "No details"
+                            : JSON.stringify(test)}
+                        </span>
+                      ))
+                    : "No lab tests"}
                 </p>
 
                 <h3 className="home-medication-title">Medications:</h3>
