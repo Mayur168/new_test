@@ -32,7 +32,7 @@ function Login() {
 
         try {
 
-            const url = "https://bharati-clinic-test.vercel.app/users/login/";
+            const url = "https://bharati-clinic.vercel.app/users/login/";
 
             // Sending request using axios
             const response = await axios.post(url, loginInfo);
