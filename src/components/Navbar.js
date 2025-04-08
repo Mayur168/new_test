@@ -128,9 +128,9 @@ function Navbar({ isAuthenticated, handleLogout }) {
               <i className="bi bi-envelope d-flex align-items-center">
                 <a href="mailto:contact@example.com">contact@example.com</a>
               </i>
-              <i className="bi bi-phone d-flex align-items-center ms-4">
+              {/* <i className="bi bi-phone d-flex align-items-center ms-4">
                 <span>+1 5589 55488 55</span>
-              </i>
+              </i> */}
             </div>
           </div>
         </div>

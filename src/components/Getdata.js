@@ -85,7 +85,7 @@ function Getdata() {
     try {
       const accessToken = localStorage.getItem("accessToken");
       const response = await axios.get(
-        `https://bharati-clinic-test.vercel.app/prescription/?action=getPrescriptionRecord`,
+        `https://bharati-clinic.vercel.app/prescription/?action=getPrescriptionRecord`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -132,7 +132,7 @@ function Getdata() {
     try {
       const accessToken = localStorage.getItem("accessToken");
       const response = await axios.get(
-        `https://bharati-clinic-test.vercel.app/prescription/?action=getPrescriptionRecord&page=${page}&records_number=${recordsPerPage}`,
+        `https://bharati-clinic.vercel.app/prescription/?action=getPrescriptionRecord&page=${page}&records_number=${recordsPerPage}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -216,7 +216,7 @@ function Getdata() {
 
     try {
       const accessToken = localStorage.getItem("accessToken");
-      let apiUrl = `https://bharati-clinic-test.vercel.app/prescription/?action=getPrescriptionRecord&all_data=true`;
+      let apiUrl = `https://bharati-clinic.vercel.app/prescription/?action=getPrescriptionRecord&all_data=true`;
 
       if (startDate && !endDate) {
         // Only startDate provided: Get data for that specific date
@@ -301,7 +301,7 @@ function Getdata() {
         // Download all data if no filters are applied
         const accessToken = localStorage.getItem("accessToken");
         const response = await axios.get(
-          `https://bharati-clinic-test.vercel.app/prescription/?action=getPrescriptionRecord&all_data=true`,
+          `https://bharati-clinic.vercel.app/prescription/?action=getPrescriptionRecord&all_data=true`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -369,7 +369,7 @@ function Getdata() {
     try {
       const accessToken = localStorage.getItem("accessToken");
       const response = await axios.get(
-        `https://bharati-clinic-test.vercel.app/prescription/?action=getPrescriptionRecord&all_data=true`,
+        `https://bharati-clinic.vercel.app/prescription/?action=getPrescriptionRecord&all_data=true`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -496,7 +496,7 @@ function Getdata() {
     try {
       const accessToken = localStorage.getItem("accessToken");
       const response = await axios.patch(
-        "https://bharati-clinic-test.vercel.app/prescription/",
+        "https://bharati-clinic.vercel.app/prescription/",
         {
           action: "patchPrescriptionRecord",
           ...data,
@@ -527,7 +527,7 @@ function Getdata() {
       console.log(accessToken);
 
       await axios.delete(
-        `https://bharati-clinic-test.vercel.app/prescription/`,
+        `https://bharati-clinic.vercel.app/prescription/`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -637,7 +637,7 @@ function Getdata() {
     try {
       const accessToken = localStorage.getItem("accessToken");
       const response = await axios.get(
-        `https://bharati-clinic-test.vercel.app/prescription/?action=getPrescriptionRecord&filter_response=${filterType}`,
+        `https://bharati-clinic.vercel.app/prescription/?action=getPrescriptionRecord&filter_response=${filterType}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,

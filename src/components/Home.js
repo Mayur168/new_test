@@ -127,7 +127,7 @@ const Home = () => {
     try {
       const accessToken = localStorage.getItem("accessToken");
       const response = await axios.post(
-        `https://bharati-clinic-test.vercel.app/prescription/`,
+        `https://bharati-clinic.vercel.app/prescription/`,
         {
           action: "postPrescriptionRecord",
           ...data,
@@ -217,7 +217,7 @@ const Home = () => {
       try {
         const accessToken = localStorage.getItem("accessToken");
         await axios.post(
-          "https://bharati-clinic-test.vercel.app/prescription/",
+          "https://bharati-clinic.vercel.app/prescription/",
           {
             action: "postPrescriptionRecord",
             ...responseData,

@@ -38,7 +38,7 @@ function SignUp() {
       }
 
     try {
-      const url = "https://bharati-clinic-test.vercel.app/users/register/";
+      const url = "https://bharati-clinic.vercel.app/users/register/";
 
       const response = await axios.post(url, signupInfo, {
         headers: {
