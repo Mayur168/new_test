@@ -142,7 +142,7 @@ const CameraCapture = ({
 
       const response = await axios.post(
         
-        "https://bharati-clinic-test.vercel.app/prescription/imageprocess/",
+        "https://bharati-clinic.vercel.app/prescription/imageprocess/",
               //  "https://django-imageprocessing-api.vercel.app/api/imageprocess/getdata/",
 
         formData,
