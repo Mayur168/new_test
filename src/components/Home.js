@@ -47,25 +47,33 @@ const Home = () => {
 
   const handleDataReceived = async (data) => {
     setIsApiLoading(true);
-    setCapturedImage(data.image);
+    try {
+      setCapturedImage(data.image);
 
-    // Add new fields to the response data
-    const updatedResponse = {
-      ...data.response,
-      type: "",           // New field: type
-      pulse: "",          // New field: pulse
-      Lab_test: [         // New field: Lab_test as an array
-        {
-          // Default empty object; you can add properties like { name: "", result: "" } if needed
-        },
-      ],
-    };
+      // Log the incoming response data to inspect type, pulse, and Lab_test
+      console.log("Received data from CameraCapture:", data);
+      console.log("Response type:", data.response?.type);
+      console.log("Response pulse:", data.response?.pulse);
+      console.log("Response Lab_test:", data.response?.Lab_test);
 
-    setResponseData(updatedResponse);
-    setEditedResponseData({ ...updatedResponse, id: data.response.id });
-    setIsCameraVisible(false);
-    setIsApiLoading(false);
-    calculateImageSize(data.image);
+      // Preserve type, pulse, and Lab_test from the response
+      const updatedResponse = {
+        ...data.response,
+        type: data.response?.type || "",
+        pulse: data.response?.pulse || "",
+        Lab_test: data.response?.Lab_test || [{}],
+      };
+
+      setResponseData(updatedResponse);
+      setEditedResponseData({ ...updatedResponse, id: data.response.id });
+      setIsCameraVisible(false);
+      calculateImageSize(data.image);
+    } catch (error) {
+      console.error("Error processing received data:", error);
+      handleError("Failed to process image data. Please try again.");
+    } finally {
+      setIsApiLoading(false);
+    }
   };
 
   const handleApiLoading = () => {
@@ -457,7 +465,6 @@ const Home = () => {
                   />
                 </div>
 
-                {/* New Fields */}
                 <div className="home-form-group">
                   <label className="home-form-label">
                     <FontAwesomeIcon
@@ -616,7 +623,6 @@ const Home = () => {
                   <strong>Complaints:</strong>{" "}
                   {responseData?.complaints || "N/A"}
                 </p>
-                {/* New Fields */}
                 <p className="home-details-text">
                   <strong>Type:</strong> {responseData?.type || "N/A"}
                 </p>
@@ -680,7 +686,6 @@ const Home = () => {
         </div>
       )}
 
-      {/* Hero Section */}
       <section className="hero-section">
         <div className="hero-content">
           <div className="hero-text">
@@ -688,7 +693,6 @@ const Home = () => {
             <p>Your trusted medical care provider.</p>
           </div>
 
-          {/* Cards Section */}
           <div className="cards-section">
             <div className="card" style={{ backgroundColor: "#1c75c4" }}>
               <h2>Why Choose Medilab</h2>
@@ -707,7 +711,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* About Section */}
       <section
         id="about"
         style={{ padding: "50px 20px", backgroundColor: "#f8f9fa" }}
@@ -715,7 +718,6 @@ const Home = () => {
         <About />
       </section>
 
-      {/* Contact Section */}
       <section id="contact" style={{ padding: "50px 20px" }}>
         <Contact />
       </section>
